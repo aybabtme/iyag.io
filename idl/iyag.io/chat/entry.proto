@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package iyag.io.chat;
+option go_package = "chat";
+
+import "google/protobuf/timestamp.proto";
+
+message Entry {
+    EntryMeta meta = 1;
+    EntryContent content = 2;
+}
+
+message EntryMeta {
+    string uuid = 1;
+    string channel_id = 2;
+    string thread_id = 3;
+    string author_id = 4;
+    google.protobuf.Timestamp time = 5;
+}
+
+message EntryContent {
+    string body = 1;
+}

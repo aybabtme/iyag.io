@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package iyag.io.chat.chatsrv;
+option go_package = "chatsrv";
+
+import "iyag.io/chat/entry.proto";
+
+service Channel {
+    rpc Listen(ListenReq) returns (stream ListenRes);
+    rpc Post(PostReq) returns (PostRes);
+}
+
+message ListenReq {
+    string channel_id = 1;
+}
+
+message ListenRes {
+    iyag.io.chat.Entry entry = 1;
+}
+
+message PostReq {
+    string channel_id = 1;
+    string thread_id = 2;
+    iyag.io.chat.Entry entry = 3;
+}
+
+message PostRes {
+    iyag.io.chat.Entry entry = 1;
+}
