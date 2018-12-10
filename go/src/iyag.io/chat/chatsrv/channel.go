@@ -6,18 +6,22 @@ import (
 	"iyag.io/chat"
 )
 
+var _ ChannelServer = (*Channel)(nil)
+
 type Channel struct {
 	db chat.Chatter
 }
 
-var _ ChannelServer = (*Channel)(nil)
+func NewChannelServer(db chat.Chatter) *Channel {
+	return &Channel{db: db}
+}
 
-func (srv *Channel) Listen(i int, req *ListenReq, listen Channel_ListenServer) error {
+func (srv *Channel) Listen(req *ListenReq, listen Channel_ListenServer) error {
 	ctx := listen.Context()
-	onEntry := func(entry *Entry) error {
-		return client.Send(&ListenRes{Entry: entry})
+	onEntry := func(entry *chat.Entry) error {
+		return listen.Send(&ListenRes{Entry: entry})
 	}
-	return srv.db.Listen(ctx, req.ChannelID, req.ThreadID, onEntry)
+	return srv.db.Listen(ctx, req.GetChannelId(), req.GetFrom(), onEntry)
 }
 
 func (srv *Channel) Post(ctx context.Context, req *PostReq) (*PostRes, error) {
@@ -26,4 +30,12 @@ func (srv *Channel) Post(ctx context.Context, req *PostReq) (*PostRes, error) {
 		return nil, err
 	}
 	return &PostRes{Entry: entry}, nil
+}
+
+func (srv *Channel) Archive(ctx context.Context, req *ArchiveReq) (*ArchiveRes, error) {
+	err := srv.db.Archive(ctx, req.GetChannelId())
+	if err != nil {
+		return nil, err
+	}
+	return &ArchiveRes{}, nil
 }

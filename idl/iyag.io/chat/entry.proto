@@ -16,6 +16,7 @@ message EntryMeta {
     string thread_id = 3;
     string author_id = 4;
     google.protobuf.Timestamp time = 5;
+    uint64 sequence = 6;
 }
 
 message EntryContent {

@@ -6,6 +6,7 @@ package chatsrv
 import proto "github.com/golang/protobuf/proto"
 import fmt "fmt"
 import math "math"
+import timestamp "github.com/golang/protobuf/ptypes/timestamp"
 import chat "iyag.io/chat"
 
 import (
@@ -25,17 +26,18 @@ var _ = math.Inf
 const _ = proto.ProtoPackageIsVersion2 // please upgrade the proto package
 
 type ListenReq struct {
-	ChannelId            string   `protobuf:"bytes,1,opt,name=channel_id,json=channelId" json:"channel_id,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
+	ChannelId            string               `protobuf:"bytes,1,opt,name=channel_id,json=channelId" json:"channel_id,omitempty"`
+	From                 *timestamp.Timestamp `protobuf:"bytes,2,opt,name=from" json:"from,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}             `json:"-"`
+	XXX_unrecognized     []byte               `json:"-"`
+	XXX_sizecache        int32                `json:"-"`
 }
 
 func (m *ListenReq) Reset()         { *m = ListenReq{} }
 func (m *ListenReq) String() string { return proto.CompactTextString(m) }
 func (*ListenReq) ProtoMessage()    {}
 func (*ListenReq) Descriptor() ([]byte, []int) {
-	return fileDescriptor_channel_064b2e154e81c38c, []int{0}
+	return fileDescriptor_channel_bc41cb84d3147e5e, []int{0}
 }
 func (m *ListenReq) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_ListenReq.Unmarshal(m, b)
@@ -62,6 +64,13 @@ func (m *ListenReq) GetChannelId() string {
 	return ""
 }
 
+func (m *ListenReq) GetFrom() *timestamp.Timestamp {
+	if m != nil {
+		return m.From
+	}
+	return nil
+}
+
 type ListenRes struct {
 	Entry                *chat.Entry `protobuf:"bytes,1,opt,name=entry" json:"entry,omitempty"`
 	XXX_NoUnkeyedLiteral struct{}    `json:"-"`
@@ -73,7 +82,7 @@ func (m *ListenRes) Reset()         { *m = ListenRes{} }
 func (m *ListenRes) String() string { return proto.CompactTextString(m) }
 func (*ListenRes) ProtoMessage()    {}
 func (*ListenRes) Descriptor() ([]byte, []int) {
-	return fileDescriptor_channel_064b2e154e81c38c, []int{1}
+	return fileDescriptor_channel_bc41cb84d3147e5e, []int{1}
 }
 func (m *ListenRes) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_ListenRes.Unmarshal(m, b)
@@ -113,7 +122,7 @@ func (m *PostReq) Reset()         { *m = PostReq{} }
 func (m *PostReq) String() string { return proto.CompactTextString(m) }
 func (*PostReq) ProtoMessage()    {}
 func (*PostReq) Descriptor() ([]byte, []int) {
-	return fileDescriptor_channel_064b2e154e81c38c, []int{2}
+	return fileDescriptor_channel_bc41cb84d3147e5e, []int{2}
 }
 func (m *PostReq) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_PostReq.Unmarshal(m, b)
@@ -165,7 +174,7 @@ func (m *PostRes) Reset()         { *m = PostRes{} }
 func (m *PostRes) String() string { return proto.CompactTextString(m) }
 func (*PostRes) ProtoMessage()    {}
 func (*PostRes) Descriptor() ([]byte, []int) {
-	return fileDescriptor_channel_064b2e154e81c38c, []int{3}
+	return fileDescriptor_channel_bc41cb84d3147e5e, []int{3}
 }
 func (m *PostRes) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_PostRes.Unmarshal(m, b)
@@ -192,11 +201,81 @@ func (m *PostRes) GetEntry() *chat.Entry {
 	return nil
 }
 
+type ArchiveReq struct {
+	ChannelId            string   `protobuf:"bytes,1,opt,name=channel_id,json=channelId" json:"channel_id,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *ArchiveReq) Reset()         { *m = ArchiveReq{} }
+func (m *ArchiveReq) String() string { return proto.CompactTextString(m) }
+func (*ArchiveReq) ProtoMessage()    {}
+func (*ArchiveReq) Descriptor() ([]byte, []int) {
+	return fileDescriptor_channel_bc41cb84d3147e5e, []int{4}
+}
+func (m *ArchiveReq) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ArchiveReq.Unmarshal(m, b)
+}
+func (m *ArchiveReq) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ArchiveReq.Marshal(b, m, deterministic)
+}
+func (dst *ArchiveReq) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ArchiveReq.Merge(dst, src)
+}
+func (m *ArchiveReq) XXX_Size() int {
+	return xxx_messageInfo_ArchiveReq.Size(m)
+}
+func (m *ArchiveReq) XXX_DiscardUnknown() {
+	xxx_messageInfo_ArchiveReq.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ArchiveReq proto.InternalMessageInfo
+
+func (m *ArchiveReq) GetChannelId() string {
+	if m != nil {
+		return m.ChannelId
+	}
+	return ""
+}
+
+type ArchiveRes struct {
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *ArchiveRes) Reset()         { *m = ArchiveRes{} }
+func (m *ArchiveRes) String() string { return proto.CompactTextString(m) }
+func (*ArchiveRes) ProtoMessage()    {}
+func (*ArchiveRes) Descriptor() ([]byte, []int) {
+	return fileDescriptor_channel_bc41cb84d3147e5e, []int{5}
+}
+func (m *ArchiveRes) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ArchiveRes.Unmarshal(m, b)
+}
+func (m *ArchiveRes) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ArchiveRes.Marshal(b, m, deterministic)
+}
+func (dst *ArchiveRes) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ArchiveRes.Merge(dst, src)
+}
+func (m *ArchiveRes) XXX_Size() int {
+	return xxx_messageInfo_ArchiveRes.Size(m)
+}
+func (m *ArchiveRes) XXX_DiscardUnknown() {
+	xxx_messageInfo_ArchiveRes.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ArchiveRes proto.InternalMessageInfo
+
 func init() {
 	proto.RegisterType((*ListenReq)(nil), "iyag.io.chat.chatsrv.ListenReq")
 	proto.RegisterType((*ListenRes)(nil), "iyag.io.chat.chatsrv.ListenRes")
 	proto.RegisterType((*PostReq)(nil), "iyag.io.chat.chatsrv.PostReq")
 	proto.RegisterType((*PostRes)(nil), "iyag.io.chat.chatsrv.PostRes")
+	proto.RegisterType((*ArchiveReq)(nil), "iyag.io.chat.chatsrv.ArchiveReq")
+	proto.RegisterType((*ArchiveRes)(nil), "iyag.io.chat.chatsrv.ArchiveRes")
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -212,6 +291,7 @@ const _ = grpc.SupportPackageIsVersion4
 type ChannelClient interface {
 	Listen(ctx context.Context, in *ListenReq, opts ...grpc.CallOption) (Channel_ListenClient, error)
 	Post(ctx context.Context, in *PostReq, opts ...grpc.CallOption) (*PostRes, error)
+	Archive(ctx context.Context, in *ArchiveReq, opts ...grpc.CallOption) (*ArchiveRes, error)
 }
 
 type channelClient struct {
@@ -263,11 +343,21 @@ func (c *channelClient) Post(ctx context.Context, in *PostReq, opts ...grpc.Call
 	return out, nil
 }
 
+func (c *channelClient) Archive(ctx context.Context, in *ArchiveReq, opts ...grpc.CallOption) (*ArchiveRes, error) {
+	out := new(ArchiveRes)
+	err := grpc.Invoke(ctx, "/iyag.io.chat.chatsrv.Channel/Archive", in, out, c.cc, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for Channel service
 
 type ChannelServer interface {
 	Listen(*ListenReq, Channel_ListenServer) error
 	Post(context.Context, *PostReq) (*PostRes, error)
+	Archive(context.Context, *ArchiveReq) (*ArchiveRes, error)
 }
 
 func RegisterChannelServer(s *grpc.Server, srv ChannelServer) {
@@ -313,6 +403,24 @@ func _Channel_Post_Handler(srv interface{}, ctx context.Context, dec func(interf
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Channel_Archive_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ArchiveReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ChannelServer).Archive(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/iyag.io.chat.chatsrv.Channel/Archive",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ChannelServer).Archive(ctx, req.(*ArchiveReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _Channel_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "iyag.io.chat.chatsrv.Channel",
 	HandlerType: (*ChannelServer)(nil),
@@ -320,6 +428,10 @@ var _Channel_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Post",
 			Handler:    _Channel_Post_Handler,
+		},
+		{
+			MethodName: "Archive",
+			Handler:    _Channel_Archive_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{
@@ -333,24 +445,29 @@ var _Channel_serviceDesc = grpc.ServiceDesc{
 }
 
 func init() {
-	proto.RegisterFile("iyag.io/chat/chatsrv/channel.proto", fileDescriptor_channel_064b2e154e81c38c)
+	proto.RegisterFile("iyag.io/chat/chatsrv/channel.proto", fileDescriptor_channel_bc41cb84d3147e5e)
 }
 
-var fileDescriptor_channel_064b2e154e81c38c = []byte{
-	// 234 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0x52, 0xca, 0xac, 0x4c, 0x4c,
-	0xd7, 0xcb, 0xcc, 0xd7, 0x4f, 0xce, 0x48, 0x2c, 0x01, 0x13, 0xc5, 0x45, 0x65, 0x20, 0x3a, 0x2f,
-	0x2f, 0x35, 0x47, 0xaf, 0xa0, 0x28, 0xbf, 0x24, 0x5f, 0x48, 0x04, 0xaa, 0x46, 0x0f, 0x24, 0xad,
-	0x07, 0x55, 0x23, 0x25, 0x81, 0xa2, 0x33, 0x35, 0xaf, 0xa4, 0xa8, 0x12, 0xa2, 0x5e, 0x49, 0x8b,
-	0x8b, 0xd3, 0x27, 0xb3, 0xb8, 0x24, 0x35, 0x2f, 0x28, 0xb5, 0x50, 0x48, 0x96, 0x8b, 0x0b, 0x6a,
-	0x5a, 0x7c, 0x66, 0x8a, 0x04, 0xa3, 0x02, 0xa3, 0x06, 0x67, 0x10, 0x27, 0x54, 0xc4, 0x33, 0x45,
-	0xc9, 0x0c, 0xa1, 0xb6, 0x58, 0x48, 0x93, 0x8b, 0x15, 0x6c, 0x0e, 0x58, 0x19, 0xb7, 0x91, 0xb0,
-	0x1e, 0x8a, 0xc5, 0xae, 0x20, 0xa9, 0x20, 0x88, 0x0a, 0xa5, 0x02, 0x2e, 0xf6, 0x80, 0xfc, 0xe2,
-	0x12, 0xc2, 0x36, 0x08, 0x49, 0x73, 0x71, 0x96, 0x64, 0x14, 0xa5, 0x26, 0xa6, 0x80, 0x64, 0x99,
-	0xc0, 0xb2, 0x1c, 0x10, 0x01, 0xcf, 0x14, 0x84, 0x8d, 0xcc, 0x04, 0x6d, 0x34, 0x81, 0xd9, 0x48,
-	0x8a, 0x3b, 0x8d, 0xe6, 0x32, 0x72, 0xb1, 0x3b, 0x43, 0xdc, 0x22, 0xe4, 0xc3, 0xc5, 0x06, 0xf1,
-	0xab, 0x90, 0xbc, 0x1e, 0xb6, 0x20, 0xd5, 0x83, 0x87, 0x9a, 0x14, 0x01, 0x05, 0xc5, 0x06, 0x8c,
-	0x42, 0x2e, 0x5c, 0x2c, 0x20, 0xf7, 0x08, 0xc9, 0x62, 0x57, 0x0a, 0x0d, 0x1d, 0x29, 0xbc, 0xd2,
-	0xc5, 0x4e, 0x9c, 0x51, 0xec, 0x50, 0xa1, 0x24, 0x36, 0x70, 0xec, 0x19, 0x03, 0x02, 0x00, 0x00,
-	0xff, 0xff, 0x62, 0x8c, 0x6a, 0x8b, 0x13, 0x02, 0x00, 0x00,
+var fileDescriptor_channel_bc41cb84d3147e5e = []byte{
+	// 318 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x94, 0x92, 0x5f, 0x4b, 0xf3, 0x30,
+	0x14, 0xc6, 0xe9, 0xde, 0xbd, 0xab, 0x3d, 0xf3, 0x2a, 0x7a, 0x31, 0x22, 0x63, 0xa3, 0x57, 0x13,
+	0x21, 0x95, 0x2a, 0xde, 0xfb, 0xef, 0x62, 0x30, 0x41, 0x8a, 0x57, 0xbb, 0x91, 0x6e, 0xcd, 0xda,
+	0xc0, 0xda, 0xd4, 0x24, 0x0e, 0xf6, 0x9d, 0xfd, 0x10, 0xd2, 0x24, 0xb5, 0x0e, 0x8a, 0xd5, 0x9b,
+	0x96, 0x9e, 0xe7, 0xd7, 0xe7, 0x3c, 0x27, 0x27, 0xe0, 0xb3, 0x7d, 0x9c, 0x12, 0xc6, 0x83, 0x75,
+	0x16, 0x2b, 0xfd, 0x90, 0x62, 0x57, 0xbd, 0x8b, 0x82, 0x6e, 0x49, 0x29, 0xb8, 0xe2, 0xe8, 0xd4,
+	0x32, 0xa4, 0x92, 0x89, 0x65, 0xf0, 0xe8, 0xe0, 0x4f, 0x5a, 0x28, 0xb1, 0x37, 0x3c, 0x9e, 0xa4,
+	0x9c, 0xa7, 0x5b, 0x1a, 0xe8, 0xaf, 0xd5, 0xfb, 0x26, 0x50, 0x2c, 0xa7, 0x52, 0xc5, 0x79, 0x69,
+	0x00, 0x7f, 0x09, 0xde, 0x82, 0x49, 0x45, 0x8b, 0x88, 0xbe, 0xa1, 0x31, 0x80, 0x6d, 0xf7, 0xca,
+	0x92, 0x91, 0x33, 0x75, 0x66, 0x5e, 0xe4, 0xd9, 0xca, 0x3c, 0x41, 0x04, 0xfa, 0x1b, 0xc1, 0xf3,
+	0x51, 0x6f, 0xea, 0xcc, 0x86, 0x21, 0x26, 0xc6, 0x9b, 0xd4, 0xde, 0xe4, 0xa5, 0xf6, 0x8e, 0x34,
+	0xe7, 0xdf, 0x34, 0xde, 0x12, 0x9d, 0xc3, 0x7f, 0x1d, 0x4c, 0xdb, 0x0e, 0xc3, 0x13, 0x72, 0x30,
+	0xc9, 0x63, 0x25, 0x45, 0x86, 0xf0, 0x4b, 0x70, 0x9f, 0xb9, 0x54, 0xbf, 0x48, 0x74, 0x06, 0x9e,
+	0xca, 0x04, 0x8d, 0x93, 0x4a, 0xed, 0x69, 0xf5, 0xc8, 0x14, 0xe6, 0x49, 0xd3, 0xf1, 0x5f, 0x67,
+	0xc7, 0xeb, 0xba, 0xe3, 0x9f, 0x72, 0x5e, 0x00, 0xdc, 0x8a, 0x75, 0xc6, 0x76, 0xb4, 0x3b, 0xaa,
+	0x7f, 0xfc, 0x0d, 0x96, 0xe1, 0x87, 0x03, 0xee, 0xbd, 0xd1, 0xd0, 0x02, 0x06, 0xe6, 0x98, 0xd0,
+	0x84, 0xb4, 0xad, 0x97, 0x7c, 0x2d, 0x08, 0x77, 0x00, 0xf2, 0xd2, 0x41, 0x0f, 0xd0, 0xaf, 0x46,
+	0x41, 0xe3, 0x76, 0xd4, 0x1e, 0x2c, 0xfe, 0x51, 0x96, 0xe8, 0x09, 0x5c, 0x9b, 0x16, 0x4d, 0xdb,
+	0xc9, 0x66, 0x72, 0xdc, 0x45, 0xc8, 0x3b, 0x6f, 0xe9, 0xda, 0xea, 0x6a, 0xa0, 0xaf, 0xcb, 0xd5,
+	0x67, 0x00, 0x00, 0x00, 0xff, 0xff, 0x24, 0x9b, 0x84, 0x00, 0xee, 0x02, 0x00, 0x00,
 }

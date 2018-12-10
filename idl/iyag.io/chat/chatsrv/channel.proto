@@ -4,14 +4,17 @@ package iyag.io.chat.chatsrv;
 option go_package = "chatsrv";
 
 import "iyag.io/chat/entry.proto";
+import "google/protobuf/timestamp.proto";
 
 service Channel {
     rpc Listen(ListenReq) returns (stream ListenRes);
     rpc Post(PostReq) returns (PostRes);
+    rpc Archive(ArchiveReq) returns (ArchiveRes);
 }
 
 message ListenReq {
     string channel_id = 1;
+    google.protobuf.Timestamp from = 2;
 }
 
 message ListenRes {
@@ -27,3 +30,9 @@ message PostReq {
 message PostRes {
     iyag.io.chat.Entry entry = 1;
 }
+
+message ArchiveReq {
+    string channel_id = 1;
+}
+
+message ArchiveRes {}
