@@ -44,12 +44,14 @@ golang.org/x/text/secure/bidirule
 golang.org/x/text/unicode/bidi
 golang.org/x/text/unicode/norm
 golang.org/x/text/transform
-# google.golang.org/genproto v0.0.0-20180817151627-c66870c02cf8
+# google.golang.org/genproto v0.0.0-20181221175505-bd9b4fb69e2f
 google.golang.org/genproto/googleapis/rpc/status
 # google.golang.org/grpc v1.17.0
 google.golang.org/grpc/codes
 google.golang.org/grpc/status
 google.golang.org/grpc
+google.golang.org/grpc/health
+google.golang.org/grpc/health/grpc_health_v1
 google.golang.org/grpc/balancer
 google.golang.org/grpc/balancer/roundrobin
 google.golang.org/grpc/connectivity

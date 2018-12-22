@@ -9,6 +9,8 @@ import (
 	"strings"
 
 	"github.com/golang/protobuf/ptypes"
+	"google.golang.org/grpc/health"
+	"google.golang.org/grpc/health/grpc_health_v1"
 
 	"github.com/go-kit/kit/log"
 	"github.com/gorilla/mux"
@@ -32,7 +34,7 @@ func main() {
 	ll.Log("msg", "parsing configuration")
 	cfg := &Config{
 		ListenIface: "127.0.0.1",
-		ListenPort:  "3000",
+		ListenPort:  "8080",
 		DB: chat.ChatterOpts{
 			Log: log.With(ll, "component", "db", "part", "chatter"),
 			ChannelOpts: &chat.ChannelOpts{
@@ -42,8 +44,8 @@ func main() {
 			},
 		},
 	}
-	flagString("chatsrv", &cfg.ListenIface, "listen.iface", "127.0.0.1", "interface on which to listen")
-	flagString("chatsrv", &cfg.ListenPort, "listen.port", "3000", "port on which to listen")
+	flagString("chatsrv", &cfg.ListenIface, "listen.iface", "interface on which to listen")
+	flagString("chatsrv", &cfg.ListenPort, "listen.port", "port on which to listen")
 	flag.Parse()
 
 	ctx, cancel := context.WithCancel(context.Background())
@@ -70,6 +72,7 @@ func main() {
 
 	srv := grpc.NewServer()
 	chatsrv.RegisterChannelServer(srv, chatsrv.NewChannelServer(db))
+	grpc_health_v1.RegisterHealthServer(srv, health.NewServer())
 	wrappedSrv := grpcweb.WrapServer(srv)
 
 	httpSrv := &http.Server{
@@ -92,7 +95,8 @@ func envNameFromFlag(appName, flagName string) string {
 	return strings.ToUpper(appName) + "_" + strings.ToUpper(strings.Replace(flagName, ".", "_", -1))
 }
 
-func flagString(app string, tgt *string, name, deft, help string) {
+func flagString(app string, tgt *string, name, help string) {
+	deft := *tgt
 	envName := envNameFromFlag(app, name)
 	if env := os.Getenv(envName); env != "" {
 		deft = env // override the default
