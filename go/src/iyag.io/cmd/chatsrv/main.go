@@ -30,7 +30,7 @@ type Config struct {
 
 func main() {
 	ll := log.NewJSONLogger(log.NewSyncWriter(os.Stderr))
-	ll = log.With(ll, "ts", log.DefaultTimestampUTC, "caller", log.DefaultCaller)
+	ll = log.With(ll, "time", log.DefaultTimestampUTC, "caller", log.DefaultCaller)
 
 	ll.Log("msg", "parsing configuration")
 	cfg := &Config{

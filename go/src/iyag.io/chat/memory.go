@@ -54,7 +54,7 @@ func (fc *inMemoryChat) Listen(ctx context.Context, channelID string, from *time
 	channel, ok := fc.channels[channelID]
 	if !ok {
 		fc.channelsMu.Unlock()
-		return status.Error(codes.NotFound, "no such channel")
+		return status.Errorf(codes.NotFound, "no such channel %q", channelID)
 	}
 	fc.channelsMu.Unlock()
 	return channel.Listen(ctx, from, onPost)
@@ -65,7 +65,7 @@ func (fc *inMemoryChat) Archive(ctx context.Context, channelID string) error {
 	channel, ok := fc.channels[channelID]
 	if !ok {
 		fc.channelsMu.Unlock()
-		return status.Error(codes.NotFound, "no such channel")
+		return status.Errorf(codes.NotFound, "no such channel %q", channelID)
 	}
 	fc.channelsMu.Unlock()
 	return channel.Archive(ctx)
