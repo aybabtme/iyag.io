@@ -13,6 +13,7 @@ import (
 	"google.golang.org/grpc/health/grpc_health_v1"
 
 	"github.com/go-kit/kit/log"
+	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 	"github.com/improbable-eng/grpc-web/go/grpcweb"
 	"google.golang.org/grpc"
@@ -68,7 +69,11 @@ func main() {
 
 	ll.Log("msg", "registering backends")
 	mux := mux.NewRouter()
-	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) { w.Write([]byte("<h1>hello!</h1>")) })
+	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		ll.Log("msg", "random ass message received")
+		w.Write([]byte("<h1>hello!</h1>"))
+	})
+	hdl := handlers.CORS()(mux)
 
 	srv := grpc.NewServer()
 	chatsrv.RegisterChannelServer(srv, chatsrv.NewChannelServer(db))
@@ -77,10 +82,12 @@ func main() {
 
 	httpSrv := &http.Server{
 		Handler: http.HandlerFunc(func(resp http.ResponseWriter, req *http.Request) {
-			if wrappedSrv.IsGrpcWebRequest(req) {
+			if wrappedSrv.IsAcceptableGrpcCorsRequest(req) || wrappedSrv.IsGrpcWebRequest(req) {
+				ll.Log("msg", "serving gRPC request")
 				wrappedSrv.ServeHTTP(resp, req)
 			} else {
-				mux.ServeHTTP(resp, req)
+				ll.Log("msg", "serving HTTP request")
+				hdl.ServeHTTP(resp, req)
 			}
 		}),
 	}

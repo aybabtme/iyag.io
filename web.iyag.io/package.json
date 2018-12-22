@@ -9,6 +9,7 @@
     "@types/node": "^10.12.18",
     "@types/react": "^16.7.18",
     "@types/react-dom": "^16.0.11",
+    "@types/uuid": "^3.4.4",
     "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "9.0.0",
     "babel-jest": "23.6.0",
@@ -55,13 +56,16 @@
     "terser-webpack-plugin": "1.1.0",
     "ts-protoc-gen": "^0.8.0",
     "url-loader": "1.1.1",
+    "uuid": "^3.3.2",
     "webpack": "4.19.1",
     "webpack-dev-server": "3.1.9",
     "webpack-manifest-plugin": "2.0.4",
     "workbox-webpack-plugin": "3.6.3"
   },
   "scripts": {
+    "prestart": "go install iyag.io/cmd/... && chatsrv &",
     "start": "node scripts/start.js",
+    "poststart": "pkill chatsrv",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js"
   },
