@@ -18,8 +18,8 @@ func NewChannelServer(db chat.Chatter) *Channel {
 
 func (srv *Channel) Listen(req *ListenReq, listen Channel_ListenServer) error {
 	ctx := listen.Context()
-	onEntry := func(entry *chat.Entry) error {
-		return listen.Send(&ListenRes{Entry: entry})
+	onEntry := func(entry chat.Entry) error {
+		return listen.Send(&ListenRes{Entry: &entry})
 	}
 	return srv.db.Listen(ctx, req.GetChannelId(), req.GetFrom(), onEntry)
 }

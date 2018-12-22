@@ -3,13 +3,30 @@ module iyag.io
 go 1.12
 
 require (
-	github.com/davecgh/go-spew v1.1.1 // indirect
+	cloud.google.com/go v0.34.0 // indirect
 	github.com/go-kit/kit v0.8.0
 	github.com/go-logfmt/logfmt v0.4.0 // indirect
+	github.com/gobuffalo/buffalo-goth v1.0.3 // indirect
+	github.com/gobuffalo/buffalo-plugins v1.9.3 // indirect
+	github.com/gobuffalo/flect v0.0.0-20181210151238-24a2b68e0316 // indirect
+	github.com/gobuffalo/packr v1.21.9 // indirect
 	github.com/golang/protobuf v1.2.0
 	github.com/google/uuid v1.1.0
-	github.com/pmezard/go-difflib v1.0.0 // indirect
+	github.com/gorilla/mux v1.6.2
+	github.com/gorilla/sessions v1.1.3 // indirect
+	github.com/gorilla/websocket v1.4.0 // indirect
+	github.com/improbable-eng/grpc-web v0.0.0-20181128220516-1c63d72d1d2f
+	github.com/jarcoal/httpmock v0.0.0-20181110092731-53def6cd0f87 // indirect
+	github.com/markbates/goth v1.48.0 // indirect
+	github.com/rs/cors v1.6.0 // indirect
+	github.com/spf13/afero v1.2.0 // indirect
 	github.com/stretchr/testify v1.2.2
-	golang.org/x/net v0.0.0-20181207154023-610586996380
+	github.com/ugorji/go/codec v0.0.0-20181209151446-772ced7fd4c2 // indirect
+	golang.org/x/net v0.0.0-20181220203305-927f97764cc3
+	golang.org/x/oauth2 v0.0.0-20181203162652-d668ce993890 // indirect
+	golang.org/x/sync v0.0.0-20181221193216-37e7f081c4d4 // indirect
+	golang.org/x/sys v0.0.0-20181221143128-b4a75ba826a6 // indirect
+	golang.org/x/tools v0.0.0-20181221204627-c446015edc5e // indirect
+	google.golang.org/appengine v1.4.0 // indirect
 	google.golang.org/grpc v1.17.0
 )

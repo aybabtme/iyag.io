@@ -31,7 +31,7 @@ func (m *Entry) Reset()         { *m = Entry{} }
 func (m *Entry) String() string { return proto.CompactTextString(m) }
 func (*Entry) ProtoMessage()    {}
 func (*Entry) Descriptor() ([]byte, []int) {
-	return fileDescriptor_entry_12e67bb3546dbf90, []int{0}
+	return fileDescriptor_entry_55ed67fe85d0b48f, []int{0}
 }
 func (m *Entry) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_Entry.Unmarshal(m, b)
@@ -66,22 +66,28 @@ func (m *Entry) GetContent() *EntryContent {
 }
 
 type EntryMeta struct {
-	Uuid                 string               `protobuf:"bytes,1,opt,name=uuid" json:"uuid,omitempty"`
-	ChannelId            string               `protobuf:"bytes,2,opt,name=channel_id,json=channelId" json:"channel_id,omitempty"`
-	ThreadId             string               `protobuf:"bytes,3,opt,name=thread_id,json=threadId" json:"thread_id,omitempty"`
-	AuthorId             string               `protobuf:"bytes,4,opt,name=author_id,json=authorId" json:"author_id,omitempty"`
-	Time                 *timestamp.Timestamp `protobuf:"bytes,5,opt,name=time" json:"time,omitempty"`
-	Sequence             uint64               `protobuf:"varint,6,opt,name=sequence" json:"sequence,omitempty"`
-	XXX_NoUnkeyedLiteral struct{}             `json:"-"`
-	XXX_unrecognized     []byte               `json:"-"`
-	XXX_sizecache        int32                `json:"-"`
+	// specified by the client when they send a entry, for deduplication purpose
+	Uuid string `protobuf:"bytes,1,opt,name=uuid" json:"uuid,omitempty"`
+	// ID of the channel where the entry goes
+	ChannelId string `protobuf:"bytes,2,opt,name=channel_id,json=channelId" json:"channel_id,omitempty"`
+	// if set, points to the UUID that starts the thread
+	ThreadId string `protobuf:"bytes,3,opt,name=thread_id,json=threadId" json:"thread_id,omitempty"`
+	// ID of the author who sent the entry.
+	AuthorId string `protobuf:"bytes,4,opt,name=author_id,json=authorId" json:"author_id,omitempty"`
+	// time when the entry was sent (client side), updated when the server accepts it
+	Time *timestamp.Timestamp `protobuf:"bytes,5,opt,name=time" json:"time,omitempty"`
+	// sequence in which the message was received by the server
+	Sequence             uint64   `protobuf:"varint,6,opt,name=sequence" json:"sequence,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
 func (m *EntryMeta) Reset()         { *m = EntryMeta{} }
 func (m *EntryMeta) String() string { return proto.CompactTextString(m) }
 func (*EntryMeta) ProtoMessage()    {}
 func (*EntryMeta) Descriptor() ([]byte, []int) {
-	return fileDescriptor_entry_12e67bb3546dbf90, []int{1}
+	return fileDescriptor_entry_55ed67fe85d0b48f, []int{1}
 }
 func (m *EntryMeta) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_EntryMeta.Unmarshal(m, b)
@@ -154,7 +160,7 @@ func (m *EntryContent) Reset()         { *m = EntryContent{} }
 func (m *EntryContent) String() string { return proto.CompactTextString(m) }
 func (*EntryContent) ProtoMessage()    {}
 func (*EntryContent) Descriptor() ([]byte, []int) {
-	return fileDescriptor_entry_12e67bb3546dbf90, []int{2}
+	return fileDescriptor_entry_55ed67fe85d0b48f, []int{2}
 }
 func (m *EntryContent) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_EntryContent.Unmarshal(m, b)
@@ -187,9 +193,9 @@ func init() {
 	proto.RegisterType((*EntryContent)(nil), "iyag.io.chat.EntryContent")
 }
 
-func init() { proto.RegisterFile("iyag.io/chat/entry.proto", fileDescriptor_entry_12e67bb3546dbf90) }
+func init() { proto.RegisterFile("iyag.io/chat/entry.proto", fileDescriptor_entry_55ed67fe85d0b48f) }
 
-var fileDescriptor_entry_12e67bb3546dbf90 = []byte{
+var fileDescriptor_entry_55ed67fe85d0b48f = []byte{
 	// 278 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x6c, 0x90, 0xb1, 0x4e, 0xc3, 0x30,
 	0x10, 0x86, 0x15, 0x70, 0x43, 0x73, 0x74, 0xf2, 0x42, 0x14, 0x84, 0xa8, 0x32, 0x55, 0x42, 0x72,
