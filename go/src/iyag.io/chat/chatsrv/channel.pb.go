@@ -6,7 +6,7 @@ package chatsrv
 import proto "github.com/golang/protobuf/proto"
 import fmt "fmt"
 import math "math"
-import timestamp "github.com/golang/protobuf/ptypes/timestamp"
+import _ "github.com/golang/protobuf/ptypes/timestamp"
 import chat "iyag.io/chat"
 
 import (
@@ -25,257 +25,739 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.ProtoPackageIsVersion2 // please upgrade the proto package
 
-type ListenReq struct {
-	ChannelId            string               `protobuf:"bytes,1,opt,name=channel_id,json=channelId" json:"channel_id,omitempty"`
-	From                 *timestamp.Timestamp `protobuf:"bytes,2,opt,name=from" json:"from,omitempty"`
-	XXX_NoUnkeyedLiteral struct{}             `json:"-"`
-	XXX_unrecognized     []byte               `json:"-"`
-	XXX_sizecache        int32                `json:"-"`
+type EventReq struct {
+	ChannelId string `protobuf:"bytes,101,opt,name=channel_id,json=channelId" json:"channel_id,omitempty"`
+	AuthorId  string `protobuf:"bytes,102,opt,name=author_id,json=authorId" json:"author_id,omitempty"`
+	// Types that are valid to be assigned to Event:
+	//	*EventReq_Join_
+	//	*EventReq_Leave_
+	//	*EventReq_Typing_
+	//	*EventReq_Send_
+	Event                isEventReq_Event `protobuf_oneof:"event"`
+	XXX_NoUnkeyedLiteral struct{}         `json:"-"`
+	XXX_unrecognized     []byte           `json:"-"`
+	XXX_sizecache        int32            `json:"-"`
 }
 
-func (m *ListenReq) Reset()         { *m = ListenReq{} }
-func (m *ListenReq) String() string { return proto.CompactTextString(m) }
-func (*ListenReq) ProtoMessage()    {}
-func (*ListenReq) Descriptor() ([]byte, []int) {
-	return fileDescriptor_channel_bc41cb84d3147e5e, []int{0}
+func (m *EventReq) Reset()         { *m = EventReq{} }
+func (m *EventReq) String() string { return proto.CompactTextString(m) }
+func (*EventReq) ProtoMessage()    {}
+func (*EventReq) Descriptor() ([]byte, []int) {
+	return fileDescriptor_channel_96658e61280fb0a1, []int{0}
 }
-func (m *ListenReq) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_ListenReq.Unmarshal(m, b)
+func (m *EventReq) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_EventReq.Unmarshal(m, b)
 }
-func (m *ListenReq) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_ListenReq.Marshal(b, m, deterministic)
+func (m *EventReq) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_EventReq.Marshal(b, m, deterministic)
 }
-func (dst *ListenReq) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_ListenReq.Merge(dst, src)
+func (dst *EventReq) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_EventReq.Merge(dst, src)
 }
-func (m *ListenReq) XXX_Size() int {
-	return xxx_messageInfo_ListenReq.Size(m)
+func (m *EventReq) XXX_Size() int {
+	return xxx_messageInfo_EventReq.Size(m)
 }
-func (m *ListenReq) XXX_DiscardUnknown() {
-	xxx_messageInfo_ListenReq.DiscardUnknown(m)
+func (m *EventReq) XXX_DiscardUnknown() {
+	xxx_messageInfo_EventReq.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_ListenReq proto.InternalMessageInfo
+var xxx_messageInfo_EventReq proto.InternalMessageInfo
 
-func (m *ListenReq) GetChannelId() string {
+type isEventReq_Event interface {
+	isEventReq_Event()
+}
+
+type EventReq_Join_ struct {
+	Join *EventReq_Join `protobuf:"bytes,201,opt,name=join,oneof"`
+}
+type EventReq_Leave_ struct {
+	Leave *EventReq_Leave `protobuf:"bytes,202,opt,name=leave,oneof"`
+}
+type EventReq_Typing_ struct {
+	Typing *EventReq_Typing `protobuf:"bytes,203,opt,name=typing,oneof"`
+}
+type EventReq_Send_ struct {
+	Send *EventReq_Send `protobuf:"bytes,204,opt,name=send,oneof"`
+}
+
+func (*EventReq_Join_) isEventReq_Event()   {}
+func (*EventReq_Leave_) isEventReq_Event()  {}
+func (*EventReq_Typing_) isEventReq_Event() {}
+func (*EventReq_Send_) isEventReq_Event()   {}
+
+func (m *EventReq) GetEvent() isEventReq_Event {
+	if m != nil {
+		return m.Event
+	}
+	return nil
+}
+
+func (m *EventReq) GetChannelId() string {
 	if m != nil {
 		return m.ChannelId
 	}
 	return ""
 }
 
-func (m *ListenReq) GetFrom() *timestamp.Timestamp {
+func (m *EventReq) GetAuthorId() string {
 	if m != nil {
-		return m.From
+		return m.AuthorId
+	}
+	return ""
+}
+
+func (m *EventReq) GetJoin() *EventReq_Join {
+	if x, ok := m.GetEvent().(*EventReq_Join_); ok {
+		return x.Join
 	}
 	return nil
 }
 
-type ListenRes struct {
+func (m *EventReq) GetLeave() *EventReq_Leave {
+	if x, ok := m.GetEvent().(*EventReq_Leave_); ok {
+		return x.Leave
+	}
+	return nil
+}
+
+func (m *EventReq) GetTyping() *EventReq_Typing {
+	if x, ok := m.GetEvent().(*EventReq_Typing_); ok {
+		return x.Typing
+	}
+	return nil
+}
+
+func (m *EventReq) GetSend() *EventReq_Send {
+	if x, ok := m.GetEvent().(*EventReq_Send_); ok {
+		return x.Send
+	}
+	return nil
+}
+
+// XXX_OneofFuncs is for the internal use of the proto package.
+func (*EventReq) XXX_OneofFuncs() (func(msg proto.Message, b *proto.Buffer) error, func(msg proto.Message, tag, wire int, b *proto.Buffer) (bool, error), func(msg proto.Message) (n int), []interface{}) {
+	return _EventReq_OneofMarshaler, _EventReq_OneofUnmarshaler, _EventReq_OneofSizer, []interface{}{
+		(*EventReq_Join_)(nil),
+		(*EventReq_Leave_)(nil),
+		(*EventReq_Typing_)(nil),
+		(*EventReq_Send_)(nil),
+	}
+}
+
+func _EventReq_OneofMarshaler(msg proto.Message, b *proto.Buffer) error {
+	m := msg.(*EventReq)
+	// event
+	switch x := m.Event.(type) {
+	case *EventReq_Join_:
+		b.EncodeVarint(201<<3 | proto.WireBytes)
+		if err := b.EncodeMessage(x.Join); err != nil {
+			return err
+		}
+	case *EventReq_Leave_:
+		b.EncodeVarint(202<<3 | proto.WireBytes)
+		if err := b.EncodeMessage(x.Leave); err != nil {
+			return err
+		}
+	case *EventReq_Typing_:
+		b.EncodeVarint(203<<3 | proto.WireBytes)
+		if err := b.EncodeMessage(x.Typing); err != nil {
+			return err
+		}
+	case *EventReq_Send_:
+		b.EncodeVarint(204<<3 | proto.WireBytes)
+		if err := b.EncodeMessage(x.Send); err != nil {
+			return err
+		}
+	case nil:
+	default:
+		return fmt.Errorf("EventReq.Event has unexpected type %T", x)
+	}
+	return nil
+}
+
+func _EventReq_OneofUnmarshaler(msg proto.Message, tag, wire int, b *proto.Buffer) (bool, error) {
+	m := msg.(*EventReq)
+	switch tag {
+	case 201: // event.join
+		if wire != proto.WireBytes {
+			return true, proto.ErrInternalBadWireType
+		}
+		msg := new(EventReq_Join)
+		err := b.DecodeMessage(msg)
+		m.Event = &EventReq_Join_{msg}
+		return true, err
+	case 202: // event.leave
+		if wire != proto.WireBytes {
+			return true, proto.ErrInternalBadWireType
+		}
+		msg := new(EventReq_Leave)
+		err := b.DecodeMessage(msg)
+		m.Event = &EventReq_Leave_{msg}
+		return true, err
+	case 203: // event.typing
+		if wire != proto.WireBytes {
+			return true, proto.ErrInternalBadWireType
+		}
+		msg := new(EventReq_Typing)
+		err := b.DecodeMessage(msg)
+		m.Event = &EventReq_Typing_{msg}
+		return true, err
+	case 204: // event.send
+		if wire != proto.WireBytes {
+			return true, proto.ErrInternalBadWireType
+		}
+		msg := new(EventReq_Send)
+		err := b.DecodeMessage(msg)
+		m.Event = &EventReq_Send_{msg}
+		return true, err
+	default:
+		return false, nil
+	}
+}
+
+func _EventReq_OneofSizer(msg proto.Message) (n int) {
+	m := msg.(*EventReq)
+	// event
+	switch x := m.Event.(type) {
+	case *EventReq_Join_:
+		s := proto.Size(x.Join)
+		n += 2 // tag and wire
+		n += proto.SizeVarint(uint64(s))
+		n += s
+	case *EventReq_Leave_:
+		s := proto.Size(x.Leave)
+		n += 2 // tag and wire
+		n += proto.SizeVarint(uint64(s))
+		n += s
+	case *EventReq_Typing_:
+		s := proto.Size(x.Typing)
+		n += 2 // tag and wire
+		n += proto.SizeVarint(uint64(s))
+		n += s
+	case *EventReq_Send_:
+		s := proto.Size(x.Send)
+		n += 2 // tag and wire
+		n += proto.SizeVarint(uint64(s))
+		n += s
+	case nil:
+	default:
+		panic(fmt.Sprintf("proto: unexpected type %T in oneof", x))
+	}
+	return n
+}
+
+type EventReq_Join struct {
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *EventReq_Join) Reset()         { *m = EventReq_Join{} }
+func (m *EventReq_Join) String() string { return proto.CompactTextString(m) }
+func (*EventReq_Join) ProtoMessage()    {}
+func (*EventReq_Join) Descriptor() ([]byte, []int) {
+	return fileDescriptor_channel_96658e61280fb0a1, []int{0, 0}
+}
+func (m *EventReq_Join) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_EventReq_Join.Unmarshal(m, b)
+}
+func (m *EventReq_Join) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_EventReq_Join.Marshal(b, m, deterministic)
+}
+func (dst *EventReq_Join) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_EventReq_Join.Merge(dst, src)
+}
+func (m *EventReq_Join) XXX_Size() int {
+	return xxx_messageInfo_EventReq_Join.Size(m)
+}
+func (m *EventReq_Join) XXX_DiscardUnknown() {
+	xxx_messageInfo_EventReq_Join.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_EventReq_Join proto.InternalMessageInfo
+
+type EventReq_Leave struct {
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *EventReq_Leave) Reset()         { *m = EventReq_Leave{} }
+func (m *EventReq_Leave) String() string { return proto.CompactTextString(m) }
+func (*EventReq_Leave) ProtoMessage()    {}
+func (*EventReq_Leave) Descriptor() ([]byte, []int) {
+	return fileDescriptor_channel_96658e61280fb0a1, []int{0, 1}
+}
+func (m *EventReq_Leave) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_EventReq_Leave.Unmarshal(m, b)
+}
+func (m *EventReq_Leave) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_EventReq_Leave.Marshal(b, m, deterministic)
+}
+func (dst *EventReq_Leave) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_EventReq_Leave.Merge(dst, src)
+}
+func (m *EventReq_Leave) XXX_Size() int {
+	return xxx_messageInfo_EventReq_Leave.Size(m)
+}
+func (m *EventReq_Leave) XXX_DiscardUnknown() {
+	xxx_messageInfo_EventReq_Leave.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_EventReq_Leave proto.InternalMessageInfo
+
+type EventReq_Typing struct {
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *EventReq_Typing) Reset()         { *m = EventReq_Typing{} }
+func (m *EventReq_Typing) String() string { return proto.CompactTextString(m) }
+func (*EventReq_Typing) ProtoMessage()    {}
+func (*EventReq_Typing) Descriptor() ([]byte, []int) {
+	return fileDescriptor_channel_96658e61280fb0a1, []int{0, 2}
+}
+func (m *EventReq_Typing) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_EventReq_Typing.Unmarshal(m, b)
+}
+func (m *EventReq_Typing) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_EventReq_Typing.Marshal(b, m, deterministic)
+}
+func (dst *EventReq_Typing) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_EventReq_Typing.Merge(dst, src)
+}
+func (m *EventReq_Typing) XXX_Size() int {
+	return xxx_messageInfo_EventReq_Typing.Size(m)
+}
+func (m *EventReq_Typing) XXX_DiscardUnknown() {
+	xxx_messageInfo_EventReq_Typing.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_EventReq_Typing proto.InternalMessageInfo
+
+type EventReq_Send struct {
 	Entry                *chat.Entry `protobuf:"bytes,1,opt,name=entry" json:"entry,omitempty"`
 	XXX_NoUnkeyedLiteral struct{}    `json:"-"`
 	XXX_unrecognized     []byte      `json:"-"`
 	XXX_sizecache        int32       `json:"-"`
 }
 
-func (m *ListenRes) Reset()         { *m = ListenRes{} }
-func (m *ListenRes) String() string { return proto.CompactTextString(m) }
-func (*ListenRes) ProtoMessage()    {}
-func (*ListenRes) Descriptor() ([]byte, []int) {
-	return fileDescriptor_channel_bc41cb84d3147e5e, []int{1}
+func (m *EventReq_Send) Reset()         { *m = EventReq_Send{} }
+func (m *EventReq_Send) String() string { return proto.CompactTextString(m) }
+func (*EventReq_Send) ProtoMessage()    {}
+func (*EventReq_Send) Descriptor() ([]byte, []int) {
+	return fileDescriptor_channel_96658e61280fb0a1, []int{0, 3}
 }
-func (m *ListenRes) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_ListenRes.Unmarshal(m, b)
+func (m *EventReq_Send) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_EventReq_Send.Unmarshal(m, b)
 }
-func (m *ListenRes) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_ListenRes.Marshal(b, m, deterministic)
+func (m *EventReq_Send) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_EventReq_Send.Marshal(b, m, deterministic)
 }
-func (dst *ListenRes) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_ListenRes.Merge(dst, src)
+func (dst *EventReq_Send) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_EventReq_Send.Merge(dst, src)
 }
-func (m *ListenRes) XXX_Size() int {
-	return xxx_messageInfo_ListenRes.Size(m)
+func (m *EventReq_Send) XXX_Size() int {
+	return xxx_messageInfo_EventReq_Send.Size(m)
 }
-func (m *ListenRes) XXX_DiscardUnknown() {
-	xxx_messageInfo_ListenRes.DiscardUnknown(m)
+func (m *EventReq_Send) XXX_DiscardUnknown() {
+	xxx_messageInfo_EventReq_Send.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_ListenRes proto.InternalMessageInfo
+var xxx_messageInfo_EventReq_Send proto.InternalMessageInfo
 
-func (m *ListenRes) GetEntry() *chat.Entry {
+func (m *EventReq_Send) GetEntry() *chat.Entry {
 	if m != nil {
 		return m.Entry
 	}
 	return nil
 }
 
-type PostReq struct {
-	ChannelId            string      `protobuf:"bytes,1,opt,name=channel_id,json=channelId" json:"channel_id,omitempty"`
-	ThreadId             string      `protobuf:"bytes,2,opt,name=thread_id,json=threadId" json:"thread_id,omitempty"`
-	Entry                *chat.Entry `protobuf:"bytes,3,opt,name=entry" json:"entry,omitempty"`
-	XXX_NoUnkeyedLiteral struct{}    `json:"-"`
-	XXX_unrecognized     []byte      `json:"-"`
-	XXX_sizecache        int32       `json:"-"`
+type EventRes struct {
+	ChannelId string `protobuf:"bytes,101,opt,name=channel_id,json=channelId" json:"channel_id,omitempty"`
+	// Types that are valid to be assigned to Event:
+	//	*EventRes_UserJoined_
+	//	*EventRes_UserLeft_
+	//	*EventRes_UserTyping_
+	//	*EventRes_UserSent_
+	Event                isEventRes_Event `protobuf_oneof:"event"`
+	XXX_NoUnkeyedLiteral struct{}         `json:"-"`
+	XXX_unrecognized     []byte           `json:"-"`
+	XXX_sizecache        int32            `json:"-"`
 }
 
-func (m *PostReq) Reset()         { *m = PostReq{} }
-func (m *PostReq) String() string { return proto.CompactTextString(m) }
-func (*PostReq) ProtoMessage()    {}
-func (*PostReq) Descriptor() ([]byte, []int) {
-	return fileDescriptor_channel_bc41cb84d3147e5e, []int{2}
+func (m *EventRes) Reset()         { *m = EventRes{} }
+func (m *EventRes) String() string { return proto.CompactTextString(m) }
+func (*EventRes) ProtoMessage()    {}
+func (*EventRes) Descriptor() ([]byte, []int) {
+	return fileDescriptor_channel_96658e61280fb0a1, []int{1}
 }
-func (m *PostReq) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_PostReq.Unmarshal(m, b)
+func (m *EventRes) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_EventRes.Unmarshal(m, b)
 }
-func (m *PostReq) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_PostReq.Marshal(b, m, deterministic)
+func (m *EventRes) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_EventRes.Marshal(b, m, deterministic)
 }
-func (dst *PostReq) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_PostReq.Merge(dst, src)
+func (dst *EventRes) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_EventRes.Merge(dst, src)
 }
-func (m *PostReq) XXX_Size() int {
-	return xxx_messageInfo_PostReq.Size(m)
+func (m *EventRes) XXX_Size() int {
+	return xxx_messageInfo_EventRes.Size(m)
 }
-func (m *PostReq) XXX_DiscardUnknown() {
-	xxx_messageInfo_PostReq.DiscardUnknown(m)
+func (m *EventRes) XXX_DiscardUnknown() {
+	xxx_messageInfo_EventRes.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_PostReq proto.InternalMessageInfo
+var xxx_messageInfo_EventRes proto.InternalMessageInfo
 
-func (m *PostReq) GetChannelId() string {
+type isEventRes_Event interface {
+	isEventRes_Event()
+}
+
+type EventRes_UserJoined_ struct {
+	UserJoined *EventRes_UserJoined `protobuf:"bytes,201,opt,name=user_joined,json=userJoined,oneof"`
+}
+type EventRes_UserLeft_ struct {
+	UserLeft *EventRes_UserLeft `protobuf:"bytes,202,opt,name=user_left,json=userLeft,oneof"`
+}
+type EventRes_UserTyping_ struct {
+	UserTyping *EventRes_UserTyping `protobuf:"bytes,203,opt,name=user_typing,json=userTyping,oneof"`
+}
+type EventRes_UserSent_ struct {
+	UserSent *EventRes_UserSent `protobuf:"bytes,204,opt,name=user_sent,json=userSent,oneof"`
+}
+
+func (*EventRes_UserJoined_) isEventRes_Event() {}
+func (*EventRes_UserLeft_) isEventRes_Event()   {}
+func (*EventRes_UserTyping_) isEventRes_Event() {}
+func (*EventRes_UserSent_) isEventRes_Event()   {}
+
+func (m *EventRes) GetEvent() isEventRes_Event {
+	if m != nil {
+		return m.Event
+	}
+	return nil
+}
+
+func (m *EventRes) GetChannelId() string {
 	if m != nil {
 		return m.ChannelId
 	}
 	return ""
 }
 
-func (m *PostReq) GetThreadId() string {
-	if m != nil {
-		return m.ThreadId
-	}
-	return ""
-}
-
-func (m *PostReq) GetEntry() *chat.Entry {
-	if m != nil {
-		return m.Entry
+func (m *EventRes) GetUserJoined() *EventRes_UserJoined {
+	if x, ok := m.GetEvent().(*EventRes_UserJoined_); ok {
+		return x.UserJoined
 	}
 	return nil
 }
 
-type PostRes struct {
-	Entry                *chat.Entry `protobuf:"bytes,1,opt,name=entry" json:"entry,omitempty"`
+func (m *EventRes) GetUserLeft() *EventRes_UserLeft {
+	if x, ok := m.GetEvent().(*EventRes_UserLeft_); ok {
+		return x.UserLeft
+	}
+	return nil
+}
+
+func (m *EventRes) GetUserTyping() *EventRes_UserTyping {
+	if x, ok := m.GetEvent().(*EventRes_UserTyping_); ok {
+		return x.UserTyping
+	}
+	return nil
+}
+
+func (m *EventRes) GetUserSent() *EventRes_UserSent {
+	if x, ok := m.GetEvent().(*EventRes_UserSent_); ok {
+		return x.UserSent
+	}
+	return nil
+}
+
+// XXX_OneofFuncs is for the internal use of the proto package.
+func (*EventRes) XXX_OneofFuncs() (func(msg proto.Message, b *proto.Buffer) error, func(msg proto.Message, tag, wire int, b *proto.Buffer) (bool, error), func(msg proto.Message) (n int), []interface{}) {
+	return _EventRes_OneofMarshaler, _EventRes_OneofUnmarshaler, _EventRes_OneofSizer, []interface{}{
+		(*EventRes_UserJoined_)(nil),
+		(*EventRes_UserLeft_)(nil),
+		(*EventRes_UserTyping_)(nil),
+		(*EventRes_UserSent_)(nil),
+	}
+}
+
+func _EventRes_OneofMarshaler(msg proto.Message, b *proto.Buffer) error {
+	m := msg.(*EventRes)
+	// event
+	switch x := m.Event.(type) {
+	case *EventRes_UserJoined_:
+		b.EncodeVarint(201<<3 | proto.WireBytes)
+		if err := b.EncodeMessage(x.UserJoined); err != nil {
+			return err
+		}
+	case *EventRes_UserLeft_:
+		b.EncodeVarint(202<<3 | proto.WireBytes)
+		if err := b.EncodeMessage(x.UserLeft); err != nil {
+			return err
+		}
+	case *EventRes_UserTyping_:
+		b.EncodeVarint(203<<3 | proto.WireBytes)
+		if err := b.EncodeMessage(x.UserTyping); err != nil {
+			return err
+		}
+	case *EventRes_UserSent_:
+		b.EncodeVarint(204<<3 | proto.WireBytes)
+		if err := b.EncodeMessage(x.UserSent); err != nil {
+			return err
+		}
+	case nil:
+	default:
+		return fmt.Errorf("EventRes.Event has unexpected type %T", x)
+	}
+	return nil
+}
+
+func _EventRes_OneofUnmarshaler(msg proto.Message, tag, wire int, b *proto.Buffer) (bool, error) {
+	m := msg.(*EventRes)
+	switch tag {
+	case 201: // event.user_joined
+		if wire != proto.WireBytes {
+			return true, proto.ErrInternalBadWireType
+		}
+		msg := new(EventRes_UserJoined)
+		err := b.DecodeMessage(msg)
+		m.Event = &EventRes_UserJoined_{msg}
+		return true, err
+	case 202: // event.user_left
+		if wire != proto.WireBytes {
+			return true, proto.ErrInternalBadWireType
+		}
+		msg := new(EventRes_UserLeft)
+		err := b.DecodeMessage(msg)
+		m.Event = &EventRes_UserLeft_{msg}
+		return true, err
+	case 203: // event.user_typing
+		if wire != proto.WireBytes {
+			return true, proto.ErrInternalBadWireType
+		}
+		msg := new(EventRes_UserTyping)
+		err := b.DecodeMessage(msg)
+		m.Event = &EventRes_UserTyping_{msg}
+		return true, err
+	case 204: // event.user_sent
+		if wire != proto.WireBytes {
+			return true, proto.ErrInternalBadWireType
+		}
+		msg := new(EventRes_UserSent)
+		err := b.DecodeMessage(msg)
+		m.Event = &EventRes_UserSent_{msg}
+		return true, err
+	default:
+		return false, nil
+	}
+}
+
+func _EventRes_OneofSizer(msg proto.Message) (n int) {
+	m := msg.(*EventRes)
+	// event
+	switch x := m.Event.(type) {
+	case *EventRes_UserJoined_:
+		s := proto.Size(x.UserJoined)
+		n += 2 // tag and wire
+		n += proto.SizeVarint(uint64(s))
+		n += s
+	case *EventRes_UserLeft_:
+		s := proto.Size(x.UserLeft)
+		n += 2 // tag and wire
+		n += proto.SizeVarint(uint64(s))
+		n += s
+	case *EventRes_UserTyping_:
+		s := proto.Size(x.UserTyping)
+		n += 2 // tag and wire
+		n += proto.SizeVarint(uint64(s))
+		n += s
+	case *EventRes_UserSent_:
+		s := proto.Size(x.UserSent)
+		n += 2 // tag and wire
+		n += proto.SizeVarint(uint64(s))
+		n += s
+	case nil:
+	default:
+		panic(fmt.Sprintf("proto: unexpected type %T in oneof", x))
+	}
+	return n
+}
+
+type EventRes_UserJoined struct {
+	AuthorId             string   `protobuf:"bytes,1,opt,name=author_id,json=authorId" json:"author_id,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *EventRes_UserJoined) Reset()         { *m = EventRes_UserJoined{} }
+func (m *EventRes_UserJoined) String() string { return proto.CompactTextString(m) }
+func (*EventRes_UserJoined) ProtoMessage()    {}
+func (*EventRes_UserJoined) Descriptor() ([]byte, []int) {
+	return fileDescriptor_channel_96658e61280fb0a1, []int{1, 0}
+}
+func (m *EventRes_UserJoined) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_EventRes_UserJoined.Unmarshal(m, b)
+}
+func (m *EventRes_UserJoined) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_EventRes_UserJoined.Marshal(b, m, deterministic)
+}
+func (dst *EventRes_UserJoined) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_EventRes_UserJoined.Merge(dst, src)
+}
+func (m *EventRes_UserJoined) XXX_Size() int {
+	return xxx_messageInfo_EventRes_UserJoined.Size(m)
+}
+func (m *EventRes_UserJoined) XXX_DiscardUnknown() {
+	xxx_messageInfo_EventRes_UserJoined.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_EventRes_UserJoined proto.InternalMessageInfo
+
+func (m *EventRes_UserJoined) GetAuthorId() string {
+	if m != nil {
+		return m.AuthorId
+	}
+	return ""
+}
+
+type EventRes_UserLeft struct {
+	AuthorId             string   `protobuf:"bytes,1,opt,name=author_id,json=authorId" json:"author_id,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *EventRes_UserLeft) Reset()         { *m = EventRes_UserLeft{} }
+func (m *EventRes_UserLeft) String() string { return proto.CompactTextString(m) }
+func (*EventRes_UserLeft) ProtoMessage()    {}
+func (*EventRes_UserLeft) Descriptor() ([]byte, []int) {
+	return fileDescriptor_channel_96658e61280fb0a1, []int{1, 1}
+}
+func (m *EventRes_UserLeft) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_EventRes_UserLeft.Unmarshal(m, b)
+}
+func (m *EventRes_UserLeft) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_EventRes_UserLeft.Marshal(b, m, deterministic)
+}
+func (dst *EventRes_UserLeft) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_EventRes_UserLeft.Merge(dst, src)
+}
+func (m *EventRes_UserLeft) XXX_Size() int {
+	return xxx_messageInfo_EventRes_UserLeft.Size(m)
+}
+func (m *EventRes_UserLeft) XXX_DiscardUnknown() {
+	xxx_messageInfo_EventRes_UserLeft.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_EventRes_UserLeft proto.InternalMessageInfo
+
+func (m *EventRes_UserLeft) GetAuthorId() string {
+	if m != nil {
+		return m.AuthorId
+	}
+	return ""
+}
+
+type EventRes_UserTyping struct {
+	AuthorId             string   `protobuf:"bytes,1,opt,name=author_id,json=authorId" json:"author_id,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *EventRes_UserTyping) Reset()         { *m = EventRes_UserTyping{} }
+func (m *EventRes_UserTyping) String() string { return proto.CompactTextString(m) }
+func (*EventRes_UserTyping) ProtoMessage()    {}
+func (*EventRes_UserTyping) Descriptor() ([]byte, []int) {
+	return fileDescriptor_channel_96658e61280fb0a1, []int{1, 2}
+}
+func (m *EventRes_UserTyping) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_EventRes_UserTyping.Unmarshal(m, b)
+}
+func (m *EventRes_UserTyping) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_EventRes_UserTyping.Marshal(b, m, deterministic)
+}
+func (dst *EventRes_UserTyping) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_EventRes_UserTyping.Merge(dst, src)
+}
+func (m *EventRes_UserTyping) XXX_Size() int {
+	return xxx_messageInfo_EventRes_UserTyping.Size(m)
+}
+func (m *EventRes_UserTyping) XXX_DiscardUnknown() {
+	xxx_messageInfo_EventRes_UserTyping.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_EventRes_UserTyping proto.InternalMessageInfo
+
+func (m *EventRes_UserTyping) GetAuthorId() string {
+	if m != nil {
+		return m.AuthorId
+	}
+	return ""
+}
+
+type EventRes_UserSent struct {
+	AuthorId             string      `protobuf:"bytes,1,opt,name=author_id,json=authorId" json:"author_id,omitempty"`
+	Entry                *chat.Entry `protobuf:"bytes,2,opt,name=entry" json:"entry,omitempty"`
 	XXX_NoUnkeyedLiteral struct{}    `json:"-"`
 	XXX_unrecognized     []byte      `json:"-"`
 	XXX_sizecache        int32       `json:"-"`
 }
 
-func (m *PostRes) Reset()         { *m = PostRes{} }
-func (m *PostRes) String() string { return proto.CompactTextString(m) }
-func (*PostRes) ProtoMessage()    {}
-func (*PostRes) Descriptor() ([]byte, []int) {
-	return fileDescriptor_channel_bc41cb84d3147e5e, []int{3}
+func (m *EventRes_UserSent) Reset()         { *m = EventRes_UserSent{} }
+func (m *EventRes_UserSent) String() string { return proto.CompactTextString(m) }
+func (*EventRes_UserSent) ProtoMessage()    {}
+func (*EventRes_UserSent) Descriptor() ([]byte, []int) {
+	return fileDescriptor_channel_96658e61280fb0a1, []int{1, 3}
 }
-func (m *PostRes) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_PostRes.Unmarshal(m, b)
+func (m *EventRes_UserSent) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_EventRes_UserSent.Unmarshal(m, b)
 }
-func (m *PostRes) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_PostRes.Marshal(b, m, deterministic)
+func (m *EventRes_UserSent) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_EventRes_UserSent.Marshal(b, m, deterministic)
 }
-func (dst *PostRes) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_PostRes.Merge(dst, src)
+func (dst *EventRes_UserSent) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_EventRes_UserSent.Merge(dst, src)
 }
-func (m *PostRes) XXX_Size() int {
-	return xxx_messageInfo_PostRes.Size(m)
+func (m *EventRes_UserSent) XXX_Size() int {
+	return xxx_messageInfo_EventRes_UserSent.Size(m)
 }
-func (m *PostRes) XXX_DiscardUnknown() {
-	xxx_messageInfo_PostRes.DiscardUnknown(m)
+func (m *EventRes_UserSent) XXX_DiscardUnknown() {
+	xxx_messageInfo_EventRes_UserSent.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_PostRes proto.InternalMessageInfo
+var xxx_messageInfo_EventRes_UserSent proto.InternalMessageInfo
 
-func (m *PostRes) GetEntry() *chat.Entry {
+func (m *EventRes_UserSent) GetAuthorId() string {
+	if m != nil {
+		return m.AuthorId
+	}
+	return ""
+}
+
+func (m *EventRes_UserSent) GetEntry() *chat.Entry {
 	if m != nil {
 		return m.Entry
 	}
 	return nil
 }
-
-type ArchiveReq struct {
-	ChannelId            string   `protobuf:"bytes,1,opt,name=channel_id,json=channelId" json:"channel_id,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
-}
-
-func (m *ArchiveReq) Reset()         { *m = ArchiveReq{} }
-func (m *ArchiveReq) String() string { return proto.CompactTextString(m) }
-func (*ArchiveReq) ProtoMessage()    {}
-func (*ArchiveReq) Descriptor() ([]byte, []int) {
-	return fileDescriptor_channel_bc41cb84d3147e5e, []int{4}
-}
-func (m *ArchiveReq) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_ArchiveReq.Unmarshal(m, b)
-}
-func (m *ArchiveReq) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_ArchiveReq.Marshal(b, m, deterministic)
-}
-func (dst *ArchiveReq) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_ArchiveReq.Merge(dst, src)
-}
-func (m *ArchiveReq) XXX_Size() int {
-	return xxx_messageInfo_ArchiveReq.Size(m)
-}
-func (m *ArchiveReq) XXX_DiscardUnknown() {
-	xxx_messageInfo_ArchiveReq.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_ArchiveReq proto.InternalMessageInfo
-
-func (m *ArchiveReq) GetChannelId() string {
-	if m != nil {
-		return m.ChannelId
-	}
-	return ""
-}
-
-type ArchiveRes struct {
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
-}
-
-func (m *ArchiveRes) Reset()         { *m = ArchiveRes{} }
-func (m *ArchiveRes) String() string { return proto.CompactTextString(m) }
-func (*ArchiveRes) ProtoMessage()    {}
-func (*ArchiveRes) Descriptor() ([]byte, []int) {
-	return fileDescriptor_channel_bc41cb84d3147e5e, []int{5}
-}
-func (m *ArchiveRes) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_ArchiveRes.Unmarshal(m, b)
-}
-func (m *ArchiveRes) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_ArchiveRes.Marshal(b, m, deterministic)
-}
-func (dst *ArchiveRes) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_ArchiveRes.Merge(dst, src)
-}
-func (m *ArchiveRes) XXX_Size() int {
-	return xxx_messageInfo_ArchiveRes.Size(m)
-}
-func (m *ArchiveRes) XXX_DiscardUnknown() {
-	xxx_messageInfo_ArchiveRes.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_ArchiveRes proto.InternalMessageInfo
 
 func init() {
-	proto.RegisterType((*ListenReq)(nil), "iyag.io.chat.chatsrv.ListenReq")
-	proto.RegisterType((*ListenRes)(nil), "iyag.io.chat.chatsrv.ListenRes")
-	proto.RegisterType((*PostReq)(nil), "iyag.io.chat.chatsrv.PostReq")
-	proto.RegisterType((*PostRes)(nil), "iyag.io.chat.chatsrv.PostRes")
-	proto.RegisterType((*ArchiveReq)(nil), "iyag.io.chat.chatsrv.ArchiveReq")
-	proto.RegisterType((*ArchiveRes)(nil), "iyag.io.chat.chatsrv.ArchiveRes")
+	proto.RegisterType((*EventReq)(nil), "iyag.io.chat.chatsrv.EventReq")
+	proto.RegisterType((*EventReq_Join)(nil), "iyag.io.chat.chatsrv.EventReq.Join")
+	proto.RegisterType((*EventReq_Leave)(nil), "iyag.io.chat.chatsrv.EventReq.Leave")
+	proto.RegisterType((*EventReq_Typing)(nil), "iyag.io.chat.chatsrv.EventReq.Typing")
+	proto.RegisterType((*EventReq_Send)(nil), "iyag.io.chat.chatsrv.EventReq.Send")
+	proto.RegisterType((*EventRes)(nil), "iyag.io.chat.chatsrv.EventRes")
+	proto.RegisterType((*EventRes_UserJoined)(nil), "iyag.io.chat.chatsrv.EventRes.UserJoined")
+	proto.RegisterType((*EventRes_UserLeft)(nil), "iyag.io.chat.chatsrv.EventRes.UserLeft")
+	proto.RegisterType((*EventRes_UserTyping)(nil), "iyag.io.chat.chatsrv.EventRes.UserTyping")
+	proto.RegisterType((*EventRes_UserSent)(nil), "iyag.io.chat.chatsrv.EventRes.UserSent")
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -289,9 +771,7 @@ const _ = grpc.SupportPackageIsVersion4
 // Client API for Channel service
 
 type ChannelClient interface {
-	Listen(ctx context.Context, in *ListenReq, opts ...grpc.CallOption) (Channel_ListenClient, error)
-	Post(ctx context.Context, in *PostReq, opts ...grpc.CallOption) (*PostRes, error)
-	Archive(ctx context.Context, in *ArchiveReq, opts ...grpc.CallOption) (*ArchiveRes, error)
+	Event(ctx context.Context, opts ...grpc.CallOption) (Channel_EventClient, error)
 }
 
 type channelClient struct {
@@ -302,172 +782,121 @@ func NewChannelClient(cc *grpc.ClientConn) ChannelClient {
 	return &channelClient{cc}
 }
 
-func (c *channelClient) Listen(ctx context.Context, in *ListenReq, opts ...grpc.CallOption) (Channel_ListenClient, error) {
-	stream, err := grpc.NewClientStream(ctx, &_Channel_serviceDesc.Streams[0], c.cc, "/iyag.io.chat.chatsrv.Channel/Listen", opts...)
+func (c *channelClient) Event(ctx context.Context, opts ...grpc.CallOption) (Channel_EventClient, error) {
+	stream, err := grpc.NewClientStream(ctx, &_Channel_serviceDesc.Streams[0], c.cc, "/iyag.io.chat.chatsrv.Channel/Event", opts...)
 	if err != nil {
 		return nil, err
 	}
-	x := &channelListenClient{stream}
-	if err := x.ClientStream.SendMsg(in); err != nil {
-		return nil, err
-	}
-	if err := x.ClientStream.CloseSend(); err != nil {
-		return nil, err
-	}
+	x := &channelEventClient{stream}
 	return x, nil
 }
 
-type Channel_ListenClient interface {
-	Recv() (*ListenRes, error)
+type Channel_EventClient interface {
+	Send(*EventReq) error
+	Recv() (*EventRes, error)
 	grpc.ClientStream
 }
 
-type channelListenClient struct {
+type channelEventClient struct {
 	grpc.ClientStream
 }
 
-func (x *channelListenClient) Recv() (*ListenRes, error) {
-	m := new(ListenRes)
+func (x *channelEventClient) Send(m *EventReq) error {
+	return x.ClientStream.SendMsg(m)
+}
+
+func (x *channelEventClient) Recv() (*EventRes, error) {
+	m := new(EventRes)
 	if err := x.ClientStream.RecvMsg(m); err != nil {
 		return nil, err
 	}
 	return m, nil
 }
 
-func (c *channelClient) Post(ctx context.Context, in *PostReq, opts ...grpc.CallOption) (*PostRes, error) {
-	out := new(PostRes)
-	err := grpc.Invoke(ctx, "/iyag.io.chat.chatsrv.Channel/Post", in, out, c.cc, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *channelClient) Archive(ctx context.Context, in *ArchiveReq, opts ...grpc.CallOption) (*ArchiveRes, error) {
-	out := new(ArchiveRes)
-	err := grpc.Invoke(ctx, "/iyag.io.chat.chatsrv.Channel/Archive", in, out, c.cc, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 // Server API for Channel service
 
 type ChannelServer interface {
-	Listen(*ListenReq, Channel_ListenServer) error
-	Post(context.Context, *PostReq) (*PostRes, error)
-	Archive(context.Context, *ArchiveReq) (*ArchiveRes, error)
+	Event(Channel_EventServer) error
 }
 
 func RegisterChannelServer(s *grpc.Server, srv ChannelServer) {
 	s.RegisterService(&_Channel_serviceDesc, srv)
 }
 
-func _Channel_Listen_Handler(srv interface{}, stream grpc.ServerStream) error {
-	m := new(ListenReq)
-	if err := stream.RecvMsg(m); err != nil {
-		return err
-	}
-	return srv.(ChannelServer).Listen(m, &channelListenServer{stream})
+func _Channel_Event_Handler(srv interface{}, stream grpc.ServerStream) error {
+	return srv.(ChannelServer).Event(&channelEventServer{stream})
 }
 
-type Channel_ListenServer interface {
-	Send(*ListenRes) error
+type Channel_EventServer interface {
+	Send(*EventRes) error
+	Recv() (*EventReq, error)
 	grpc.ServerStream
 }
 
-type channelListenServer struct {
+type channelEventServer struct {
 	grpc.ServerStream
 }
 
-func (x *channelListenServer) Send(m *ListenRes) error {
+func (x *channelEventServer) Send(m *EventRes) error {
 	return x.ServerStream.SendMsg(m)
 }
 
-func _Channel_Post_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(PostReq)
-	if err := dec(in); err != nil {
+func (x *channelEventServer) Recv() (*EventReq, error) {
+	m := new(EventReq)
+	if err := x.ServerStream.RecvMsg(m); err != nil {
 		return nil, err
 	}
-	if interceptor == nil {
-		return srv.(ChannelServer).Post(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/iyag.io.chat.chatsrv.Channel/Post",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ChannelServer).Post(ctx, req.(*PostReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Channel_Archive_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ArchiveReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ChannelServer).Archive(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/iyag.io.chat.chatsrv.Channel/Archive",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ChannelServer).Archive(ctx, req.(*ArchiveReq))
-	}
-	return interceptor(ctx, in, info, handler)
+	return m, nil
 }
 
 var _Channel_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "iyag.io.chat.chatsrv.Channel",
 	HandlerType: (*ChannelServer)(nil),
-	Methods: []grpc.MethodDesc{
-		{
-			MethodName: "Post",
-			Handler:    _Channel_Post_Handler,
-		},
-		{
-			MethodName: "Archive",
-			Handler:    _Channel_Archive_Handler,
-		},
-	},
+	Methods:     []grpc.MethodDesc{},
 	Streams: []grpc.StreamDesc{
 		{
-			StreamName:    "Listen",
-			Handler:       _Channel_Listen_Handler,
+			StreamName:    "Event",
+			Handler:       _Channel_Event_Handler,
 			ServerStreams: true,
+			ClientStreams: true,
 		},
 	},
 	Metadata: "iyag.io/chat/chatsrv/channel.proto",
 }
 
 func init() {
-	proto.RegisterFile("iyag.io/chat/chatsrv/channel.proto", fileDescriptor_channel_bc41cb84d3147e5e)
+	proto.RegisterFile("iyag.io/chat/chatsrv/channel.proto", fileDescriptor_channel_96658e61280fb0a1)
 }
 
-var fileDescriptor_channel_bc41cb84d3147e5e = []byte{
-	// 318 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x94, 0x92, 0x5f, 0x4b, 0xf3, 0x30,
-	0x14, 0xc6, 0xe9, 0xde, 0xbd, 0xab, 0x3d, 0xf3, 0x2a, 0x7a, 0x31, 0x22, 0x63, 0xa3, 0x57, 0x13,
-	0x21, 0x95, 0x2a, 0xde, 0xfb, 0xef, 0x62, 0x30, 0x41, 0x8a, 0x57, 0xbb, 0x91, 0x6e, 0xcd, 0xda,
-	0xc0, 0xda, 0xd4, 0x24, 0x0e, 0xf6, 0x9d, 0xfd, 0x10, 0xd2, 0x24, 0xb5, 0x0e, 0x8a, 0xd5, 0x9b,
-	0x96, 0x9e, 0xe7, 0xd7, 0xe7, 0x3c, 0x27, 0x27, 0xe0, 0xb3, 0x7d, 0x9c, 0x12, 0xc6, 0x83, 0x75,
-	0x16, 0x2b, 0xfd, 0x90, 0x62, 0x57, 0xbd, 0x8b, 0x82, 0x6e, 0x49, 0x29, 0xb8, 0xe2, 0xe8, 0xd4,
-	0x32, 0xa4, 0x92, 0x89, 0x65, 0xf0, 0xe8, 0xe0, 0x4f, 0x5a, 0x28, 0xb1, 0x37, 0x3c, 0x9e, 0xa4,
-	0x9c, 0xa7, 0x5b, 0x1a, 0xe8, 0xaf, 0xd5, 0xfb, 0x26, 0x50, 0x2c, 0xa7, 0x52, 0xc5, 0x79, 0x69,
-	0x00, 0x7f, 0x09, 0xde, 0x82, 0x49, 0x45, 0x8b, 0x88, 0xbe, 0xa1, 0x31, 0x80, 0x6d, 0xf7, 0xca,
-	0x92, 0x91, 0x33, 0x75, 0x66, 0x5e, 0xe4, 0xd9, 0xca, 0x3c, 0x41, 0x04, 0xfa, 0x1b, 0xc1, 0xf3,
-	0x51, 0x6f, 0xea, 0xcc, 0x86, 0x21, 0x26, 0xc6, 0x9b, 0xd4, 0xde, 0xe4, 0xa5, 0xf6, 0x8e, 0x34,
-	0xe7, 0xdf, 0x34, 0xde, 0x12, 0x9d, 0xc3, 0x7f, 0x1d, 0x4c, 0xdb, 0x0e, 0xc3, 0x13, 0x72, 0x30,
-	0xc9, 0x63, 0x25, 0x45, 0x86, 0xf0, 0x4b, 0x70, 0x9f, 0xb9, 0x54, 0xbf, 0x48, 0x74, 0x06, 0x9e,
-	0xca, 0x04, 0x8d, 0x93, 0x4a, 0xed, 0x69, 0xf5, 0xc8, 0x14, 0xe6, 0x49, 0xd3, 0xf1, 0x5f, 0x67,
-	0xc7, 0xeb, 0xba, 0xe3, 0x9f, 0x72, 0x5e, 0x00, 0xdc, 0x8a, 0x75, 0xc6, 0x76, 0xb4, 0x3b, 0xaa,
-	0x7f, 0xfc, 0x0d, 0x96, 0xe1, 0x87, 0x03, 0xee, 0xbd, 0xd1, 0xd0, 0x02, 0x06, 0xe6, 0x98, 0xd0,
-	0x84, 0xb4, 0xad, 0x97, 0x7c, 0x2d, 0x08, 0x77, 0x00, 0xf2, 0xd2, 0x41, 0x0f, 0xd0, 0xaf, 0x46,
-	0x41, 0xe3, 0x76, 0xd4, 0x1e, 0x2c, 0xfe, 0x51, 0x96, 0xe8, 0x09, 0x5c, 0x9b, 0x16, 0x4d, 0xdb,
-	0xc9, 0x66, 0x72, 0xdc, 0x45, 0xc8, 0x3b, 0x6f, 0xe9, 0xda, 0xea, 0x6a, 0xa0, 0xaf, 0xcb, 0xd5,
-	0x67, 0x00, 0x00, 0x00, 0xff, 0xff, 0x24, 0x9b, 0x84, 0x00, 0xee, 0x02, 0x00, 0x00,
+var fileDescriptor_channel_96658e61280fb0a1 = []byte{
+	// 464 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x8c, 0x54, 0xcd, 0x6e, 0xd3, 0x40,
+	0x10, 0xb6, 0x21, 0x4e, 0xec, 0xe9, 0x6d, 0xe1, 0x60, 0x2d, 0x02, 0xaa, 0x00, 0x6a, 0x72, 0x71,
+	0xa0, 0xdc, 0x90, 0x90, 0x50, 0x51, 0x85, 0x5b, 0xca, 0x65, 0x0b, 0x1c, 0xb8, 0x54, 0x2e, 0x9e,
+	0xa4, 0x46, 0xee, 0x6e, 0xf0, 0xae, 0x23, 0xe5, 0x45, 0x78, 0x13, 0x1e, 0x82, 0x9f, 0x87, 0x42,
+	0xfb, 0x63, 0x47, 0x96, 0x90, 0xe3, 0x4b, 0xb2, 0x3b, 0xf3, 0x7d, 0x33, 0xdf, 0xec, 0x37, 0x32,
+	0x4c, 0x8b, 0x6d, 0xb6, 0x4a, 0x0a, 0xb1, 0xf8, 0x7a, 0x93, 0x29, 0xf3, 0x23, 0xab, 0x8d, 0xfe,
+	0xe7, 0x1c, 0xcb, 0x64, 0x5d, 0x09, 0x25, 0xc8, 0x7d, 0x87, 0x49, 0x74, 0x3a, 0x71, 0x18, 0x1a,
+	0x77, 0x98, 0xc8, 0x55, 0xb5, 0xb5, 0x78, 0xfa, 0x78, 0x25, 0xc4, 0xaa, 0xc4, 0x85, 0xb9, 0x5d,
+	0xd7, 0xcb, 0x85, 0x2a, 0x6e, 0x51, 0xaa, 0xec, 0x76, 0x6d, 0x01, 0xd3, 0x1f, 0x77, 0x21, 0x3c,
+	0xdd, 0x20, 0x57, 0x0c, 0xbf, 0x93, 0x87, 0x00, 0xae, 0xdd, 0x55, 0x91, 0xc7, 0x78, 0xe8, 0xcf,
+	0x22, 0x16, 0xb9, 0xc8, 0x59, 0x4e, 0x1e, 0x40, 0x94, 0xd5, 0xea, 0x46, 0x54, 0x3a, 0xbb, 0x34,
+	0xd9, 0xd0, 0x06, 0xce, 0x72, 0xf2, 0x0a, 0x46, 0xdf, 0x44, 0xc1, 0xe3, 0x5f, 0xfe, 0xa1, 0x3f,
+	0x3b, 0x38, 0x7e, 0x92, 0xfc, 0x4f, 0x69, 0xd2, 0xb4, 0x4a, 0xce, 0x45, 0xc1, 0x53, 0x8f, 0x19,
+	0x0e, 0x79, 0x0d, 0x41, 0x89, 0xd9, 0x06, 0xe3, 0xdf, 0x96, 0xfc, 0x74, 0x0f, 0xf9, 0x42, 0x83,
+	0x53, 0x8f, 0x59, 0x16, 0x79, 0x03, 0x63, 0xb5, 0x5d, 0x17, 0x7c, 0x15, 0xff, 0xb1, 0xfc, 0x67,
+	0x7b, 0xf8, 0x1f, 0x0d, 0x3a, 0xf5, 0x98, 0xe3, 0x69, 0xf1, 0x12, 0x79, 0x1e, 0xff, 0x1d, 0x26,
+	0xfe, 0x12, 0x79, 0xae, 0xc5, 0x6b, 0x0e, 0x1d, 0xc3, 0x48, 0x0f, 0x43, 0x27, 0x10, 0x18, 0x5d,
+	0x34, 0x84, 0xb1, 0x6d, 0x40, 0x5f, 0xc0, 0x48, 0x43, 0xc9, 0x1c, 0x02, 0x63, 0x4a, 0x6c, 0xcb,
+	0xdf, 0xeb, 0x96, 0x3f, 0xd5, 0x29, 0x66, 0x11, 0x27, 0x13, 0x08, 0x50, 0xb7, 0x99, 0xfe, 0x1c,
+	0xb5, 0xc6, 0xc8, 0x7d, 0xc6, 0x7c, 0x80, 0x83, 0x5a, 0x62, 0x75, 0xa5, 0x1f, 0x13, 0xf3, 0xc6,
+	0x82, 0x79, 0xef, 0x14, 0x32, 0xf9, 0x24, 0xb1, 0x3a, 0x37, 0x8c, 0xd4, 0x63, 0x50, 0xb7, 0x37,
+	0xf2, 0x0e, 0x22, 0x53, 0xae, 0xc4, 0xa5, 0x6a, 0x2c, 0x39, 0x1a, 0x50, 0xec, 0x02, 0x97, 0x2a,
+	0xf5, 0x58, 0x58, 0xbb, 0x73, 0xab, 0xab, 0xeb, 0xce, 0x10, 0x5d, 0xad, 0x43, 0x46, 0x97, 0xbd,
+	0xb5, 0xba, 0x24, 0x72, 0xd5, 0x58, 0x35, 0x44, 0xd7, 0x25, 0xf2, 0x56, 0x97, 0x3e, 0xd3, 0x39,
+	0xc0, 0x6e, 0xf8, 0xee, 0x5a, 0xfb, 0xdd, 0xb5, 0xa6, 0x47, 0x10, 0x36, 0xa3, 0xf5, 0x03, 0x5d,
+	0x4d, 0x27, 0xb5, 0x17, 0xca, 0x6c, 0x4d, 0x2d, 0xa5, 0x17, 0xb8, 0xdb, 0x9b, 0x3b, 0x83, 0xf7,
+	0xe6, 0xf8, 0x33, 0x4c, 0xde, 0xda, 0xc5, 0x20, 0xef, 0x21, 0x30, 0xef, 0x40, 0x1e, 0xf5, 0xef,
+	0x33, 0xed, 0xcf, 0xcb, 0x99, 0xff, 0xdc, 0x3f, 0x89, 0xbe, 0x4c, 0x5c, 0xfc, 0x7a, 0x6c, 0x3e,
+	0x1d, 0x2f, 0xff, 0x05, 0x00, 0x00, 0xff, 0xff, 0x32, 0x87, 0xee, 0x28, 0xb1, 0x04, 0x00, 0x00,
 }

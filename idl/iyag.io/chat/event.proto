@@ -1,21 +1,16 @@
 syntax = "proto3";
 
-package iyag.io.chat.chatsrv;
-option go_package = "chatsrv";
+package iyag.io.chat;
+option go_package = "chat";
 
-import "iyag.io/chat/entry.proto";
 import "google/protobuf/timestamp.proto";
 
-service Channel {
-    rpc Event(stream EventReq) returns (stream EventRes);
-}
-
-message EventReq {
+message Event {
     message Join {}
     message Leave {}
     message Typing {}
     message Send {
-        iyag.io.chat.Entry entry = 1;
+        Entry entry = 1;
     }
 
     string channel_id = 101;
@@ -51,4 +46,25 @@ message EventRes {
         UserTyping user_typing = 203;
         UserSent user_sent = 204;
     }
+}
+
+
+
+message EntryMeta {
+    // specified by the client when they send a entry, for deduplication purpose
+    string uuid = 1;
+    // ID of the channel where the entry goes
+    string channel_id = 2;
+    // if set, points to the UUID that starts the thread
+    string thread_id = 3; 
+    // ID of the author who sent the entry.
+    string author_id = 4;
+    // time when the entry was sent (client side), updated when the server accepts it
+    google.protobuf.Timestamp time = 5;
+    // sequence in which the message was received by the server
+    uint64 sequence = 6;
+}
+
+message EntryContent {
+    string body = 1;
 }

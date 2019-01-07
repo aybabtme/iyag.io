@@ -4,38 +4,18 @@
 import * as iyag_io_chat_chatsrv_channel_pb from "../../../iyag.io/chat/chatsrv/channel_pb";
 import {grpc} from "grpc-web-client";
 
-type ChannelListen = {
+type ChannelEvent = {
   readonly methodName: string;
   readonly service: typeof Channel;
-  readonly requestStream: false;
+  readonly requestStream: true;
   readonly responseStream: true;
-  readonly requestType: typeof iyag_io_chat_chatsrv_channel_pb.ListenReq;
-  readonly responseType: typeof iyag_io_chat_chatsrv_channel_pb.ListenRes;
-};
-
-type ChannelPost = {
-  readonly methodName: string;
-  readonly service: typeof Channel;
-  readonly requestStream: false;
-  readonly responseStream: false;
-  readonly requestType: typeof iyag_io_chat_chatsrv_channel_pb.PostReq;
-  readonly responseType: typeof iyag_io_chat_chatsrv_channel_pb.PostRes;
-};
-
-type ChannelArchive = {
-  readonly methodName: string;
-  readonly service: typeof Channel;
-  readonly requestStream: false;
-  readonly responseStream: false;
-  readonly requestType: typeof iyag_io_chat_chatsrv_channel_pb.ArchiveReq;
-  readonly responseType: typeof iyag_io_chat_chatsrv_channel_pb.ArchiveRes;
+  readonly requestType: typeof iyag_io_chat_chatsrv_channel_pb.EventReq;
+  readonly responseType: typeof iyag_io_chat_chatsrv_channel_pb.EventRes;
 };
 
 export class Channel {
   static readonly serviceName: string;
-  static readonly Listen: ChannelListen;
-  static readonly Post: ChannelPost;
-  static readonly Archive: ChannelArchive;
+  static readonly Event: ChannelEvent;
 }
 
 export type ServiceError = { message: string, code: number; metadata: grpc.Metadata }
@@ -70,24 +50,6 @@ export class ChannelClient {
   readonly serviceHost: string;
 
   constructor(serviceHost: string, options?: grpc.RpcOptions);
-  listen(requestMessage: iyag_io_chat_chatsrv_channel_pb.ListenReq, metadata?: grpc.Metadata): ResponseStream<iyag_io_chat_chatsrv_channel_pb.ListenRes>;
-  post(
-    requestMessage: iyag_io_chat_chatsrv_channel_pb.PostReq,
-    metadata: grpc.Metadata,
-    callback: (error: ServiceError|null, responseMessage: iyag_io_chat_chatsrv_channel_pb.PostRes|null) => void
-  ): UnaryResponse;
-  post(
-    requestMessage: iyag_io_chat_chatsrv_channel_pb.PostReq,
-    callback: (error: ServiceError|null, responseMessage: iyag_io_chat_chatsrv_channel_pb.PostRes|null) => void
-  ): UnaryResponse;
-  archive(
-    requestMessage: iyag_io_chat_chatsrv_channel_pb.ArchiveReq,
-    metadata: grpc.Metadata,
-    callback: (error: ServiceError|null, responseMessage: iyag_io_chat_chatsrv_channel_pb.ArchiveRes|null) => void
-  ): UnaryResponse;
-  archive(
-    requestMessage: iyag_io_chat_chatsrv_channel_pb.ArchiveReq,
-    callback: (error: ServiceError|null, responseMessage: iyag_io_chat_chatsrv_channel_pb.ArchiveRes|null) => void
-  ): UnaryResponse;
+  event(metadata?: grpc.Metadata): BidirectionalStream<iyag_io_chat_chatsrv_channel_pb.EventReq, iyag_io_chat_chatsrv_channel_pb.EventRes>;
 }
 

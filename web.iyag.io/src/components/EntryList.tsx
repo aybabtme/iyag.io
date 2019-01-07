@@ -1,5 +1,4 @@
 import * as React from "react";
-
 import { Entry } from "../gen/iyag.io/chat/entry_pb";
 
 export interface EntryListProps { 
