@@ -2,10 +2,18 @@ package chat
 
 import (
 	"github.com/golang/protobuf/ptypes/timestamp"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 )
 
-func (state *ChannelState) isActive() bool {
-	return state.wasCreated() && !state.wasArchived()
+func (state *ChannelState) ensureActive() error {
+	if !state.wasCreated() {
+		return status.Error(codes.NotFound, "no such channel")
+	}
+	if state.wasArchived() {
+		return status.Error(codes.FailedPrecondition, "this channel has been archived")
+	}
+	return nil
 }
 
 func (state *ChannelState) wasCreated() bool {
@@ -16,7 +24,7 @@ func (state *ChannelState) wasArchived() bool {
 	return state.ArchivedAt != nil
 }
 
-func (state *ChannelState) applyEvent(event *ChannelUserEvent, timeNow *timestamp.Timestamp) {
+func (state *ChannelState) applyEvent(event *ChannelUserEvent, timeNow *timestamp.Timestamp) error {
 	accepted := false
 	defer func() {
 		if accepted {
@@ -26,32 +34,35 @@ func (state *ChannelState) applyEvent(event *ChannelUserEvent, timeNow *timestam
 	switch ev := event.Event.(type) {
 	case *ChannelUserEvent_Created:
 		if state.wasCreated() {
-			return
+			return status.Error(codes.FailedPrecondition, "a channel with this name already exists")
 		}
 		state.Name = ev.Created.GetName()
 		state.CreatedAt = timeNow
 		state.CreatedBy = event.GetAuthorId()
+		return nil
 	case *ChannelUserEvent_Archived:
-		if !state.isActive() {
-			return
+		if err := state.ensureActive(); err != nil {
+			return err
 		}
 		state.ArchivedAt = timeNow
 		state.ArchivedBy = event.GetAuthorId()
 		accepted = true
+		return nil
 	case *ChannelUserEvent_Joined:
-		if !state.isActive() {
-			return
+		if err := state.ensureActive(); err != nil {
+			return err
 		}
 		for _, authorID := range state.AuthorIds {
 			if authorID == event.GetAuthorId() {
-				return
+				return status.Error(codes.FailedPrecondition, "a user with this ID is already in this channel")
 			}
 		}
 		state.AuthorIds = append(state.AuthorIds, event.GetAuthorId())
 		accepted = true
+		return nil
 	case *ChannelUserEvent_Left:
-		if !state.isActive() {
-			return
+		if err := state.ensureActive(); err != nil {
+			return err
 		}
 		for i, authorID := range state.AuthorIds {
 			if authorID == event.GetAuthorId() {
@@ -63,24 +74,26 @@ func (state *ChannelState) applyEvent(event *ChannelUserEvent, timeNow *timestam
 					state.AuthorIds = append(state.AuthorIds[:i], state.AuthorIds[i+1:]...)
 				}
 				accepted = true
-				return
+				return nil
 			}
 		}
+		return status.Error(codes.FailedPrecondition, "no user with this ID is in this channel")
 	case *ChannelUserEvent_Typed:
-		if !state.isActive() {
-			return
+		if err := state.ensureActive(); err != nil {
+			return err
 		}
 		// TODO: implement
+		return nil
 	case *ChannelUserEvent_Sent:
-		if !state.isActive() {
-			return
+		if err := state.ensureActive(); err != nil {
+			return err
 		}
 		entry := ev.Sent.GetEntry()
 		for i, et := range state.Entries {
 			if et.GetMeta().GetUuid() == entry.GetMeta().GetUuid() {
 				state.Entries[i].Content = entry.Content
 				accepted = true
-				return
+				return nil
 			}
 		}
 		meta := entry.GetMeta()
@@ -93,7 +106,8 @@ func (state *ChannelState) applyEvent(event *ChannelUserEvent, timeNow *timestam
 		entry.Meta = meta
 		state.Entries = append(state.Entries, entry)
 		accepted = true
+		return nil
 	default:
-		return
+		return status.Errorf(codes.InvalidArgument, "unsupported event")
 	}
 }

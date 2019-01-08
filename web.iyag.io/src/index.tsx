@@ -6,6 +6,6 @@ import { Channel } from "./components/Channel";
 const client = new ChannelClient("http://localhost:8080");
 
 ReactDOM.render(
-    <Channel author_id="@antoine" channel_id="#general" client={client} />,
+    <Channel authorID="@antoine" channelName="#general" client={client} />,
     document.getElementById("example")
 );
