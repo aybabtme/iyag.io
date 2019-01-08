@@ -95,6 +95,23 @@ func (srv *Channel) EventType(ctx context.Context, ev *EventTypeReq) (*EventType
 	return &EventTypeRes{EventMeta: meta}, nil
 }
 
+func (srv *Channel) EventSend(ctx context.Context, ev *EventSendReq) (*EventSendRes, error) {
+	event, err := srv.prepareChannelEvent(ctx, ev.GetAuth(), ev.GetChannelName(), ev.GetUuid())
+	if err != nil {
+		return nil, err
+	}
+	event.Event = &chat.ChannelUserEvent_Sent{
+		Sent: &chat.ChannelUserEvent_Send{
+			Entry: ev.Entry,
+		},
+	}
+	meta, err := srv.db.AddEvent(ctx, event)
+	if err != nil {
+		return nil, err
+	}
+	return &EventSendRes{EventMeta: meta}, nil
+}
+
 func (srv *Channel) GetState(ctx context.Context, req *GetStateReq) (*GetStateRes, error) {
 	state, err := srv.db.GetState(ctx, req.GetChannelName())
 	if err != nil {

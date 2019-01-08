@@ -36,11 +36,11 @@ export class EntryMeta extends jspb.Message {
   getUuid(): string;
   setUuid(value: string): void;
 
-  getChannelId(): string;
-  setChannelId(value: string): void;
+  getChannelName(): string;
+  setChannelName(value: string): void;
 
-  getThreadId(): string;
-  setThreadId(value: string): void;
+  getThreadUuid(): string;
+  setThreadUuid(value: string): void;
 
   getAuthorId(): string;
   setAuthorId(value: string): void;
@@ -66,8 +66,8 @@ export class EntryMeta extends jspb.Message {
 export namespace EntryMeta {
   export type AsObject = {
     uuid: string,
-    channelId: string,
-    threadId: string,
+    channelName: string,
+    threadUuid: string,
     authorId: string,
     time?: google_protobuf_timestamp_pb.Timestamp.AsObject,
     sequence: number,

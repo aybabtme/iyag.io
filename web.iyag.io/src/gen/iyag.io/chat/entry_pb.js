@@ -266,8 +266,8 @@ proto.iyag.io.chat.EntryMeta.prototype.toObject = function(opt_includeInstance) 
 proto.iyag.io.chat.EntryMeta.toObject = function(includeInstance, msg) {
   var f, obj = {
     uuid: jspb.Message.getFieldWithDefault(msg, 1, ""),
-    channelId: jspb.Message.getFieldWithDefault(msg, 2, ""),
-    threadId: jspb.Message.getFieldWithDefault(msg, 3, ""),
+    channelName: jspb.Message.getFieldWithDefault(msg, 2, ""),
+    threadUuid: jspb.Message.getFieldWithDefault(msg, 3, ""),
     authorId: jspb.Message.getFieldWithDefault(msg, 4, ""),
     time: (f = msg.getTime()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f),
     sequence: jspb.Message.getFieldWithDefault(msg, 6, 0)
@@ -313,11 +313,11 @@ proto.iyag.io.chat.EntryMeta.deserializeBinaryFromReader = function(msg, reader)
       break;
     case 2:
       var value = /** @type {string} */ (reader.readString());
-      msg.setChannelId(value);
+      msg.setChannelName(value);
       break;
     case 3:
       var value = /** @type {string} */ (reader.readString());
-      msg.setThreadId(value);
+      msg.setThreadUuid(value);
       break;
     case 4:
       var value = /** @type {string} */ (reader.readString());
@@ -368,14 +368,14 @@ proto.iyag.io.chat.EntryMeta.serializeBinaryToWriter = function(message, writer)
       f
     );
   }
-  f = message.getChannelId();
+  f = message.getChannelName();
   if (f.length > 0) {
     writer.writeString(
       2,
       f
     );
   }
-  f = message.getThreadId();
+  f = message.getThreadUuid();
   if (f.length > 0) {
     writer.writeString(
       3,
@@ -423,31 +423,31 @@ proto.iyag.io.chat.EntryMeta.prototype.setUuid = function(value) {
 
 
 /**
- * optional string channel_id = 2;
+ * optional string channel_name = 2;
  * @return {string}
  */
-proto.iyag.io.chat.EntryMeta.prototype.getChannelId = function() {
+proto.iyag.io.chat.EntryMeta.prototype.getChannelName = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
 };
 
 
 /** @param {string} value */
-proto.iyag.io.chat.EntryMeta.prototype.setChannelId = function(value) {
+proto.iyag.io.chat.EntryMeta.prototype.setChannelName = function(value) {
   jspb.Message.setProto3StringField(this, 2, value);
 };
 
 
 /**
- * optional string thread_id = 3;
+ * optional string thread_uuid = 3;
  * @return {string}
  */
-proto.iyag.io.chat.EntryMeta.prototype.getThreadId = function() {
+proto.iyag.io.chat.EntryMeta.prototype.getThreadUuid = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
 };
 
 
 /** @param {string} value */
-proto.iyag.io.chat.EntryMeta.prototype.setThreadId = function(value) {
+proto.iyag.io.chat.EntryMeta.prototype.setThreadUuid = function(value) {
   jspb.Message.setProto3StringField(this, 3, value);
 };
 

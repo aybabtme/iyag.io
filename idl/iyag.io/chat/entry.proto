@@ -13,10 +13,10 @@ message Entry {
 message EntryMeta {
     // specified by the client when they send a entry, for deduplication purpose
     string uuid = 1;
-    // ID of the channel where the entry goes
-    string channel_id = 2;
+    // Name of the channel where the entry goes
+    string channel_name = 2;
     // if set, points to the UUID that starts the thread
-    string thread_id = 3; 
+    string thread_uuid = 3; 
     // ID of the author who sent the entry.
     string author_id = 4;
     // time when the entry was sent (client side), updated when the server accepts it

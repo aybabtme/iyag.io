@@ -3,6 +3,7 @@
 
 import * as jspb from "google-protobuf";
 import * as iyag_io_chat_event_pb from "../../../iyag.io/chat/event_pb";
+import * as iyag_io_chat_entry_pb from "../../../iyag.io/chat/entry_pb";
 
 export class EventAuth extends jspb.Message {
   getAuthorId(): string;
@@ -283,6 +284,64 @@ export class EventTypeRes extends jspb.Message {
 }
 
 export namespace EventTypeRes {
+  export type AsObject = {
+    eventMeta?: iyag_io_chat_event_pb.EventMeta.AsObject,
+  }
+}
+
+export class EventSendReq extends jspb.Message {
+  hasAuth(): boolean;
+  clearAuth(): void;
+  getAuth(): EventAuth | undefined;
+  setAuth(value?: EventAuth): void;
+
+  getUuid(): string;
+  setUuid(value: string): void;
+
+  getChannelName(): string;
+  setChannelName(value: string): void;
+
+  hasEntry(): boolean;
+  clearEntry(): void;
+  getEntry(): iyag_io_chat_entry_pb.Entry | undefined;
+  setEntry(value?: iyag_io_chat_entry_pb.Entry): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): EventSendReq.AsObject;
+  static toObject(includeInstance: boolean, msg: EventSendReq): EventSendReq.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: EventSendReq, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): EventSendReq;
+  static deserializeBinaryFromReader(message: EventSendReq, reader: jspb.BinaryReader): EventSendReq;
+}
+
+export namespace EventSendReq {
+  export type AsObject = {
+    auth?: EventAuth.AsObject,
+    uuid: string,
+    channelName: string,
+    entry?: iyag_io_chat_entry_pb.Entry.AsObject,
+  }
+}
+
+export class EventSendRes extends jspb.Message {
+  hasEventMeta(): boolean;
+  clearEventMeta(): void;
+  getEventMeta(): iyag_io_chat_event_pb.EventMeta | undefined;
+  setEventMeta(value?: iyag_io_chat_event_pb.EventMeta): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): EventSendRes.AsObject;
+  static toObject(includeInstance: boolean, msg: EventSendRes): EventSendRes.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: EventSendRes, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): EventSendRes;
+  static deserializeBinaryFromReader(message: EventSendRes, reader: jspb.BinaryReader): EventSendRes;
+}
+
+export namespace EventSendRes {
   export type AsObject = {
     eventMeta?: iyag_io_chat_event_pb.EventMeta.AsObject,
   }

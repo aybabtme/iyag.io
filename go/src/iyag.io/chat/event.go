@@ -83,8 +83,14 @@ func (state *ChannelState) applyEvent(event *ChannelUserEvent, timeNow *timestam
 				return
 			}
 		}
-		entry.GetMeta().Sequence = uint64(len(state.Entries) + 1)
-		entry.GetMeta().Time = timeNow
+		meta := entry.GetMeta()
+		if meta == nil {
+			meta = new(EntryMeta)
+		}
+		meta.Sequence = uint64(len(state.Entries) + 1)
+		meta.Time = timeNow
+		meta.ChannelName = state.Name
+		entry.Meta = meta
 		state.Entries = append(state.Entries, entry)
 		accepted = true
 	default:

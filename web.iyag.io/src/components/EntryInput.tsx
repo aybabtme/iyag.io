@@ -1,6 +1,5 @@
 import * as React from "react";
 import { v4 as uuid } from "uuid";
-import { ServiceError } from "../gen/iyag.io/chat/chatsrv/channel_pb_service"
 
 export interface EntryInputProps {
     sendEntry: (uuid: string, body: string) => void

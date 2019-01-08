@@ -55,6 +55,15 @@ Channel.EventType = {
   responseType: iyag_io_chat_chatsrv_channel_pb.EventTypeRes
 };
 
+Channel.EventSend = {
+  methodName: "EventSend",
+  service: Channel,
+  requestStream: false,
+  responseStream: false,
+  requestType: iyag_io_chat_chatsrv_channel_pb.EventSendReq,
+  responseType: iyag_io_chat_chatsrv_channel_pb.EventSendRes
+};
+
 Channel.GetState = {
   methodName: "GetState",
   service: Channel,
@@ -209,6 +218,37 @@ ChannelClient.prototype.eventType = function eventType(requestMessage, metadata,
     callback = arguments[1];
   }
   var client = grpc.unary(Channel.EventType, {
+    request: requestMessage,
+    host: this.serviceHost,
+    metadata: metadata,
+    transport: this.options.transport,
+    debug: this.options.debug,
+    onEnd: function (response) {
+      if (callback) {
+        if (response.status !== grpc.Code.OK) {
+          var err = new Error(response.statusMessage);
+          err.code = response.status;
+          err.metadata = response.trailers;
+          callback(err, null);
+        } else {
+          callback(null, response.message);
+        }
+      }
+    }
+  });
+  return {
+    cancel: function () {
+      callback = null;
+      client.close();
+    }
+  };
+};
+
+ChannelClient.prototype.eventSend = function eventSend(requestMessage, metadata, callback) {
+  if (arguments.length === 2) {
+    callback = arguments[1];
+  }
+  var client = grpc.unary(Channel.EventSend, {
     request: requestMessage,
     host: this.serviceHost,
     metadata: metadata,
