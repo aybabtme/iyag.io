@@ -37,7 +37,7 @@ func (m *EventAuth) Reset()         { *m = EventAuth{} }
 func (m *EventAuth) String() string { return proto.CompactTextString(m) }
 func (*EventAuth) ProtoMessage()    {}
 func (*EventAuth) Descriptor() ([]byte, []int) {
-	return fileDescriptor_channel_6c0b335c4aa9a45c, []int{0}
+	return fileDescriptor_channel_9b00e7170ce8ee4c, []int{0}
 }
 func (m *EventAuth) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_EventAuth.Unmarshal(m, b)
@@ -84,7 +84,7 @@ func (m *EventCreateReq) Reset()         { *m = EventCreateReq{} }
 func (m *EventCreateReq) String() string { return proto.CompactTextString(m) }
 func (*EventCreateReq) ProtoMessage()    {}
 func (*EventCreateReq) Descriptor() ([]byte, []int) {
-	return fileDescriptor_channel_6c0b335c4aa9a45c, []int{1}
+	return fileDescriptor_channel_9b00e7170ce8ee4c, []int{1}
 }
 func (m *EventCreateReq) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_EventCreateReq.Unmarshal(m, b)
@@ -136,7 +136,7 @@ func (m *EventCreateRes) Reset()         { *m = EventCreateRes{} }
 func (m *EventCreateRes) String() string { return proto.CompactTextString(m) }
 func (*EventCreateRes) ProtoMessage()    {}
 func (*EventCreateRes) Descriptor() ([]byte, []int) {
-	return fileDescriptor_channel_6c0b335c4aa9a45c, []int{2}
+	return fileDescriptor_channel_9b00e7170ce8ee4c, []int{2}
 }
 func (m *EventCreateRes) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_EventCreateRes.Unmarshal(m, b)
@@ -176,7 +176,7 @@ func (m *EventArchiveReq) Reset()         { *m = EventArchiveReq{} }
 func (m *EventArchiveReq) String() string { return proto.CompactTextString(m) }
 func (*EventArchiveReq) ProtoMessage()    {}
 func (*EventArchiveReq) Descriptor() ([]byte, []int) {
-	return fileDescriptor_channel_6c0b335c4aa9a45c, []int{3}
+	return fileDescriptor_channel_9b00e7170ce8ee4c, []int{3}
 }
 func (m *EventArchiveReq) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_EventArchiveReq.Unmarshal(m, b)
@@ -228,7 +228,7 @@ func (m *EventArchiveRes) Reset()         { *m = EventArchiveRes{} }
 func (m *EventArchiveRes) String() string { return proto.CompactTextString(m) }
 func (*EventArchiveRes) ProtoMessage()    {}
 func (*EventArchiveRes) Descriptor() ([]byte, []int) {
-	return fileDescriptor_channel_6c0b335c4aa9a45c, []int{4}
+	return fileDescriptor_channel_9b00e7170ce8ee4c, []int{4}
 }
 func (m *EventArchiveRes) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_EventArchiveRes.Unmarshal(m, b)
@@ -268,7 +268,7 @@ func (m *EventJoinReq) Reset()         { *m = EventJoinReq{} }
 func (m *EventJoinReq) String() string { return proto.CompactTextString(m) }
 func (*EventJoinReq) ProtoMessage()    {}
 func (*EventJoinReq) Descriptor() ([]byte, []int) {
-	return fileDescriptor_channel_6c0b335c4aa9a45c, []int{5}
+	return fileDescriptor_channel_9b00e7170ce8ee4c, []int{5}
 }
 func (m *EventJoinReq) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_EventJoinReq.Unmarshal(m, b)
@@ -320,7 +320,7 @@ func (m *EventJoinRes) Reset()         { *m = EventJoinRes{} }
 func (m *EventJoinRes) String() string { return proto.CompactTextString(m) }
 func (*EventJoinRes) ProtoMessage()    {}
 func (*EventJoinRes) Descriptor() ([]byte, []int) {
-	return fileDescriptor_channel_6c0b335c4aa9a45c, []int{6}
+	return fileDescriptor_channel_9b00e7170ce8ee4c, []int{6}
 }
 func (m *EventJoinRes) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_EventJoinRes.Unmarshal(m, b)
@@ -360,7 +360,7 @@ func (m *EventLeaveReq) Reset()         { *m = EventLeaveReq{} }
 func (m *EventLeaveReq) String() string { return proto.CompactTextString(m) }
 func (*EventLeaveReq) ProtoMessage()    {}
 func (*EventLeaveReq) Descriptor() ([]byte, []int) {
-	return fileDescriptor_channel_6c0b335c4aa9a45c, []int{7}
+	return fileDescriptor_channel_9b00e7170ce8ee4c, []int{7}
 }
 func (m *EventLeaveReq) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_EventLeaveReq.Unmarshal(m, b)
@@ -412,7 +412,7 @@ func (m *EventLeaveRes) Reset()         { *m = EventLeaveRes{} }
 func (m *EventLeaveRes) String() string { return proto.CompactTextString(m) }
 func (*EventLeaveRes) ProtoMessage()    {}
 func (*EventLeaveRes) Descriptor() ([]byte, []int) {
-	return fileDescriptor_channel_6c0b335c4aa9a45c, []int{8}
+	return fileDescriptor_channel_9b00e7170ce8ee4c, []int{8}
 }
 func (m *EventLeaveRes) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_EventLeaveRes.Unmarshal(m, b)
@@ -452,7 +452,7 @@ func (m *EventTypeReq) Reset()         { *m = EventTypeReq{} }
 func (m *EventTypeReq) String() string { return proto.CompactTextString(m) }
 func (*EventTypeReq) ProtoMessage()    {}
 func (*EventTypeReq) Descriptor() ([]byte, []int) {
-	return fileDescriptor_channel_6c0b335c4aa9a45c, []int{9}
+	return fileDescriptor_channel_9b00e7170ce8ee4c, []int{9}
 }
 func (m *EventTypeReq) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_EventTypeReq.Unmarshal(m, b)
@@ -504,7 +504,7 @@ func (m *EventTypeRes) Reset()         { *m = EventTypeRes{} }
 func (m *EventTypeRes) String() string { return proto.CompactTextString(m) }
 func (*EventTypeRes) ProtoMessage()    {}
 func (*EventTypeRes) Descriptor() ([]byte, []int) {
-	return fileDescriptor_channel_6c0b335c4aa9a45c, []int{10}
+	return fileDescriptor_channel_9b00e7170ce8ee4c, []int{10}
 }
 func (m *EventTypeRes) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_EventTypeRes.Unmarshal(m, b)
@@ -545,7 +545,7 @@ func (m *EventSendReq) Reset()         { *m = EventSendReq{} }
 func (m *EventSendReq) String() string { return proto.CompactTextString(m) }
 func (*EventSendReq) ProtoMessage()    {}
 func (*EventSendReq) Descriptor() ([]byte, []int) {
-	return fileDescriptor_channel_6c0b335c4aa9a45c, []int{11}
+	return fileDescriptor_channel_9b00e7170ce8ee4c, []int{11}
 }
 func (m *EventSendReq) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_EventSendReq.Unmarshal(m, b)
@@ -604,7 +604,7 @@ func (m *EventSendRes) Reset()         { *m = EventSendRes{} }
 func (m *EventSendRes) String() string { return proto.CompactTextString(m) }
 func (*EventSendRes) ProtoMessage()    {}
 func (*EventSendRes) Descriptor() ([]byte, []int) {
-	return fileDescriptor_channel_6c0b335c4aa9a45c, []int{12}
+	return fileDescriptor_channel_9b00e7170ce8ee4c, []int{12}
 }
 func (m *EventSendRes) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_EventSendRes.Unmarshal(m, b)
@@ -631,78 +631,78 @@ func (m *EventSendRes) GetEventMeta() *chat.EventMeta {
 	return nil
 }
 
-type GetStateReq struct {
+type GetChannelReq struct {
 	ChannelName          string   `protobuf:"bytes,1,opt,name=channel_name,json=channelName" json:"channel_name,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *GetStateReq) Reset()         { *m = GetStateReq{} }
-func (m *GetStateReq) String() string { return proto.CompactTextString(m) }
-func (*GetStateReq) ProtoMessage()    {}
-func (*GetStateReq) Descriptor() ([]byte, []int) {
-	return fileDescriptor_channel_6c0b335c4aa9a45c, []int{13}
+func (m *GetChannelReq) Reset()         { *m = GetChannelReq{} }
+func (m *GetChannelReq) String() string { return proto.CompactTextString(m) }
+func (*GetChannelReq) ProtoMessage()    {}
+func (*GetChannelReq) Descriptor() ([]byte, []int) {
+	return fileDescriptor_channel_9b00e7170ce8ee4c, []int{13}
 }
-func (m *GetStateReq) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_GetStateReq.Unmarshal(m, b)
+func (m *GetChannelReq) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_GetChannelReq.Unmarshal(m, b)
 }
-func (m *GetStateReq) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_GetStateReq.Marshal(b, m, deterministic)
+func (m *GetChannelReq) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_GetChannelReq.Marshal(b, m, deterministic)
 }
-func (dst *GetStateReq) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_GetStateReq.Merge(dst, src)
+func (dst *GetChannelReq) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_GetChannelReq.Merge(dst, src)
 }
-func (m *GetStateReq) XXX_Size() int {
-	return xxx_messageInfo_GetStateReq.Size(m)
+func (m *GetChannelReq) XXX_Size() int {
+	return xxx_messageInfo_GetChannelReq.Size(m)
 }
-func (m *GetStateReq) XXX_DiscardUnknown() {
-	xxx_messageInfo_GetStateReq.DiscardUnknown(m)
+func (m *GetChannelReq) XXX_DiscardUnknown() {
+	xxx_messageInfo_GetChannelReq.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_GetStateReq proto.InternalMessageInfo
+var xxx_messageInfo_GetChannelReq proto.InternalMessageInfo
 
-func (m *GetStateReq) GetChannelName() string {
+func (m *GetChannelReq) GetChannelName() string {
 	if m != nil {
 		return m.ChannelName
 	}
 	return ""
 }
 
-type GetStateRes struct {
-	State                *chat.ChannelState `protobuf:"bytes,1,opt,name=state" json:"state,omitempty"`
-	XXX_NoUnkeyedLiteral struct{}           `json:"-"`
-	XXX_unrecognized     []byte             `json:"-"`
-	XXX_sizecache        int32              `json:"-"`
+type GetChannelRes struct {
+	Channel              *chat.Channel `protobuf:"bytes,1,opt,name=channel" json:"channel,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}      `json:"-"`
+	XXX_unrecognized     []byte        `json:"-"`
+	XXX_sizecache        int32         `json:"-"`
 }
 
-func (m *GetStateRes) Reset()         { *m = GetStateRes{} }
-func (m *GetStateRes) String() string { return proto.CompactTextString(m) }
-func (*GetStateRes) ProtoMessage()    {}
-func (*GetStateRes) Descriptor() ([]byte, []int) {
-	return fileDescriptor_channel_6c0b335c4aa9a45c, []int{14}
+func (m *GetChannelRes) Reset()         { *m = GetChannelRes{} }
+func (m *GetChannelRes) String() string { return proto.CompactTextString(m) }
+func (*GetChannelRes) ProtoMessage()    {}
+func (*GetChannelRes) Descriptor() ([]byte, []int) {
+	return fileDescriptor_channel_9b00e7170ce8ee4c, []int{14}
 }
-func (m *GetStateRes) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_GetStateRes.Unmarshal(m, b)
+func (m *GetChannelRes) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_GetChannelRes.Unmarshal(m, b)
 }
-func (m *GetStateRes) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_GetStateRes.Marshal(b, m, deterministic)
+func (m *GetChannelRes) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_GetChannelRes.Marshal(b, m, deterministic)
 }
-func (dst *GetStateRes) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_GetStateRes.Merge(dst, src)
+func (dst *GetChannelRes) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_GetChannelRes.Merge(dst, src)
 }
-func (m *GetStateRes) XXX_Size() int {
-	return xxx_messageInfo_GetStateRes.Size(m)
+func (m *GetChannelRes) XXX_Size() int {
+	return xxx_messageInfo_GetChannelRes.Size(m)
 }
-func (m *GetStateRes) XXX_DiscardUnknown() {
-	xxx_messageInfo_GetStateRes.DiscardUnknown(m)
+func (m *GetChannelRes) XXX_DiscardUnknown() {
+	xxx_messageInfo_GetChannelRes.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_GetStateRes proto.InternalMessageInfo
+var xxx_messageInfo_GetChannelRes proto.InternalMessageInfo
 
-func (m *GetStateRes) GetState() *chat.ChannelState {
+func (m *GetChannelRes) GetChannel() *chat.Channel {
 	if m != nil {
-		return m.State
+		return m.Channel
 	}
 	return nil
 }
@@ -719,7 +719,7 @@ func (m *ListenUserEventReq) Reset()         { *m = ListenUserEventReq{} }
 func (m *ListenUserEventReq) String() string { return proto.CompactTextString(m) }
 func (*ListenUserEventReq) ProtoMessage()    {}
 func (*ListenUserEventReq) Descriptor() ([]byte, []int) {
-	return fileDescriptor_channel_6c0b335c4aa9a45c, []int{15}
+	return fileDescriptor_channel_9b00e7170ce8ee4c, []int{15}
 }
 func (m *ListenUserEventReq) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_ListenUserEventReq.Unmarshal(m, b)
@@ -764,7 +764,7 @@ func (m *ListenUserEventRes) Reset()         { *m = ListenUserEventRes{} }
 func (m *ListenUserEventRes) String() string { return proto.CompactTextString(m) }
 func (*ListenUserEventRes) ProtoMessage()    {}
 func (*ListenUserEventRes) Descriptor() ([]byte, []int) {
-	return fileDescriptor_channel_6c0b335c4aa9a45c, []int{16}
+	return fileDescriptor_channel_9b00e7170ce8ee4c, []int{16}
 }
 func (m *ListenUserEventRes) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_ListenUserEventRes.Unmarshal(m, b)
@@ -791,6 +791,74 @@ func (m *ListenUserEventRes) GetEvent() *chat.ChannelUserEvent {
 	return nil
 }
 
+type ListChannelReq struct {
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *ListChannelReq) Reset()         { *m = ListChannelReq{} }
+func (m *ListChannelReq) String() string { return proto.CompactTextString(m) }
+func (*ListChannelReq) ProtoMessage()    {}
+func (*ListChannelReq) Descriptor() ([]byte, []int) {
+	return fileDescriptor_channel_9b00e7170ce8ee4c, []int{17}
+}
+func (m *ListChannelReq) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ListChannelReq.Unmarshal(m, b)
+}
+func (m *ListChannelReq) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ListChannelReq.Marshal(b, m, deterministic)
+}
+func (dst *ListChannelReq) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ListChannelReq.Merge(dst, src)
+}
+func (m *ListChannelReq) XXX_Size() int {
+	return xxx_messageInfo_ListChannelReq.Size(m)
+}
+func (m *ListChannelReq) XXX_DiscardUnknown() {
+	xxx_messageInfo_ListChannelReq.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ListChannelReq proto.InternalMessageInfo
+
+type ListChannelRes struct {
+	Channels             []*chat.ChannelMeta `protobuf:"bytes,1,rep,name=channels" json:"channels,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}            `json:"-"`
+	XXX_unrecognized     []byte              `json:"-"`
+	XXX_sizecache        int32               `json:"-"`
+}
+
+func (m *ListChannelRes) Reset()         { *m = ListChannelRes{} }
+func (m *ListChannelRes) String() string { return proto.CompactTextString(m) }
+func (*ListChannelRes) ProtoMessage()    {}
+func (*ListChannelRes) Descriptor() ([]byte, []int) {
+	return fileDescriptor_channel_9b00e7170ce8ee4c, []int{18}
+}
+func (m *ListChannelRes) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ListChannelRes.Unmarshal(m, b)
+}
+func (m *ListChannelRes) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ListChannelRes.Marshal(b, m, deterministic)
+}
+func (dst *ListChannelRes) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ListChannelRes.Merge(dst, src)
+}
+func (m *ListChannelRes) XXX_Size() int {
+	return xxx_messageInfo_ListChannelRes.Size(m)
+}
+func (m *ListChannelRes) XXX_DiscardUnknown() {
+	xxx_messageInfo_ListChannelRes.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ListChannelRes proto.InternalMessageInfo
+
+func (m *ListChannelRes) GetChannels() []*chat.ChannelMeta {
+	if m != nil {
+		return m.Channels
+	}
+	return nil
+}
+
 func init() {
 	proto.RegisterType((*EventAuth)(nil), "iyag.io.chat.chatsrv.EventAuth")
 	proto.RegisterType((*EventCreateReq)(nil), "iyag.io.chat.chatsrv.EventCreateReq")
@@ -805,10 +873,12 @@ func init() {
 	proto.RegisterType((*EventTypeRes)(nil), "iyag.io.chat.chatsrv.EventTypeRes")
 	proto.RegisterType((*EventSendReq)(nil), "iyag.io.chat.chatsrv.EventSendReq")
 	proto.RegisterType((*EventSendRes)(nil), "iyag.io.chat.chatsrv.EventSendRes")
-	proto.RegisterType((*GetStateReq)(nil), "iyag.io.chat.chatsrv.GetStateReq")
-	proto.RegisterType((*GetStateRes)(nil), "iyag.io.chat.chatsrv.GetStateRes")
+	proto.RegisterType((*GetChannelReq)(nil), "iyag.io.chat.chatsrv.GetChannelReq")
+	proto.RegisterType((*GetChannelRes)(nil), "iyag.io.chat.chatsrv.GetChannelRes")
 	proto.RegisterType((*ListenUserEventReq)(nil), "iyag.io.chat.chatsrv.ListenUserEventReq")
 	proto.RegisterType((*ListenUserEventRes)(nil), "iyag.io.chat.chatsrv.ListenUserEventRes")
+	proto.RegisterType((*ListChannelReq)(nil), "iyag.io.chat.chatsrv.ListChannelReq")
+	proto.RegisterType((*ListChannelRes)(nil), "iyag.io.chat.chatsrv.ListChannelRes")
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -828,8 +898,9 @@ type ChannelClient interface {
 	EventLeave(ctx context.Context, in *EventLeaveReq, opts ...grpc.CallOption) (*EventLeaveRes, error)
 	EventType(ctx context.Context, in *EventTypeReq, opts ...grpc.CallOption) (*EventTypeRes, error)
 	EventSend(ctx context.Context, in *EventSendReq, opts ...grpc.CallOption) (*EventSendRes, error)
-	GetState(ctx context.Context, in *GetStateReq, opts ...grpc.CallOption) (*GetStateRes, error)
+	GetChannel(ctx context.Context, in *GetChannelReq, opts ...grpc.CallOption) (*GetChannelRes, error)
 	ListenUserEvent(ctx context.Context, in *ListenUserEventReq, opts ...grpc.CallOption) (Channel_ListenUserEventClient, error)
+	ListChannel(ctx context.Context, in *ListChannelReq, opts ...grpc.CallOption) (*ListChannelRes, error)
 }
 
 type channelClient struct {
@@ -894,9 +965,9 @@ func (c *channelClient) EventSend(ctx context.Context, in *EventSendReq, opts ..
 	return out, nil
 }
 
-func (c *channelClient) GetState(ctx context.Context, in *GetStateReq, opts ...grpc.CallOption) (*GetStateRes, error) {
-	out := new(GetStateRes)
-	err := grpc.Invoke(ctx, "/iyag.io.chat.chatsrv.Channel/GetState", in, out, c.cc, opts...)
+func (c *channelClient) GetChannel(ctx context.Context, in *GetChannelReq, opts ...grpc.CallOption) (*GetChannelRes, error) {
+	out := new(GetChannelRes)
+	err := grpc.Invoke(ctx, "/iyag.io.chat.chatsrv.Channel/GetChannel", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -935,6 +1006,15 @@ func (x *channelListenUserEventClient) Recv() (*ListenUserEventRes, error) {
 	return m, nil
 }
 
+func (c *channelClient) ListChannel(ctx context.Context, in *ListChannelReq, opts ...grpc.CallOption) (*ListChannelRes, error) {
+	out := new(ListChannelRes)
+	err := grpc.Invoke(ctx, "/iyag.io.chat.chatsrv.Channel/ListChannel", in, out, c.cc, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for Channel service
 
 type ChannelServer interface {
@@ -944,8 +1024,9 @@ type ChannelServer interface {
 	EventLeave(context.Context, *EventLeaveReq) (*EventLeaveRes, error)
 	EventType(context.Context, *EventTypeReq) (*EventTypeRes, error)
 	EventSend(context.Context, *EventSendReq) (*EventSendRes, error)
-	GetState(context.Context, *GetStateReq) (*GetStateRes, error)
+	GetChannel(context.Context, *GetChannelReq) (*GetChannelRes, error)
 	ListenUserEvent(*ListenUserEventReq, Channel_ListenUserEventServer) error
+	ListChannel(context.Context, *ListChannelReq) (*ListChannelRes, error)
 }
 
 func RegisterChannelServer(s *grpc.Server, srv ChannelServer) {
@@ -1060,20 +1141,20 @@ func _Channel_EventSend_Handler(srv interface{}, ctx context.Context, dec func(i
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Channel_GetState_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetStateReq)
+func _Channel_GetChannel_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetChannelReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ChannelServer).GetState(ctx, in)
+		return srv.(ChannelServer).GetChannel(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/iyag.io.chat.chatsrv.Channel/GetState",
+		FullMethod: "/iyag.io.chat.chatsrv.Channel/GetChannel",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ChannelServer).GetState(ctx, req.(*GetStateReq))
+		return srv.(ChannelServer).GetChannel(ctx, req.(*GetChannelReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1097,6 +1178,24 @@ type channelListenUserEventServer struct {
 
 func (x *channelListenUserEventServer) Send(m *ListenUserEventRes) error {
 	return x.ServerStream.SendMsg(m)
+}
+
+func _Channel_ListChannel_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListChannelReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ChannelServer).ListChannel(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/iyag.io.chat.chatsrv.Channel/ListChannel",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ChannelServer).ListChannel(ctx, req.(*ListChannelReq))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 var _Channel_serviceDesc = grpc.ServiceDesc{
@@ -1128,8 +1227,12 @@ var _Channel_serviceDesc = grpc.ServiceDesc{
 			Handler:    _Channel_EventSend_Handler,
 		},
 		{
-			MethodName: "GetState",
-			Handler:    _Channel_GetState_Handler,
+			MethodName: "GetChannel",
+			Handler:    _Channel_GetChannel_Handler,
+		},
+		{
+			MethodName: "ListChannel",
+			Handler:    _Channel_ListChannel_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{
@@ -1143,45 +1246,48 @@ var _Channel_serviceDesc = grpc.ServiceDesc{
 }
 
 func init() {
-	proto.RegisterFile("iyag.io/chat/chatsrv/channel.proto", fileDescriptor_channel_6c0b335c4aa9a45c)
+	proto.RegisterFile("iyag.io/chat/chatsrv/channel.proto", fileDescriptor_channel_9b00e7170ce8ee4c)
 }
 
-var fileDescriptor_channel_6c0b335c4aa9a45c = []byte{
-	// 569 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xc4, 0x56, 0x6d, 0x6b, 0xd3, 0x50,
-	0x14, 0xa6, 0xda, 0xba, 0xe5, 0xb4, 0x73, 0x70, 0x1c, 0x18, 0xae, 0xa0, 0x2e, 0x53, 0x98, 0x5f,
-	0x62, 0xd9, 0xc4, 0x8f, 0x8a, 0x0e, 0x9d, 0x1b, 0x53, 0x24, 0x55, 0x41, 0x19, 0x94, 0xd8, 0x1e,
-	0xd7, 0xa0, 0xbd, 0xd9, 0x72, 0x6f, 0x0a, 0xf5, 0xe5, 0xe7, 0xf8, 0x8f, 0xfc, 0x41, 0x72, 0x5f,
-	0xfa, 0x92, 0x2c, 0xa4, 0xa1, 0x42, 0xfd, 0xd2, 0xde, 0x9e, 0xf3, 0x3c, 0xf7, 0x3c, 0x4f, 0xee,
-	0x3d, 0x27, 0x05, 0x2f, 0x1a, 0x87, 0x67, 0x7e, 0x14, 0x3f, 0xec, 0x0d, 0x42, 0xa9, 0x3f, 0x44,
-	0x32, 0x52, 0xdf, 0x9c, 0xd3, 0x37, 0xff, 0x3c, 0x89, 0x65, 0x8c, 0x5b, 0x16, 0xe3, 0xab, 0xb4,
-	0x6f, 0x31, 0xcc, 0xcd, 0x30, 0x69, 0x44, 0x5c, 0x1a, 0x7c, 0x3e, 0xc3, 0x65, 0x32, 0x36, 0x19,
-	0xef, 0x09, 0x38, 0x2f, 0x14, 0xf0, 0x59, 0x2a, 0x07, 0x78, 0x0b, 0x9c, 0x30, 0x95, 0x83, 0x38,
-	0xe9, 0x46, 0x7d, 0xb7, 0x76, 0xb7, 0xb6, 0xeb, 0x04, 0xeb, 0x26, 0x70, 0xd4, 0xc7, 0x2d, 0x68,
-	0xc8, 0xf8, 0x2b, 0x71, 0xf7, 0x8a, 0x4e, 0x98, 0x1f, 0xde, 0x4f, 0xb8, 0xae, 0xf9, 0x07, 0x09,
-	0x85, 0x92, 0x02, 0xba, 0xc0, 0x7d, 0xa8, 0x2b, 0x8e, 0xe6, 0x37, 0xf7, 0xee, 0xf8, 0x45, 0x52,
-	0xfd, 0x69, 0xcd, 0x40, 0x83, 0x11, 0xa1, 0x9e, 0xa6, 0x51, 0xdf, 0xee, 0xad, 0xd7, 0xb8, 0x0d,
-	0x2d, 0xeb, 0xba, 0xcb, 0xc3, 0x21, 0xb9, 0x57, 0x75, 0xae, 0x69, 0x63, 0x6f, 0xc2, 0x21, 0x79,
-	0xaf, 0x72, 0xd5, 0x05, 0x3e, 0x06, 0xd0, 0xc6, 0xbb, 0x43, 0x92, 0xa1, 0xd5, 0x70, 0x33, 0xab,
-	0x41, 0x33, 0x5e, 0x93, 0x0c, 0x03, 0x87, 0x26, 0x4b, 0xef, 0x17, 0x6c, 0x1a, 0x4d, 0x49, 0x6f,
-	0x10, 0x8d, 0x56, 0x6e, 0xe4, 0x28, 0x5f, 0x7e, 0x79, 0x27, 0xdf, 0xa1, 0xa5, 0xe3, 0xc7, 0x71,
-	0xc4, 0x57, 0x6d, 0xe3, 0x65, 0xa6, 0xf6, 0xf2, 0x1e, 0x7e, 0xc0, 0x86, 0x8e, 0x9f, 0x50, 0xb8,
-	0xfa, 0xb3, 0x38, 0xcc, 0x16, 0xff, 0xf7, 0x93, 0x78, 0x37, 0x3e, 0xa7, 0xff, 0x75, 0x12, 0xa6,
-	0xf6, 0xf2, 0x1e, 0x7e, 0xd7, 0xec, 0x46, 0x1d, 0xe2, 0xfd, 0x15, 0x9b, 0xc0, 0x07, 0xd0, 0xd0,
-	0xb3, 0xca, 0xad, 0xeb, 0x62, 0x37, 0x72, 0x7a, 0x55, 0x2a, 0x30, 0x88, 0xa9, 0x5f, 0x23, 0x73,
-	0x79, 0xbf, 0x6d, 0x68, 0x1e, 0x92, 0xec, 0x48, 0x3b, 0xcc, 0xf2, 0x22, 0x6b, 0x97, 0x9f, 0xf4,
-	0xd3, 0x79, 0x86, 0xc0, 0x36, 0x34, 0x84, 0x5a, 0xdb, 0x9a, 0x2c, 0x5b, 0xf3, 0xc0, 0x10, 0x0d,
-	0xda, 0x00, 0xbd, 0x53, 0xc0, 0x93, 0x48, 0x48, 0xe2, 0xef, 0x05, 0x25, 0x5a, 0x54, 0xb5, 0xca,
-	0xb8, 0x03, 0x1b, 0x5f, 0x92, 0x78, 0xd8, 0x15, 0x74, 0x91, 0x12, 0xef, 0x91, 0x7e, 0xbc, 0xf5,
-	0xa0, 0xa5, 0x82, 0x1d, 0x1b, 0xf3, 0x8e, 0x0b, 0x76, 0x17, 0xf8, 0x08, 0x1a, 0xda, 0xb3, 0x55,
-	0x79, 0xbb, 0x50, 0xe5, 0x8c, 0x61, 0xc0, 0x7b, 0x7f, 0x1a, 0xb0, 0x66, 0x73, 0xf8, 0x11, 0x9a,
-	0x73, 0xa3, 0x17, 0xef, 0x95, 0x5c, 0x84, 0xe9, 0xbb, 0x81, 0x55, 0x41, 0x09, 0x3c, 0xb5, 0x67,
-	0x69, 0x87, 0x21, 0xde, 0x2f, 0xbb, 0x64, 0xd3, 0x79, 0xcd, 0x2a, 0xc1, 0x04, 0x76, 0xec, 0x1b,
-	0x4f, 0xcd, 0x28, 0xf4, 0x4a, 0x38, 0x76, 0x80, 0xb2, 0xc5, 0x18, 0x81, 0x1f, 0x00, 0x66, 0x33,
-	0x03, 0x77, 0x4a, 0x18, 0x93, 0x91, 0xc6, 0x2a, 0x80, 0x66, 0x62, 0x55, 0x1b, 0x97, 0x8a, 0xb5,
-	0x33, 0x86, 0x2d, 0xc6, 0xcc, 0x36, 0x55, 0xbd, 0x52, 0xba, 0xa9, 0xed, 0x79, 0xb6, 0x18, 0x23,
-	0xf0, 0x2d, 0xac, 0x4f, 0xda, 0x00, 0xb7, 0x8b, 0xf1, 0x73, 0x8d, 0xc5, 0x16, 0x42, 0x04, 0x9e,
-	0xc1, 0x66, 0xee, 0xe6, 0xe2, 0x6e, 0x31, 0xeb, 0x72, 0xfb, 0xb0, 0xaa, 0x48, 0xd1, 0xae, 0x3d,
-	0x77, 0x3e, 0xad, 0xd9, 0xfc, 0xe7, 0x6b, 0xfa, 0x5f, 0xd1, 0xfe, 0xdf, 0x00, 0x00, 0x00, 0xff,
-	0xff, 0x39, 0x68, 0xc6, 0xc3, 0x85, 0x09, 0x00, 0x00,
+var fileDescriptor_channel_9b00e7170ce8ee4c = []byte{
+	// 615 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xc4, 0x56, 0xdd, 0x6e, 0xd3, 0x50,
+	0x0c, 0x56, 0x58, 0xb7, 0xae, 0x6e, 0xbb, 0x21, 0x33, 0x44, 0x08, 0x12, 0x8c, 0x0c, 0xa4, 0x72,
+	0x93, 0xa1, 0x0e, 0xb8, 0x44, 0xc0, 0x04, 0x65, 0xd3, 0xe0, 0x22, 0x05, 0x24, 0xd0, 0xa4, 0x2a,
+	0xb4, 0x66, 0x8d, 0xa0, 0xc9, 0x96, 0x73, 0x5a, 0xa9, 0xfc, 0x3c, 0x0e, 0x8f, 0xc0, 0xfb, 0xa1,
+	0x73, 0xe2, 0x36, 0x4b, 0xd6, 0xa5, 0x51, 0x91, 0xca, 0x4d, 0x9b, 0xda, 0x9f, 0xfd, 0x7d, 0x76,
+	0x8e, 0x7d, 0x0a, 0xb6, 0x3f, 0xf6, 0x4e, 0x1c, 0x3f, 0xdc, 0xed, 0xf6, 0x3d, 0xa9, 0x3f, 0x44,
+	0x34, 0x52, 0xdf, 0x41, 0x40, 0xdf, 0x9c, 0xd3, 0x28, 0x94, 0x21, 0x6e, 0x31, 0xc6, 0x51, 0x6e,
+	0x87, 0x31, 0x96, 0x99, 0x8a, 0xa4, 0x11, 0x05, 0x32, 0xc6, 0x67, 0x3d, 0x81, 0x8c, 0xc6, 0xec,
+	0xb1, 0xb2, 0x6c, 0x09, 0x8b, 0xfd, 0x14, 0x2a, 0x2f, 0x55, 0x92, 0xe7, 0x43, 0xd9, 0xc7, 0x5b,
+	0x50, 0xf1, 0x86, 0xb2, 0x1f, 0x46, 0x1d, 0xbf, 0x67, 0x1a, 0xdb, 0x46, 0xa3, 0xe2, 0xae, 0xc7,
+	0x86, 0x83, 0x1e, 0x6e, 0xc1, 0xaa, 0x0c, 0xbf, 0x52, 0x60, 0x5e, 0xd1, 0x8e, 0xf8, 0x87, 0xfd,
+	0x13, 0x36, 0x74, 0xfc, 0x7e, 0x44, 0x9e, 0x24, 0x97, 0xce, 0x70, 0x0f, 0x4a, 0x2a, 0x46, 0xc7,
+	0x57, 0x9b, 0x77, 0x9c, 0x59, 0x65, 0x38, 0x53, 0x4e, 0x57, 0x83, 0x11, 0xa1, 0x34, 0x1c, 0xfa,
+	0x3d, 0xce, 0xad, 0x9f, 0xf1, 0x2e, 0xd4, 0x58, 0x6b, 0x27, 0xf0, 0x06, 0x64, 0xae, 0x68, 0x5f,
+	0x95, 0x6d, 0x6f, 0xbd, 0x01, 0xd9, 0xaf, 0x33, 0xec, 0x02, 0x9f, 0x00, 0xe8, 0xa6, 0x74, 0x06,
+	0x24, 0x3d, 0xd6, 0x70, 0x23, 0xad, 0x41, 0x47, 0xbc, 0x21, 0xe9, 0xb9, 0x15, 0x9a, 0x3c, 0xda,
+	0xbf, 0x60, 0x33, 0xd6, 0x14, 0x75, 0xfb, 0xfe, 0x68, 0xe9, 0x85, 0x1c, 0x64, 0xe9, 0x17, 0xaf,
+	0xe4, 0x3b, 0xd4, 0xb4, 0xfd, 0x30, 0xf4, 0x83, 0x65, 0x97, 0xf1, 0x2a, 0xc5, 0xbd, 0x78, 0x0d,
+	0x3f, 0xa0, 0xae, 0xed, 0x47, 0xe4, 0x2d, 0xff, 0x5d, 0xb4, 0xd2, 0xe4, 0xff, 0xfe, 0x26, 0xde,
+	0x8d, 0x4f, 0xe9, 0x7f, 0xbd, 0x89, 0x98, 0x7b, 0xf1, 0x1a, 0x7e, 0x1b, 0x9c, 0xa8, 0x4d, 0x41,
+	0x6f, 0xc9, 0x45, 0xe0, 0x03, 0x58, 0xd5, 0x7b, 0xcc, 0x2c, 0x69, 0xb2, 0x6b, 0x19, 0xbd, 0xca,
+	0xe5, 0xc6, 0x88, 0x69, 0xbd, 0xb1, 0xcc, 0xc5, 0xeb, 0x6d, 0x42, 0xbd, 0x45, 0x72, 0x3f, 0x16,
+	0xa1, 0xea, 0xcd, 0xca, 0x34, 0x2e, 0xf6, 0xfa, 0x59, 0x3a, 0x46, 0xe0, 0x2e, 0x94, 0xd9, 0xcf,
+	0xcc, 0xd7, 0xd3, 0xcc, 0x13, 0xe8, 0x04, 0x65, 0x1f, 0x03, 0x1e, 0xf9, 0x42, 0x52, 0xf0, 0x5e,
+	0x50, 0xa4, 0x75, 0x15, 0xa3, 0xc6, 0x1d, 0xa8, 0x7f, 0x89, 0xc2, 0x41, 0x47, 0xd0, 0xd9, 0x90,
+	0x82, 0x2e, 0xe9, 0x0e, 0x97, 0xdc, 0x9a, 0x32, 0xb6, 0xd9, 0x66, 0x1f, 0xce, 0xc8, 0x2e, 0xf0,
+	0x11, 0xac, 0xea, 0xb2, 0x59, 0xe2, 0xed, 0x99, 0x12, 0x93, 0x88, 0x18, 0x6c, 0x5f, 0x85, 0x0d,
+	0x95, 0x2b, 0x69, 0x90, 0xdd, 0xca, 0x58, 0x04, 0x3e, 0x86, 0x75, 0xd6, 0x28, 0x4c, 0x63, 0x7b,
+	0xa5, 0x51, 0x6d, 0xde, 0x9c, 0x99, 0x5c, 0xf7, 0x7e, 0x0a, 0x6d, 0xfe, 0x59, 0x83, 0x32, 0x7b,
+	0xf0, 0x23, 0x54, 0xcf, 0x2d, 0x76, 0xbc, 0x97, 0x73, 0xcc, 0xa6, 0x37, 0x8f, 0x55, 0x04, 0x25,
+	0xf0, 0x98, 0x4f, 0x0a, 0xaf, 0x5a, 0xbc, 0x9f, 0x77, 0x84, 0xa7, 0xb7, 0x81, 0x55, 0x08, 0x26,
+	0xb0, 0xcd, 0xf7, 0xa9, 0xda, 0x80, 0x68, 0xe7, 0xc4, 0xf0, 0x7a, 0xb6, 0xe6, 0x63, 0x04, 0x7e,
+	0x00, 0x48, 0x36, 0x12, 0xee, 0xe4, 0x44, 0x4c, 0x16, 0xa6, 0x55, 0x00, 0x94, 0x88, 0x55, 0x4b,
+	0x22, 0x57, 0x2c, 0x6f, 0x30, 0x6b, 0x3e, 0x26, 0x49, 0xaa, 0x26, 0x31, 0x37, 0x29, 0x6f, 0x14,
+	0x6b, 0x3e, 0x46, 0x77, 0x20, 0x19, 0xb1, 0xcb, 0x3a, 0x90, 0x1a, 0x5c, 0xab, 0x00, 0x48, 0xe0,
+	0x09, 0x6c, 0x66, 0x46, 0x03, 0x1b, 0xb3, 0xe3, 0x2e, 0xce, 0xa7, 0x55, 0x14, 0x29, 0x1e, 0x1a,
+	0xea, 0x40, 0x9f, 0x9b, 0x92, 0xcb, 0x0e, 0x74, 0x7a, 0xb4, 0xac, 0x22, 0x28, 0xf1, 0xa2, 0xf2,
+	0xa9, 0xcc, 0x9e, 0xcf, 0x6b, 0xfa, 0x4f, 0xdd, 0xde, 0xdf, 0x00, 0x00, 0x00, 0xff, 0xff, 0xcc,
+	0xd9, 0xb3, 0x97, 0x60, 0x0a, 0x00, 0x00,
 }

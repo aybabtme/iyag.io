@@ -9,8 +9,9 @@ import (
 
 type Chatter interface {
 	AddEvent(ctx context.Context, event *ChannelUserEvent) (*EventMeta, error)
-	GetState(ctx context.Context, channel string) (*ChannelState, error)
+	GetChannel(ctx context.Context, channel string) (*Channel, error)
 	ListenEvents(ctx context.Context, channelID string, fromSeq uint64, onPost func(ChannelUserEvent) error) error
+	ListChannel(ctx context.Context) ([]*ChannelMeta, error)
 }
 
 type NewChatterFunc func(context.Context, *ChatterOpts) (Chatter, error)

@@ -2,6 +2,7 @@ package chat
 
 import (
 	"context"
+	"sort"
 	"sync"
 
 	"github.com/go-kit/kit/log"
@@ -19,7 +20,7 @@ type inMemoryChat struct {
 	listeners   map[string]map[chan *ChannelUserEvent]struct{}
 
 	channelsMu sync.Mutex
-	channels   map[string]*ChannelState
+	channels   map[string]*Channel
 }
 
 var _ NewChatterFunc = NewInMemoryChat
@@ -28,7 +29,7 @@ func NewInMemoryChat(ctx context.Context, opts *ChatterOpts) (Chatter, error) {
 	return &inMemoryChat{
 		opts:      opts,
 		listeners: make(map[string]map[chan *ChannelUserEvent]struct{}),
-		channels:  make(map[string]*ChannelState),
+		channels:  make(map[string]*Channel),
 	}, nil
 }
 
@@ -55,7 +56,10 @@ func (fc *inMemoryChat) AddEvent(ctx context.Context, event *ChannelUserEvent) (
 	defer fc.channelsMu.Unlock()
 	channel, ok := fc.channels[channelName]
 	if !ok {
-		channel = new(ChannelState)
+		channel = &Channel{
+			Meta:    new(ChannelMeta),
+			Content: new(ChannelContent),
+		}
 	}
 	now := fc.opts.TimeNow()
 	if err := channel.applyEvent(event, now); err != nil {
@@ -69,7 +73,7 @@ func (fc *inMemoryChat) AddEvent(ctx context.Context, event *ChannelUserEvent) (
 	fc.channels[channelName] = channel
 	return event.GetMeta(), nil
 }
-func (fc *inMemoryChat) GetState(ctx context.Context, channelName string) (*ChannelState, error) {
+func (fc *inMemoryChat) GetChannel(ctx context.Context, channelName string) (*Channel, error) {
 	fc.channelsMu.Lock()
 	defer fc.channelsMu.Unlock()
 
@@ -78,6 +82,24 @@ func (fc *inMemoryChat) GetState(ctx context.Context, channelName string) (*Chan
 		return nil, status.Error(codes.NotFound, "no such channel")
 	}
 	return state, nil
+}
+
+func (fc *inMemoryChat) ListChannel(ctx context.Context) ([]*ChannelMeta, error) {
+	fc.channelsMu.Lock()
+	defer fc.channelsMu.Unlock()
+	out := make([]*ChannelMeta, 0, len(fc.channels))
+	for _, channel := range fc.channels {
+		out = append(out, channel.GetMeta())
+	}
+	sort.Slice(out, func(i, j int) bool {
+		iCreatedAt := out[i].GetCreatedAt()
+		jCreatedAt := out[j].GetCreatedAt()
+		if iCreatedAt.GetSeconds() < jCreatedAt.GetSeconds() {
+			return true
+		}
+		return iCreatedAt.GetNanos() < jCreatedAt.GetNanos()
+	})
+	return out, nil
 }
 
 func (fc *inMemoryChat) ListenEvents(ctx context.Context, channelName string, fromSeq uint64, onPost func(ChannelUserEvent) error) error {

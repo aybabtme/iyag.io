@@ -5,6 +5,7 @@ option go_package = "chatsrv";
 
 import "iyag.io/chat/event.proto";
 import "iyag.io/chat/entry.proto";
+import "iyag.io/chat/channel.proto";
 
 service Channel {
     rpc EventCreate(EventCreateReq) returns (EventCreateRes);
@@ -14,8 +15,9 @@ service Channel {
     rpc EventType(EventTypeReq) returns (EventTypeRes);
     rpc EventSend(EventSendReq) returns (EventSendRes);
 
-    rpc GetState(GetStateReq) returns (GetStateRes);
+    rpc GetChannel(GetChannelReq) returns (GetChannelRes);
     rpc ListenUserEvent(ListenUserEventReq) returns (stream ListenUserEventRes);
+    rpc ListChannel(ListChannelReq) returns (ListChannelRes);
 }
 
 message EventAuth {
@@ -79,12 +81,12 @@ message EventSendRes {
     iyag.io.chat.EventMeta event_meta = 1;
 }
 
-message GetStateReq {
+message GetChannelReq {
     string channel_name = 1;
 }
 
-message GetStateRes {
-    iyag.io.chat.ChannelState state = 1;
+message GetChannelRes {
+    iyag.io.chat.Channel channel = 1;
 }
 
 message ListenUserEventReq {
@@ -94,4 +96,10 @@ message ListenUserEventReq {
 
 message ListenUserEventRes {
     iyag.io.chat.ChannelUserEvent event = 1;
+}
+
+message ListChannelReq {}
+
+message ListChannelRes {
+    repeated iyag.io.chat.ChannelMeta channels = 1;
 }

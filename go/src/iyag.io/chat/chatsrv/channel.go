@@ -112,13 +112,13 @@ func (srv *Channel) EventSend(ctx context.Context, ev *EventSendReq) (*EventSend
 	return &EventSendRes{EventMeta: meta}, nil
 }
 
-func (srv *Channel) GetState(ctx context.Context, req *GetStateReq) (*GetStateRes, error) {
-	state, err := srv.db.GetState(ctx, req.GetChannelName())
+func (srv *Channel) GetChannel(ctx context.Context, req *GetChannelReq) (*GetChannelRes, error) {
+	channel, err := srv.db.GetChannel(ctx, req.GetChannelName())
 	if err != nil {
-		return nil, status.Errorf(codes.Internal, "can't do: %v", err)
+		return nil, err
 	}
-	return &GetStateRes{
-		State: state,
+	return &GetChannelRes{
+		Channel: channel,
 	}, nil
 }
 
@@ -132,6 +132,14 @@ func (srv *Channel) ListenUserEvent(req *ListenUserEventReq, out Channel_ListenU
 		})
 	})
 	return err
+}
+
+func (srv *Channel) ListChannel(ctx context.Context, req *ListChannelReq) (*ListChannelRes, error) {
+	channels, err := srv.db.ListChannel(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return &ListChannelRes{Channels: channels}, nil
 }
 
 // helpers

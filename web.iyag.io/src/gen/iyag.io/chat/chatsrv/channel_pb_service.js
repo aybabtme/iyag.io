@@ -64,13 +64,13 @@ Channel.EventSend = {
   responseType: iyag_io_chat_chatsrv_channel_pb.EventSendRes
 };
 
-Channel.GetState = {
-  methodName: "GetState",
+Channel.GetChannel = {
+  methodName: "GetChannel",
   service: Channel,
   requestStream: false,
   responseStream: false,
-  requestType: iyag_io_chat_chatsrv_channel_pb.GetStateReq,
-  responseType: iyag_io_chat_chatsrv_channel_pb.GetStateRes
+  requestType: iyag_io_chat_chatsrv_channel_pb.GetChannelReq,
+  responseType: iyag_io_chat_chatsrv_channel_pb.GetChannelRes
 };
 
 Channel.ListenUserEvent = {
@@ -80,6 +80,15 @@ Channel.ListenUserEvent = {
   responseStream: true,
   requestType: iyag_io_chat_chatsrv_channel_pb.ListenUserEventReq,
   responseType: iyag_io_chat_chatsrv_channel_pb.ListenUserEventRes
+};
+
+Channel.ListChannel = {
+  methodName: "ListChannel",
+  service: Channel,
+  requestStream: false,
+  responseStream: false,
+  requestType: iyag_io_chat_chatsrv_channel_pb.ListChannelReq,
+  responseType: iyag_io_chat_chatsrv_channel_pb.ListChannelRes
 };
 
 exports.Channel = Channel;
@@ -275,11 +284,11 @@ ChannelClient.prototype.eventSend = function eventSend(requestMessage, metadata,
   };
 };
 
-ChannelClient.prototype.getState = function getState(requestMessage, metadata, callback) {
+ChannelClient.prototype.getChannel = function getChannel(requestMessage, metadata, callback) {
   if (arguments.length === 2) {
     callback = arguments[1];
   }
-  var client = grpc.unary(Channel.GetState, {
+  var client = grpc.unary(Channel.GetChannel, {
     request: requestMessage,
     host: this.serviceHost,
     metadata: metadata,
@@ -340,6 +349,37 @@ ChannelClient.prototype.listenUserEvent = function listenUserEvent(requestMessag
     },
     cancel: function () {
       listeners = null;
+      client.close();
+    }
+  };
+};
+
+ChannelClient.prototype.listChannel = function listChannel(requestMessage, metadata, callback) {
+  if (arguments.length === 2) {
+    callback = arguments[1];
+  }
+  var client = grpc.unary(Channel.ListChannel, {
+    request: requestMessage,
+    host: this.serviceHost,
+    metadata: metadata,
+    transport: this.options.transport,
+    debug: this.options.debug,
+    onEnd: function (response) {
+      if (callback) {
+        if (response.status !== grpc.Code.OK) {
+          var err = new Error(response.statusMessage);
+          err.code = response.status;
+          err.metadata = response.trailers;
+          callback(err, null);
+        } else {
+          callback(null, response.message);
+        }
+      }
+    }
+  });
+  return {
+    cancel: function () {
+      callback = null;
       client.close();
     }
   };

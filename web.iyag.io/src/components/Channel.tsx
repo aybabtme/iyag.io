@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import { ChannelClient, ServiceError, Status } from "../gen/iyag.io/chat/chatsrv/channel_pb_service"
-import { ListenUserEventReq, ListenUserEventRes, GetStateReq, GetStateRes, EventSendReq, EventSendRes, EventAuth } from "../gen/iyag.io/chat/chatsrv/channel_pb"
+import { ListenUserEventReq, ListenUserEventRes, GetChannelReq, GetChannelRes, EventSendReq, EventSendRes, EventAuth } from "../gen/iyag.io/chat/chatsrv/channel_pb"
 import { Entry, EntryMeta, EntryContent } from "../gen/iyag.io/chat/entry_pb";
 import { Timestamp } from "google-protobuf/google/protobuf/timestamp_pb";
 import { EntryInput } from "./EntryInput";
@@ -61,9 +61,9 @@ export class Channel extends React.Component<ChannelProps, {}> {
     // RPC bindings
 
     updateState = (onState: (event: EventMeta) => void) => {
-        const req = new GetStateReq();
+        const req = new GetChannelReq();
         req.setChannelName(this.props.channelName);
-        this.props.client.getState(req, (err: ServiceError | null, res: GetStateRes | null) => {
+        this.props.client.getChannel(req, (err: ServiceError | null, res: GetChannelRes | null) => {
             if (err != null) {
                 console.error(err);
                 return
@@ -72,29 +72,38 @@ export class Channel extends React.Component<ChannelProps, {}> {
                 console.error("null response on null error")
                 return
             }
-            const state = res.getState();
-            if (state == null || state == undefined) {
-                console.error("no state in response");
+            const channel = res.getChannel();
+            if (channel == null || channel == undefined) {
+                console.error("no channel in response");
                 return
             }
-            this.state.name = state.getName();
-            this.state.authors = state.getAuthorIdsList();
-            this.state.entries = state.getEntriesList();
-            this.state.lastEvent = state.getLastEvent();
+            const meta = channel.getMeta();
+            if (meta == null || meta == undefined) {
+                console.error("no meta in response");
+                return
+            }
+            const content = channel.getContent();
+            if (content == null || content == undefined) {
+                console.error("no content in response");
+                return
+            }
+            this.state.name = meta.getName();
+            this.state.authors = meta.getAuthorIdsList();
+            this.state.lastEvent = meta.getLastEvent();
 
-            this.state.createdBy = state.getCreatedBy();
-            this.state.createdAt = state.getCreatedAt();
-            this.state.archivedBy = state.getArchivedBy();
-            this.state.archivedAt = state.getArchivedAt();
+            this.state.createdBy = meta.getCreatedBy();
+            this.state.createdAt = meta.getCreatedAt();
+            this.state.archivedBy = meta.getArchivedBy();
+            this.state.archivedAt = meta.getArchivedAt();
 
-            const lastEventMeta = state.getLastEvent();
+            const lastEventMeta = meta.getLastEvent();
             if (lastEventMeta != undefined) {
                 onState(lastEventMeta);
             }
+
+            this.state.entries = content.getEntriesList();
         });
     }
-
-
 
     listenFrom = (event: EventMeta) => {
         const req = new ListenUserEventReq();

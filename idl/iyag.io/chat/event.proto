@@ -15,17 +15,6 @@ message EventMeta {
     uint64 sequence = 3;
 }
 
-message ChannelState {
-    EventMeta last_event = 1;
-    repeated Entry entries = 2;
-    repeated string author_ids = 3;
-    google.protobuf.Timestamp created_at = 4;
-    google.protobuf.Timestamp archived_at = 5;
-    string created_by = 6;
-    string archived_by = 7;
-    string name = 8;
-}
-
 message ChannelUserEvent {
     message Create {
         string name = 1;

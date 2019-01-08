@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package iyag.io.chat;
+option go_package = "chat";
+
+import "google/protobuf/timestamp.proto";
+import "iyag.io/chat/event.proto";
+import "iyag.io/chat/entry.proto";
+
+message Channel {
+    ChannelMeta meta = 1;
+    ChannelContent content = 2;
+}
+
+message ChannelMeta {
+    string name = 1;
+    EventMeta last_event = 2;
+    repeated string author_ids = 3;
+    google.protobuf.Timestamp created_at = 4;
+    google.protobuf.Timestamp archived_at = 5;
+    string created_by = 6;
+    string archived_by = 7;
+}
+
+message ChannelContent {
+    repeated Entry entries = 1;
+}

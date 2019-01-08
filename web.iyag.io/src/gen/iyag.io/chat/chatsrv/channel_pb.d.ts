@@ -4,6 +4,7 @@
 import * as jspb from "google-protobuf";
 import * as iyag_io_chat_event_pb from "../../../iyag.io/chat/event_pb";
 import * as iyag_io_chat_entry_pb from "../../../iyag.io/chat/entry_pb";
+import * as iyag_io_chat_channel_pb from "../../../iyag.io/chat/channel_pb";
 
 export class EventAuth extends jspb.Message {
   getAuthorId(): string;
@@ -347,45 +348,45 @@ export namespace EventSendRes {
   }
 }
 
-export class GetStateReq extends jspb.Message {
+export class GetChannelReq extends jspb.Message {
   getChannelName(): string;
   setChannelName(value: string): void;
 
   serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): GetStateReq.AsObject;
-  static toObject(includeInstance: boolean, msg: GetStateReq): GetStateReq.AsObject;
+  toObject(includeInstance?: boolean): GetChannelReq.AsObject;
+  static toObject(includeInstance: boolean, msg: GetChannelReq): GetChannelReq.AsObject;
   static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
   static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
-  static serializeBinaryToWriter(message: GetStateReq, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): GetStateReq;
-  static deserializeBinaryFromReader(message: GetStateReq, reader: jspb.BinaryReader): GetStateReq;
+  static serializeBinaryToWriter(message: GetChannelReq, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): GetChannelReq;
+  static deserializeBinaryFromReader(message: GetChannelReq, reader: jspb.BinaryReader): GetChannelReq;
 }
 
-export namespace GetStateReq {
+export namespace GetChannelReq {
   export type AsObject = {
     channelName: string,
   }
 }
 
-export class GetStateRes extends jspb.Message {
-  hasState(): boolean;
-  clearState(): void;
-  getState(): iyag_io_chat_event_pb.ChannelState | undefined;
-  setState(value?: iyag_io_chat_event_pb.ChannelState): void;
+export class GetChannelRes extends jspb.Message {
+  hasChannel(): boolean;
+  clearChannel(): void;
+  getChannel(): iyag_io_chat_channel_pb.Channel | undefined;
+  setChannel(value?: iyag_io_chat_channel_pb.Channel): void;
 
   serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): GetStateRes.AsObject;
-  static toObject(includeInstance: boolean, msg: GetStateRes): GetStateRes.AsObject;
+  toObject(includeInstance?: boolean): GetChannelRes.AsObject;
+  static toObject(includeInstance: boolean, msg: GetChannelRes): GetChannelRes.AsObject;
   static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
   static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
-  static serializeBinaryToWriter(message: GetStateRes, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): GetStateRes;
-  static deserializeBinaryFromReader(message: GetStateRes, reader: jspb.BinaryReader): GetStateRes;
+  static serializeBinaryToWriter(message: GetChannelRes, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): GetChannelRes;
+  static deserializeBinaryFromReader(message: GetChannelRes, reader: jspb.BinaryReader): GetChannelRes;
 }
 
-export namespace GetStateRes {
+export namespace GetChannelRes {
   export type AsObject = {
-    state?: iyag_io_chat_event_pb.ChannelState.AsObject,
+    channel?: iyag_io_chat_channel_pb.Channel.AsObject,
   }
 }
 
@@ -432,6 +433,44 @@ export class ListenUserEventRes extends jspb.Message {
 export namespace ListenUserEventRes {
   export type AsObject = {
     event?: iyag_io_chat_event_pb.ChannelUserEvent.AsObject,
+  }
+}
+
+export class ListChannelReq extends jspb.Message {
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): ListChannelReq.AsObject;
+  static toObject(includeInstance: boolean, msg: ListChannelReq): ListChannelReq.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: ListChannelReq, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): ListChannelReq;
+  static deserializeBinaryFromReader(message: ListChannelReq, reader: jspb.BinaryReader): ListChannelReq;
+}
+
+export namespace ListChannelReq {
+  export type AsObject = {
+  }
+}
+
+export class ListChannelRes extends jspb.Message {
+  clearChannelsList(): void;
+  getChannelsList(): Array<iyag_io_chat_channel_pb.ChannelMeta>;
+  setChannelsList(value: Array<iyag_io_chat_channel_pb.ChannelMeta>): void;
+  addChannels(value?: iyag_io_chat_channel_pb.ChannelMeta, index?: number): iyag_io_chat_channel_pb.ChannelMeta;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): ListChannelRes.AsObject;
+  static toObject(includeInstance: boolean, msg: ListChannelRes): ListChannelRes.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: ListChannelRes, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): ListChannelRes;
+  static deserializeBinaryFromReader(message: ListChannelRes, reader: jspb.BinaryReader): ListChannelRes;
+}
+
+export namespace ListChannelRes {
+  export type AsObject = {
+    channelsList: Array<iyag_io_chat_channel_pb.ChannelMeta.AsObject>,
   }
 }
 

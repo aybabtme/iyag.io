@@ -13,6 +13,7 @@ var global = Function('return this')();
 
 var iyag_io_chat_event_pb = require('../../../iyag.io/chat/event_pb.js');
 var iyag_io_chat_entry_pb = require('../../../iyag.io/chat/entry_pb.js');
+var iyag_io_chat_channel_pb = require('../../../iyag.io/chat/channel_pb.js');
 goog.exportSymbol('proto.iyag.io.chat.chatsrv.EventArchiveReq', null, global);
 goog.exportSymbol('proto.iyag.io.chat.chatsrv.EventArchiveRes', null, global);
 goog.exportSymbol('proto.iyag.io.chat.chatsrv.EventAuth', null, global);
@@ -26,8 +27,10 @@ goog.exportSymbol('proto.iyag.io.chat.chatsrv.EventSendReq', null, global);
 goog.exportSymbol('proto.iyag.io.chat.chatsrv.EventSendRes', null, global);
 goog.exportSymbol('proto.iyag.io.chat.chatsrv.EventTypeReq', null, global);
 goog.exportSymbol('proto.iyag.io.chat.chatsrv.EventTypeRes', null, global);
-goog.exportSymbol('proto.iyag.io.chat.chatsrv.GetStateReq', null, global);
-goog.exportSymbol('proto.iyag.io.chat.chatsrv.GetStateRes', null, global);
+goog.exportSymbol('proto.iyag.io.chat.chatsrv.GetChannelReq', null, global);
+goog.exportSymbol('proto.iyag.io.chat.chatsrv.GetChannelRes', null, global);
+goog.exportSymbol('proto.iyag.io.chat.chatsrv.ListChannelReq', null, global);
+goog.exportSymbol('proto.iyag.io.chat.chatsrv.ListChannelRes', null, global);
 goog.exportSymbol('proto.iyag.io.chat.chatsrv.ListenUserEventReq', null, global);
 goog.exportSymbol('proto.iyag.io.chat.chatsrv.ListenUserEventRes', null, global);
 
@@ -2486,12 +2489,12 @@ proto.iyag.io.chat.chatsrv.EventSendRes.prototype.hasEventMeta = function() {
  * @extends {jspb.Message}
  * @constructor
  */
-proto.iyag.io.chat.chatsrv.GetStateReq = function(opt_data) {
+proto.iyag.io.chat.chatsrv.GetChannelReq = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.iyag.io.chat.chatsrv.GetStateReq, jspb.Message);
+goog.inherits(proto.iyag.io.chat.chatsrv.GetChannelReq, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
-  proto.iyag.io.chat.chatsrv.GetStateReq.displayName = 'proto.iyag.io.chat.chatsrv.GetStateReq';
+  proto.iyag.io.chat.chatsrv.GetChannelReq.displayName = 'proto.iyag.io.chat.chatsrv.GetChannelReq';
 }
 
 
@@ -2506,8 +2509,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     for transitional soy proto support: http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.iyag.io.chat.chatsrv.GetStateReq.prototype.toObject = function(opt_includeInstance) {
-  return proto.iyag.io.chat.chatsrv.GetStateReq.toObject(opt_includeInstance, this);
+proto.iyag.io.chat.chatsrv.GetChannelReq.prototype.toObject = function(opt_includeInstance) {
+  return proto.iyag.io.chat.chatsrv.GetChannelReq.toObject(opt_includeInstance, this);
 };
 
 
@@ -2516,11 +2519,11 @@ proto.iyag.io.chat.chatsrv.GetStateReq.prototype.toObject = function(opt_include
  * @param {boolean|undefined} includeInstance Whether to include the JSPB
  *     instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.iyag.io.chat.chatsrv.GetStateReq} msg The msg instance to transform.
+ * @param {!proto.iyag.io.chat.chatsrv.GetChannelReq} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.iyag.io.chat.chatsrv.GetStateReq.toObject = function(includeInstance, msg) {
+proto.iyag.io.chat.chatsrv.GetChannelReq.toObject = function(includeInstance, msg) {
   var f, obj = {
     channelName: jspb.Message.getFieldWithDefault(msg, 1, "")
   };
@@ -2536,23 +2539,23 @@ proto.iyag.io.chat.chatsrv.GetStateReq.toObject = function(includeInstance, msg)
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.iyag.io.chat.chatsrv.GetStateReq}
+ * @return {!proto.iyag.io.chat.chatsrv.GetChannelReq}
  */
-proto.iyag.io.chat.chatsrv.GetStateReq.deserializeBinary = function(bytes) {
+proto.iyag.io.chat.chatsrv.GetChannelReq.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.iyag.io.chat.chatsrv.GetStateReq;
-  return proto.iyag.io.chat.chatsrv.GetStateReq.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.iyag.io.chat.chatsrv.GetChannelReq;
+  return proto.iyag.io.chat.chatsrv.GetChannelReq.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.iyag.io.chat.chatsrv.GetStateReq} msg The message object to deserialize into.
+ * @param {!proto.iyag.io.chat.chatsrv.GetChannelReq} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.iyag.io.chat.chatsrv.GetStateReq}
+ * @return {!proto.iyag.io.chat.chatsrv.GetChannelReq}
  */
-proto.iyag.io.chat.chatsrv.GetStateReq.deserializeBinaryFromReader = function(msg, reader) {
+proto.iyag.io.chat.chatsrv.GetChannelReq.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -2576,9 +2579,9 @@ proto.iyag.io.chat.chatsrv.GetStateReq.deserializeBinaryFromReader = function(ms
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.iyag.io.chat.chatsrv.GetStateReq.prototype.serializeBinary = function() {
+proto.iyag.io.chat.chatsrv.GetChannelReq.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.iyag.io.chat.chatsrv.GetStateReq.serializeBinaryToWriter(this, writer);
+  proto.iyag.io.chat.chatsrv.GetChannelReq.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -2586,11 +2589,11 @@ proto.iyag.io.chat.chatsrv.GetStateReq.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.iyag.io.chat.chatsrv.GetStateReq} message
+ * @param {!proto.iyag.io.chat.chatsrv.GetChannelReq} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.iyag.io.chat.chatsrv.GetStateReq.serializeBinaryToWriter = function(message, writer) {
+proto.iyag.io.chat.chatsrv.GetChannelReq.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getChannelName();
   if (f.length > 0) {
@@ -2606,13 +2609,13 @@ proto.iyag.io.chat.chatsrv.GetStateReq.serializeBinaryToWriter = function(messag
  * optional string channel_name = 1;
  * @return {string}
  */
-proto.iyag.io.chat.chatsrv.GetStateReq.prototype.getChannelName = function() {
+proto.iyag.io.chat.chatsrv.GetChannelReq.prototype.getChannelName = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
 
 /** @param {string} value */
-proto.iyag.io.chat.chatsrv.GetStateReq.prototype.setChannelName = function(value) {
+proto.iyag.io.chat.chatsrv.GetChannelReq.prototype.setChannelName = function(value) {
   jspb.Message.setProto3StringField(this, 1, value);
 };
 
@@ -2628,12 +2631,12 @@ proto.iyag.io.chat.chatsrv.GetStateReq.prototype.setChannelName = function(value
  * @extends {jspb.Message}
  * @constructor
  */
-proto.iyag.io.chat.chatsrv.GetStateRes = function(opt_data) {
+proto.iyag.io.chat.chatsrv.GetChannelRes = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.iyag.io.chat.chatsrv.GetStateRes, jspb.Message);
+goog.inherits(proto.iyag.io.chat.chatsrv.GetChannelRes, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
-  proto.iyag.io.chat.chatsrv.GetStateRes.displayName = 'proto.iyag.io.chat.chatsrv.GetStateRes';
+  proto.iyag.io.chat.chatsrv.GetChannelRes.displayName = 'proto.iyag.io.chat.chatsrv.GetChannelRes';
 }
 
 
@@ -2648,8 +2651,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  *     for transitional soy proto support: http://goto/soy-param-migration
  * @return {!Object}
  */
-proto.iyag.io.chat.chatsrv.GetStateRes.prototype.toObject = function(opt_includeInstance) {
-  return proto.iyag.io.chat.chatsrv.GetStateRes.toObject(opt_includeInstance, this);
+proto.iyag.io.chat.chatsrv.GetChannelRes.prototype.toObject = function(opt_includeInstance) {
+  return proto.iyag.io.chat.chatsrv.GetChannelRes.toObject(opt_includeInstance, this);
 };
 
 
@@ -2658,13 +2661,13 @@ proto.iyag.io.chat.chatsrv.GetStateRes.prototype.toObject = function(opt_include
  * @param {boolean|undefined} includeInstance Whether to include the JSPB
  *     instance for transitional soy proto support:
  *     http://goto/soy-param-migration
- * @param {!proto.iyag.io.chat.chatsrv.GetStateRes} msg The msg instance to transform.
+ * @param {!proto.iyag.io.chat.chatsrv.GetChannelRes} msg The msg instance to transform.
  * @return {!Object}
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.iyag.io.chat.chatsrv.GetStateRes.toObject = function(includeInstance, msg) {
+proto.iyag.io.chat.chatsrv.GetChannelRes.toObject = function(includeInstance, msg) {
   var f, obj = {
-    state: (f = msg.getState()) && iyag_io_chat_event_pb.ChannelState.toObject(includeInstance, f)
+    channel: (f = msg.getChannel()) && iyag_io_chat_channel_pb.Channel.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -2678,23 +2681,23 @@ proto.iyag.io.chat.chatsrv.GetStateRes.toObject = function(includeInstance, msg)
 /**
  * Deserializes binary data (in protobuf wire format).
  * @param {jspb.ByteSource} bytes The bytes to deserialize.
- * @return {!proto.iyag.io.chat.chatsrv.GetStateRes}
+ * @return {!proto.iyag.io.chat.chatsrv.GetChannelRes}
  */
-proto.iyag.io.chat.chatsrv.GetStateRes.deserializeBinary = function(bytes) {
+proto.iyag.io.chat.chatsrv.GetChannelRes.deserializeBinary = function(bytes) {
   var reader = new jspb.BinaryReader(bytes);
-  var msg = new proto.iyag.io.chat.chatsrv.GetStateRes;
-  return proto.iyag.io.chat.chatsrv.GetStateRes.deserializeBinaryFromReader(msg, reader);
+  var msg = new proto.iyag.io.chat.chatsrv.GetChannelRes;
+  return proto.iyag.io.chat.chatsrv.GetChannelRes.deserializeBinaryFromReader(msg, reader);
 };
 
 
 /**
  * Deserializes binary data (in protobuf wire format) from the
  * given reader into the given message object.
- * @param {!proto.iyag.io.chat.chatsrv.GetStateRes} msg The message object to deserialize into.
+ * @param {!proto.iyag.io.chat.chatsrv.GetChannelRes} msg The message object to deserialize into.
  * @param {!jspb.BinaryReader} reader The BinaryReader to use.
- * @return {!proto.iyag.io.chat.chatsrv.GetStateRes}
+ * @return {!proto.iyag.io.chat.chatsrv.GetChannelRes}
  */
-proto.iyag.io.chat.chatsrv.GetStateRes.deserializeBinaryFromReader = function(msg, reader) {
+proto.iyag.io.chat.chatsrv.GetChannelRes.deserializeBinaryFromReader = function(msg, reader) {
   while (reader.nextField()) {
     if (reader.isEndGroup()) {
       break;
@@ -2702,9 +2705,9 @@ proto.iyag.io.chat.chatsrv.GetStateRes.deserializeBinaryFromReader = function(ms
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = new iyag_io_chat_event_pb.ChannelState;
-      reader.readMessage(value,iyag_io_chat_event_pb.ChannelState.deserializeBinaryFromReader);
-      msg.setState(value);
+      var value = new iyag_io_chat_channel_pb.Channel;
+      reader.readMessage(value,iyag_io_chat_channel_pb.Channel.deserializeBinaryFromReader);
+      msg.setChannel(value);
       break;
     default:
       reader.skipField();
@@ -2719,9 +2722,9 @@ proto.iyag.io.chat.chatsrv.GetStateRes.deserializeBinaryFromReader = function(ms
  * Serializes the message to binary data (in protobuf wire format).
  * @return {!Uint8Array}
  */
-proto.iyag.io.chat.chatsrv.GetStateRes.prototype.serializeBinary = function() {
+proto.iyag.io.chat.chatsrv.GetChannelRes.prototype.serializeBinary = function() {
   var writer = new jspb.BinaryWriter();
-  proto.iyag.io.chat.chatsrv.GetStateRes.serializeBinaryToWriter(this, writer);
+  proto.iyag.io.chat.chatsrv.GetChannelRes.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
 
@@ -2729,41 +2732,41 @@ proto.iyag.io.chat.chatsrv.GetStateRes.prototype.serializeBinary = function() {
 /**
  * Serializes the given message to binary data (in protobuf wire
  * format), writing to the given BinaryWriter.
- * @param {!proto.iyag.io.chat.chatsrv.GetStateRes} message
+ * @param {!proto.iyag.io.chat.chatsrv.GetChannelRes} message
  * @param {!jspb.BinaryWriter} writer
  * @suppress {unusedLocalVariables} f is only used for nested messages
  */
-proto.iyag.io.chat.chatsrv.GetStateRes.serializeBinaryToWriter = function(message, writer) {
+proto.iyag.io.chat.chatsrv.GetChannelRes.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getState();
+  f = message.getChannel();
   if (f != null) {
     writer.writeMessage(
       1,
       f,
-      iyag_io_chat_event_pb.ChannelState.serializeBinaryToWriter
+      iyag_io_chat_channel_pb.Channel.serializeBinaryToWriter
     );
   }
 };
 
 
 /**
- * optional iyag.io.chat.ChannelState state = 1;
- * @return {?proto.iyag.io.chat.ChannelState}
+ * optional iyag.io.chat.Channel channel = 1;
+ * @return {?proto.iyag.io.chat.Channel}
  */
-proto.iyag.io.chat.chatsrv.GetStateRes.prototype.getState = function() {
-  return /** @type{?proto.iyag.io.chat.ChannelState} */ (
-    jspb.Message.getWrapperField(this, iyag_io_chat_event_pb.ChannelState, 1));
+proto.iyag.io.chat.chatsrv.GetChannelRes.prototype.getChannel = function() {
+  return /** @type{?proto.iyag.io.chat.Channel} */ (
+    jspb.Message.getWrapperField(this, iyag_io_chat_channel_pb.Channel, 1));
 };
 
 
-/** @param {?proto.iyag.io.chat.ChannelState|undefined} value */
-proto.iyag.io.chat.chatsrv.GetStateRes.prototype.setState = function(value) {
+/** @param {?proto.iyag.io.chat.Channel|undefined} value */
+proto.iyag.io.chat.chatsrv.GetChannelRes.prototype.setChannel = function(value) {
   jspb.Message.setWrapperField(this, 1, value);
 };
 
 
-proto.iyag.io.chat.chatsrv.GetStateRes.prototype.clearState = function() {
-  this.setState(undefined);
+proto.iyag.io.chat.chatsrv.GetChannelRes.prototype.clearChannel = function() {
+  this.setChannel(undefined);
 };
 
 
@@ -2771,7 +2774,7 @@ proto.iyag.io.chat.chatsrv.GetStateRes.prototype.clearState = function() {
  * Returns whether this field is set.
  * @return {!boolean}
  */
-proto.iyag.io.chat.chatsrv.GetStateRes.prototype.hasState = function() {
+proto.iyag.io.chat.chatsrv.GetChannelRes.prototype.hasChannel = function() {
   return jspb.Message.getField(this, 1) != null;
 };
 
@@ -3101,6 +3104,290 @@ proto.iyag.io.chat.chatsrv.ListenUserEventRes.prototype.clearEvent = function() 
  */
 proto.iyag.io.chat.chatsrv.ListenUserEventRes.prototype.hasEvent = function() {
   return jspb.Message.getField(this, 1) != null;
+};
+
+
+
+/**
+ * Generated by JsPbCodeGenerator.
+ * @param {Array=} opt_data Optional initial data array, typically from a
+ * server response, or constructed directly in Javascript. The array is used
+ * in place and becomes part of the constructed object. It is not cloned.
+ * If no data is provided, the constructed object will be empty, but still
+ * valid.
+ * @extends {jspb.Message}
+ * @constructor
+ */
+proto.iyag.io.chat.chatsrv.ListChannelReq = function(opt_data) {
+  jspb.Message.initialize(this, opt_data, 0, -1, null, null);
+};
+goog.inherits(proto.iyag.io.chat.chatsrv.ListChannelReq, jspb.Message);
+if (goog.DEBUG && !COMPILED) {
+  proto.iyag.io.chat.chatsrv.ListChannelReq.displayName = 'proto.iyag.io.chat.chatsrv.ListChannelReq';
+}
+
+
+if (jspb.Message.GENERATE_TO_OBJECT) {
+/**
+ * Creates an object representation of this proto suitable for use in Soy templates.
+ * Field names that are reserved in JavaScript and will be renamed to pb_name.
+ * To access a reserved field use, foo.pb_<name>, eg, foo.pb_default.
+ * For the list of reserved names please see:
+ *     com.google.apps.jspb.JsClassTemplate.JS_RESERVED_WORDS.
+ * @param {boolean=} opt_includeInstance Whether to include the JSPB instance
+ *     for transitional soy proto support: http://goto/soy-param-migration
+ * @return {!Object}
+ */
+proto.iyag.io.chat.chatsrv.ListChannelReq.prototype.toObject = function(opt_includeInstance) {
+  return proto.iyag.io.chat.chatsrv.ListChannelReq.toObject(opt_includeInstance, this);
+};
+
+
+/**
+ * Static version of the {@see toObject} method.
+ * @param {boolean|undefined} includeInstance Whether to include the JSPB
+ *     instance for transitional soy proto support:
+ *     http://goto/soy-param-migration
+ * @param {!proto.iyag.io.chat.chatsrv.ListChannelReq} msg The msg instance to transform.
+ * @return {!Object}
+ * @suppress {unusedLocalVariables} f is only used for nested messages
+ */
+proto.iyag.io.chat.chatsrv.ListChannelReq.toObject = function(includeInstance, msg) {
+  var f, obj = {
+
+  };
+
+  if (includeInstance) {
+    obj.$jspbMessageInstance = msg;
+  }
+  return obj;
+};
+}
+
+
+/**
+ * Deserializes binary data (in protobuf wire format).
+ * @param {jspb.ByteSource} bytes The bytes to deserialize.
+ * @return {!proto.iyag.io.chat.chatsrv.ListChannelReq}
+ */
+proto.iyag.io.chat.chatsrv.ListChannelReq.deserializeBinary = function(bytes) {
+  var reader = new jspb.BinaryReader(bytes);
+  var msg = new proto.iyag.io.chat.chatsrv.ListChannelReq;
+  return proto.iyag.io.chat.chatsrv.ListChannelReq.deserializeBinaryFromReader(msg, reader);
+};
+
+
+/**
+ * Deserializes binary data (in protobuf wire format) from the
+ * given reader into the given message object.
+ * @param {!proto.iyag.io.chat.chatsrv.ListChannelReq} msg The message object to deserialize into.
+ * @param {!jspb.BinaryReader} reader The BinaryReader to use.
+ * @return {!proto.iyag.io.chat.chatsrv.ListChannelReq}
+ */
+proto.iyag.io.chat.chatsrv.ListChannelReq.deserializeBinaryFromReader = function(msg, reader) {
+  while (reader.nextField()) {
+    if (reader.isEndGroup()) {
+      break;
+    }
+    var field = reader.getFieldNumber();
+    switch (field) {
+    default:
+      reader.skipField();
+      break;
+    }
+  }
+  return msg;
+};
+
+
+/**
+ * Serializes the message to binary data (in protobuf wire format).
+ * @return {!Uint8Array}
+ */
+proto.iyag.io.chat.chatsrv.ListChannelReq.prototype.serializeBinary = function() {
+  var writer = new jspb.BinaryWriter();
+  proto.iyag.io.chat.chatsrv.ListChannelReq.serializeBinaryToWriter(this, writer);
+  return writer.getResultBuffer();
+};
+
+
+/**
+ * Serializes the given message to binary data (in protobuf wire
+ * format), writing to the given BinaryWriter.
+ * @param {!proto.iyag.io.chat.chatsrv.ListChannelReq} message
+ * @param {!jspb.BinaryWriter} writer
+ * @suppress {unusedLocalVariables} f is only used for nested messages
+ */
+proto.iyag.io.chat.chatsrv.ListChannelReq.serializeBinaryToWriter = function(message, writer) {
+  var f = undefined;
+};
+
+
+
+/**
+ * Generated by JsPbCodeGenerator.
+ * @param {Array=} opt_data Optional initial data array, typically from a
+ * server response, or constructed directly in Javascript. The array is used
+ * in place and becomes part of the constructed object. It is not cloned.
+ * If no data is provided, the constructed object will be empty, but still
+ * valid.
+ * @extends {jspb.Message}
+ * @constructor
+ */
+proto.iyag.io.chat.chatsrv.ListChannelRes = function(opt_data) {
+  jspb.Message.initialize(this, opt_data, 0, -1, proto.iyag.io.chat.chatsrv.ListChannelRes.repeatedFields_, null);
+};
+goog.inherits(proto.iyag.io.chat.chatsrv.ListChannelRes, jspb.Message);
+if (goog.DEBUG && !COMPILED) {
+  proto.iyag.io.chat.chatsrv.ListChannelRes.displayName = 'proto.iyag.io.chat.chatsrv.ListChannelRes';
+}
+/**
+ * List of repeated fields within this message type.
+ * @private {!Array<number>}
+ * @const
+ */
+proto.iyag.io.chat.chatsrv.ListChannelRes.repeatedFields_ = [1];
+
+
+
+if (jspb.Message.GENERATE_TO_OBJECT) {
+/**
+ * Creates an object representation of this proto suitable for use in Soy templates.
+ * Field names that are reserved in JavaScript and will be renamed to pb_name.
+ * To access a reserved field use, foo.pb_<name>, eg, foo.pb_default.
+ * For the list of reserved names please see:
+ *     com.google.apps.jspb.JsClassTemplate.JS_RESERVED_WORDS.
+ * @param {boolean=} opt_includeInstance Whether to include the JSPB instance
+ *     for transitional soy proto support: http://goto/soy-param-migration
+ * @return {!Object}
+ */
+proto.iyag.io.chat.chatsrv.ListChannelRes.prototype.toObject = function(opt_includeInstance) {
+  return proto.iyag.io.chat.chatsrv.ListChannelRes.toObject(opt_includeInstance, this);
+};
+
+
+/**
+ * Static version of the {@see toObject} method.
+ * @param {boolean|undefined} includeInstance Whether to include the JSPB
+ *     instance for transitional soy proto support:
+ *     http://goto/soy-param-migration
+ * @param {!proto.iyag.io.chat.chatsrv.ListChannelRes} msg The msg instance to transform.
+ * @return {!Object}
+ * @suppress {unusedLocalVariables} f is only used for nested messages
+ */
+proto.iyag.io.chat.chatsrv.ListChannelRes.toObject = function(includeInstance, msg) {
+  var f, obj = {
+    channelsList: jspb.Message.toObjectList(msg.getChannelsList(),
+    iyag_io_chat_channel_pb.ChannelMeta.toObject, includeInstance)
+  };
+
+  if (includeInstance) {
+    obj.$jspbMessageInstance = msg;
+  }
+  return obj;
+};
+}
+
+
+/**
+ * Deserializes binary data (in protobuf wire format).
+ * @param {jspb.ByteSource} bytes The bytes to deserialize.
+ * @return {!proto.iyag.io.chat.chatsrv.ListChannelRes}
+ */
+proto.iyag.io.chat.chatsrv.ListChannelRes.deserializeBinary = function(bytes) {
+  var reader = new jspb.BinaryReader(bytes);
+  var msg = new proto.iyag.io.chat.chatsrv.ListChannelRes;
+  return proto.iyag.io.chat.chatsrv.ListChannelRes.deserializeBinaryFromReader(msg, reader);
+};
+
+
+/**
+ * Deserializes binary data (in protobuf wire format) from the
+ * given reader into the given message object.
+ * @param {!proto.iyag.io.chat.chatsrv.ListChannelRes} msg The message object to deserialize into.
+ * @param {!jspb.BinaryReader} reader The BinaryReader to use.
+ * @return {!proto.iyag.io.chat.chatsrv.ListChannelRes}
+ */
+proto.iyag.io.chat.chatsrv.ListChannelRes.deserializeBinaryFromReader = function(msg, reader) {
+  while (reader.nextField()) {
+    if (reader.isEndGroup()) {
+      break;
+    }
+    var field = reader.getFieldNumber();
+    switch (field) {
+    case 1:
+      var value = new iyag_io_chat_channel_pb.ChannelMeta;
+      reader.readMessage(value,iyag_io_chat_channel_pb.ChannelMeta.deserializeBinaryFromReader);
+      msg.addChannels(value);
+      break;
+    default:
+      reader.skipField();
+      break;
+    }
+  }
+  return msg;
+};
+
+
+/**
+ * Serializes the message to binary data (in protobuf wire format).
+ * @return {!Uint8Array}
+ */
+proto.iyag.io.chat.chatsrv.ListChannelRes.prototype.serializeBinary = function() {
+  var writer = new jspb.BinaryWriter();
+  proto.iyag.io.chat.chatsrv.ListChannelRes.serializeBinaryToWriter(this, writer);
+  return writer.getResultBuffer();
+};
+
+
+/**
+ * Serializes the given message to binary data (in protobuf wire
+ * format), writing to the given BinaryWriter.
+ * @param {!proto.iyag.io.chat.chatsrv.ListChannelRes} message
+ * @param {!jspb.BinaryWriter} writer
+ * @suppress {unusedLocalVariables} f is only used for nested messages
+ */
+proto.iyag.io.chat.chatsrv.ListChannelRes.serializeBinaryToWriter = function(message, writer) {
+  var f = undefined;
+  f = message.getChannelsList();
+  if (f.length > 0) {
+    writer.writeRepeatedMessage(
+      1,
+      f,
+      iyag_io_chat_channel_pb.ChannelMeta.serializeBinaryToWriter
+    );
+  }
+};
+
+
+/**
+ * repeated iyag.io.chat.ChannelMeta channels = 1;
+ * @return {!Array.<!proto.iyag.io.chat.ChannelMeta>}
+ */
+proto.iyag.io.chat.chatsrv.ListChannelRes.prototype.getChannelsList = function() {
+  return /** @type{!Array.<!proto.iyag.io.chat.ChannelMeta>} */ (
+    jspb.Message.getRepeatedWrapperField(this, iyag_io_chat_channel_pb.ChannelMeta, 1));
+};
+
+
+/** @param {!Array.<!proto.iyag.io.chat.ChannelMeta>} value */
+proto.iyag.io.chat.chatsrv.ListChannelRes.prototype.setChannelsList = function(value) {
+  jspb.Message.setRepeatedWrapperField(this, 1, value);
+};
+
+
+/**
+ * @param {!proto.iyag.io.chat.ChannelMeta=} opt_value
+ * @param {number=} opt_index
+ * @return {!proto.iyag.io.chat.ChannelMeta}
+ */
+proto.iyag.io.chat.chatsrv.ListChannelRes.prototype.addChannels = function(opt_value, opt_index) {
+  return jspb.Message.addToRepeatedWrapperField(this, 1, opt_value, proto.iyag.io.chat.ChannelMeta, opt_index);
+};
+
+
+proto.iyag.io.chat.chatsrv.ListChannelRes.prototype.clearChannelsList = function() {
+  this.setChannelsList([]);
 };
 
 

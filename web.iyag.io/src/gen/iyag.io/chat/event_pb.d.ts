@@ -35,64 +35,6 @@ export namespace EventMeta {
   }
 }
 
-export class ChannelState extends jspb.Message {
-  hasLastEvent(): boolean;
-  clearLastEvent(): void;
-  getLastEvent(): EventMeta | undefined;
-  setLastEvent(value?: EventMeta): void;
-
-  clearEntriesList(): void;
-  getEntriesList(): Array<iyag_io_chat_entry_pb.Entry>;
-  setEntriesList(value: Array<iyag_io_chat_entry_pb.Entry>): void;
-  addEntries(value?: iyag_io_chat_entry_pb.Entry, index?: number): iyag_io_chat_entry_pb.Entry;
-
-  clearAuthorIdsList(): void;
-  getAuthorIdsList(): Array<string>;
-  setAuthorIdsList(value: Array<string>): void;
-  addAuthorIds(value: string, index?: number): string;
-
-  hasCreatedAt(): boolean;
-  clearCreatedAt(): void;
-  getCreatedAt(): google_protobuf_timestamp_pb.Timestamp | undefined;
-  setCreatedAt(value?: google_protobuf_timestamp_pb.Timestamp): void;
-
-  hasArchivedAt(): boolean;
-  clearArchivedAt(): void;
-  getArchivedAt(): google_protobuf_timestamp_pb.Timestamp | undefined;
-  setArchivedAt(value?: google_protobuf_timestamp_pb.Timestamp): void;
-
-  getCreatedBy(): string;
-  setCreatedBy(value: string): void;
-
-  getArchivedBy(): string;
-  setArchivedBy(value: string): void;
-
-  getName(): string;
-  setName(value: string): void;
-
-  serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): ChannelState.AsObject;
-  static toObject(includeInstance: boolean, msg: ChannelState): ChannelState.AsObject;
-  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
-  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
-  static serializeBinaryToWriter(message: ChannelState, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): ChannelState;
-  static deserializeBinaryFromReader(message: ChannelState, reader: jspb.BinaryReader): ChannelState;
-}
-
-export namespace ChannelState {
-  export type AsObject = {
-    lastEvent?: EventMeta.AsObject,
-    entriesList: Array<iyag_io_chat_entry_pb.Entry.AsObject>,
-    authorIdsList: Array<string>,
-    createdAt?: google_protobuf_timestamp_pb.Timestamp.AsObject,
-    archivedAt?: google_protobuf_timestamp_pb.Timestamp.AsObject,
-    createdBy: string,
-    archivedBy: string,
-    name: string,
-  }
-}
-
 export class ChannelUserEvent extends jspb.Message {
   hasMeta(): boolean;
   clearMeta(): void;
