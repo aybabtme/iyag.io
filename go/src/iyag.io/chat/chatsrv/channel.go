@@ -34,6 +34,7 @@ func (srv *Channel) EventCreate(ctx context.Context, ev *EventCreateReq) (*Event
 	}
 	return &EventCreateRes{EventMeta: meta}, nil
 }
+
 func (srv *Channel) EventArchive(ctx context.Context, ev *EventArchiveReq) (*EventArchiveRes, error) {
 	event, err := srv.prepareChannelEvent(ctx, ev.GetAuth(), ev.GetChannelName(), ev.GetUuid())
 	if err != nil {
@@ -48,6 +49,7 @@ func (srv *Channel) EventArchive(ctx context.Context, ev *EventArchiveReq) (*Eve
 	}
 	return &EventArchiveRes{EventMeta: meta}, nil
 }
+
 func (srv *Channel) EventJoin(ctx context.Context, ev *EventJoinReq) (*EventJoinRes, error) {
 	event, err := srv.prepareChannelEvent(ctx, ev.GetAuth(), ev.GetChannelName(), ev.GetUuid())
 	if err != nil {
@@ -62,6 +64,7 @@ func (srv *Channel) EventJoin(ctx context.Context, ev *EventJoinReq) (*EventJoin
 	}
 	return &EventJoinRes{EventMeta: meta}, nil
 }
+
 func (srv *Channel) EventLeave(ctx context.Context, ev *EventLeaveReq) (*EventLeaveRes, error) {
 	event, err := srv.prepareChannelEvent(ctx, ev.GetAuth(), ev.GetChannelName(), ev.GetUuid())
 	if err != nil {
@@ -76,6 +79,7 @@ func (srv *Channel) EventLeave(ctx context.Context, ev *EventLeaveReq) (*EventLe
 	}
 	return &EventLeaveRes{EventMeta: meta}, nil
 }
+
 func (srv *Channel) EventType(ctx context.Context, ev *EventTypeReq) (*EventTypeRes, error) {
 	event, err := srv.prepareChannelEvent(ctx, ev.GetAuth(), ev.GetChannelName(), ev.GetUuid())
 	if err != nil {
