@@ -4,67 +4,50 @@ package iyag.io.chat;
 option go_package = "chat";
 
 import "google/protobuf/timestamp.proto";
+import "iyag.io/chat/entry.proto";
 
-message Event {
+message EventMeta {
+    // specified by the client when they send a entry, for deduplication purpose
+    string uuid = 1;
+    // time when the event was sent (client side), updated when the server accepts it
+    google.protobuf.Timestamp time = 2;
+    // sequence in which the event was received by the server
+    uint64 sequence = 3;
+}
+
+message ChannelState {
+    EventMeta last_event = 1;
+    repeated Entry entries = 2;
+    repeated string author_ids = 3;
+    google.protobuf.Timestamp created_at = 4;
+    google.protobuf.Timestamp archived_at = 5;
+    string created_by = 6;
+    string archived_by = 7;
+    string name = 8;
+}
+
+message ChannelUserEvent {
+    message Create {
+        string name = 1;
+    }
+    message Archive {}
     message Join {}
     message Leave {}
-    message Typing {}
+    message Type {}
     message Send {
         Entry entry = 1;
     }
 
-    string channel_id = 101;
+    EventMeta meta = 100;
+    string channel_name = 101;
     string author_id = 102;
-    oneof event {
-        Join join = 201;
-        Leave leave = 202;
-        Typing typing = 203;
-        Send send = 204;
-    }
-}
-
-message EventRes {
-    message UserJoined {
-        string author_id = 1;
-    }
-    message UserLeft {
-        string author_id = 1;
-    }
-    message UserTyping {
-        string author_id = 1;
-    }
-    message UserSent {
-        string author_id = 1;
-        iyag.io.chat.Entry entry = 2;
-    }
-
-    string channel_id = 101;
     
     oneof event {
-        UserJoined user_joined = 201;
-        UserLeft user_left = 202;
-        UserTyping user_typing = 203;
-        UserSent user_sent = 204;
+        Create created = 201;
+        Archive archived = 202;
+        Join joined = 203;
+        Leave left = 204;
+        Type typed = 205;
+        Send sent = 206;
     }
-}
-
-
-
-message EntryMeta {
-    // specified by the client when they send a entry, for deduplication purpose
-    string uuid = 1;
-    // ID of the channel where the entry goes
-    string channel_id = 2;
-    // if set, points to the UUID that starts the thread
-    string thread_id = 3; 
-    // ID of the author who sent the entry.
-    string author_id = 4;
-    // time when the entry was sent (client side), updated when the server accepts it
-    google.protobuf.Timestamp time = 5;
-    // sequence in which the message was received by the server
-    uint64 sequence = 6;
-}
-
-message EntryContent {
-    string body = 1;
 }

@@ -5,8 +5,6 @@ import (
 	"sync"
 
 	"github.com/go-kit/kit/log"
-	"github.com/golang/protobuf/ptypes"
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
@@ -14,217 +12,151 @@ import (
 type inMemoryChat struct {
 	opts *ChatterOpts
 
-	mkChannel  NewChannelFunc
-	channelsMu sync.Mutex
-	channels   map[string]Channel
+	eventsMu sync.Mutex
+	events   []*ChannelUserEvent
+
+	listenersMu sync.Mutex
+	listeners   map[string]map[chan *ChannelUserEvent]struct{}
 }
 
 var _ NewChatterFunc = NewInMemoryChat
 
-func NewInMemoryChat(ctx context.Context, opts *ChatterOpts, mkChannel NewChannelFunc) (Chatter, error) {
+func NewInMemoryChat(ctx context.Context, opts *ChatterOpts) (Chatter, error) {
 	return &inMemoryChat{
 		opts:      opts,
-		mkChannel: mkChannel,
-		channels:  make(map[string]Channel),
+		listeners: make(map[string]map[chan *ChannelUserEvent]struct{}),
 	}, nil
 }
-
-func (fc *inMemoryChat) Post(ctx context.Context, entry *Entry) (*Entry, error) {
-	channelID := entry.GetMeta().GetChannelId()
-
-	fc.channelsMu.Lock()
-	channel, ok := fc.channels[channelID]
-	if !ok {
-		var err error
-		channel, err = fc.mkChannel(ctx, fc.opts.ChannelOpts)
-		if err != nil {
-			fc.channelsMu.Unlock()
-			return nil, err
-		}
-	}
-	fc.channels[channelID] = channel
-	fc.channelsMu.Unlock()
-
-	return channel.Post(ctx, entry)
-}
-
-func (fc *inMemoryChat) Listen(ctx context.Context, channelID string, from *timestamp.Timestamp, onPost func(Entry) error) error {
-	fc.opts.Log.Log("msg", "joining channel", "channel", channelID)
-	fc.channelsMu.Lock()
-	channel, ok := fc.channels[channelID]
-	if !ok {
-		fc.channelsMu.Unlock()
-		return status.Errorf(codes.NotFound, "no such channel %q", channelID)
-	}
-	fc.channelsMu.Unlock()
-	return channel.Listen(ctx, from, onPost)
-}
-
-func (fc *inMemoryChat) Archive(ctx context.Context, channelID string) error {
-	fc.channelsMu.Lock()
-	channel, ok := fc.channels[channelID]
-	if !ok {
-		fc.channelsMu.Unlock()
-		return status.Errorf(codes.NotFound, "no such channel %q", channelID)
-	}
-	fc.channelsMu.Unlock()
-	return channel.Archive(ctx)
-}
-
-type inMemoryChannel struct {
-	opts *ChannelOpts
-
-	listenersMu sync.Mutex
-	listeners   map[chan *Entry]struct{}
-
-	messagesMu sync.Mutex
-	messages   []*Entry
-
-	archivedOnce sync.Once
-	archived     chan struct{} // async signal, not blocking, the channel has been archived
-}
-
-var _ NewChannelFunc = NewInMemoryChannel
-
-func NewInMemoryChannel(ctx context.Context, opts *ChannelOpts) (Channel, error) {
-	return &inMemoryChannel{
-		opts:      opts,
-		listeners: make(map[chan *Entry]struct{}),
-		archived:  make(chan struct{}),
-	}, nil
-}
-
-func (fc *inMemoryChannel) Post(ctx context.Context, entry *Entry) (*Entry, error) {
+func (fc *inMemoryChat) AddEvent(ctx context.Context, event *ChannelUserEvent) (*EventMeta, error) {
 	ll := log.With(fc.opts.Log,
-		"uuid", entry.GetMeta().GetUuid(),
-		"author", entry.GetMeta().GetAuthorId(),
-		"channel", entry.GetMeta().GetChannelId(),
-		"thread", entry.GetMeta().GetThreadId(),
+		"ev.uuid", event.GetMeta().GetUuid(),
+		"ev.author.id", event.GetAuthorId(),
+		"ev.channel.name", event.GetChannelName(),
 	)
-	ll.Log("msg", "posting to channel")
-	select {
-	case <-fc.archived:
-		ll.Log("msg", "channel is archived")
-		return nil, status.Error(codes.PermissionDenied, "cannot post to an archived channel")
-	default:
-	}
+	evUUID := event.GetMeta().GetUuid()
+	fc.eventsMu.Lock()
+	defer fc.eventsMu.Unlock()
+	defer fc.notify(event)
 
-	entryUUID := entry.GetMeta().GetUuid()
-	fc.messagesMu.Lock()
-	defer fc.messagesMu.Unlock()
-	defer fc.notify(entry)
-
-	for _, msg := range fc.messages {
-		if msg.GetMeta().GetUuid() == entryUUID {
-			msg.Content = entry.GetContent() // only update the content
-			return msg, nil
+	for _, ev := range fc.events {
+		if ev.GetMeta().GetUuid() == evUUID {
+			return ev.GetMeta(), nil // we already received this event
 		}
 	}
-	entry.GetMeta().Sequence = uint64(len(fc.messages) + 1)
-	entry.GetMeta().Time = fc.opts.TimeNow()
-	ll.Log("msg", "appended to messages", "entry.body", entry.GetContent().GetBody())
-	fc.messages = append(fc.messages, entry)
+	event.GetMeta().Sequence = uint64(len(fc.events) + 1)
+	event.GetMeta().Time = fc.opts.TimeNow()
+	ll.Log("msg", "appended to events", "event.", event.Event)
+	fc.events = append(fc.events, event)
 
-	return entry, nil
+	return event.GetMeta(), nil
 }
-
-func (fc *inMemoryChannel) notify(entry *Entry) {
-	fc.listenersMu.Lock()
-	for ch := range fc.listeners {
-		select {
-		case ch <- entry:
-		default:
-			close(ch)
-			delete(fc.listeners, ch)
+func (fc *inMemoryChat) GetState(ctx context.Context, channelID string) (*ChannelState, error) {
+	// dumb: we just replay all events from the start
+	out := new(ChannelState)
+	fc.eventsMu.Lock()
+	defer fc.eventsMu.Unlock()
+	for _, ev := range fc.events {
+		if ev.GetChannelName() == channelID {
+			out.applyEvent(ev, fc.opts.TimeNow())
 		}
 	}
-	fc.listenersMu.Unlock()
+	return out, nil
 }
 
-func (fc *inMemoryChannel) listEntry(selector func(*EntryMeta) bool) []Entry {
-
-	fc.messagesMu.Lock()
-
-	var entries []Entry
-	for _, msg := range fc.messages {
-		if selector(msg.GetMeta()) {
-			entries = append(entries, *msg)
-		}
-	}
-
-	fc.messagesMu.Unlock()
-	return entries
-}
-
-func (fc *inMemoryChannel) Listen(ctx context.Context, from *timestamp.Timestamp, onPost func(Entry) error) error {
-	fromT, err := ptypes.Timestamp(from)
-	if err != nil {
-		return status.Errorf(codes.InvalidArgument, "can't parse 'from': %v", from)
-	}
-	fc.opts.Log.Log("msg", "requesting previous messages")
+func (fc *inMemoryChat) ListenEvents(ctx context.Context, channelID string, fromSeq uint64, onPost func(ChannelUserEvent) error) error {
+	fc.opts.Log.Log("msg", "requesting previous events")
 
 	fc.listenersMu.Lock()
 
-	backlog := fc.listEntry(func(meta *EntryMeta) bool {
-		msgT, _ := ptypes.Timestamp(from)
-		return !msgT.Before(fromT)
+	backlog := fc.listEvent(func(ev *ChannelUserEvent) bool {
+		if ev.GetMeta().GetSequence() < fromSeq {
+			return false
+		}
+		if ev.GetChannelName() != channelID {
+			return false
+		}
+		return true
 	})
 
-	onPostCh := make(chan *Entry, fc.opts.ListenerBacklogSize)
-	fc.listeners[onPostCh] = struct{}{}
+	onPostCh := make(chan *ChannelUserEvent, fc.opts.ListenerBacklogSize)
+
+	channelListeners, ok := fc.listeners[channelID]
+	if !ok {
+		channelListeners = make(map[chan *ChannelUserEvent]struct{})
+	}
+	fc.listeners[channelID] = channelListeners
+	channelListeners[onPostCh] = struct{}{}
+	fc.listeners[channelID] = channelListeners
 	fc.listenersMu.Unlock()
 
 	fc.opts.Log.Log("msg", "sending backlog", "count", len(backlog))
-	for _, msg := range backlog {
-		fc.opts.Log.Log("msg", "sending backlog message", "entry.body", msg.GetContent().GetBody())
-		if err := onPost(msg); err != nil {
+	for _, ev := range backlog {
+		fc.opts.Log.Log("msg", "sending backlog event", "event.seq", ev.GetMeta().GetSequence())
+		if err := onPost(ev); err != nil {
 			return err
 		}
 	}
 
-	fc.opts.Log.Log("msg", "backlog received, waiting for new messages")
+	fc.opts.Log.Log("msg", "backlog received, waiting for new events")
 	var (
-		lastEntry *Entry
+		lastEvent *ChannelUserEvent
 		more      bool
 	)
-loop:
 	for {
 		select {
-		case lastEntry, more = <-onPostCh:
+		case lastEvent, more = <-onPostCh:
 			if !more {
 				return status.Error(codes.ResourceExhausted, "reading too slowly, try reconnecting")
 			}
-			fc.opts.Log.Log("msg", "sending entry", "entry.body", lastEntry.GetContent().GetBody())
-			if err := onPost(*lastEntry); err != nil {
+			fc.opts.Log.Log("msg", "sending event", "event.seq", lastEvent.GetMeta().GetSequence())
+			if err := onPost(*lastEvent); err != nil {
 				return err
 			}
 		case <-ctx.Done():
 			go func() {
 				fc.listenersMu.Lock()
-				delete(fc.listeners, onPostCh)
+				delete(fc.listeners[channelID], onPostCh)
 				fc.listenersMu.Unlock()
 			}()
 			return nil
-		case <-fc.archived:
-			// break out of the loop and send wtv messages hasn't yet been sent
-			fc.opts.Log.Log("msg", "channel is archived")
-			break loop
-		}
-	}
-	lastMessages := fc.listEntry(func(meta *EntryMeta) bool {
-		return meta.GetSequence() > lastEntry.GetMeta().GetSequence()
-	})
-	fc.opts.Log.Log("msg", "remaining message have to be sent", "count", len(lastMessages))
-	for _, msg := range lastMessages {
-		fc.opts.Log.Log("msg", "sending archived message", "entry.body", msg.GetContent().GetBody())
-		if err := onPost(msg); err != nil {
-			return err
 		}
 	}
 	return nil
 }
 
-func (fc *inMemoryChannel) Archive(ctx context.Context) error {
-	fc.archivedOnce.Do(func() { close(fc.archived) })
-	return nil
+func (fc *inMemoryChat) notify(event *ChannelUserEvent) {
+	channelID := event.GetChannelName()
+	fc.listenersMu.Lock()
+	channelListener, ok := fc.listeners[channelID]
+	if !ok {
+		channelListener = make(map[chan *ChannelUserEvent]struct{})
+		fc.listeners[channelID] = channelListener
+	}
+	for ch := range channelListener {
+		select {
+		case ch <- event:
+		default:
+			close(ch)
+			delete(channelListener, ch)
+			if len(channelListener) == 0 {
+				delete(fc.listeners, channelID)
+			}
+		}
+	}
+	fc.listenersMu.Unlock()
+}
+
+func (fc *inMemoryChat) listEvent(selector func(*ChannelUserEvent) bool) []ChannelUserEvent {
+
+	fc.eventsMu.Lock()
+
+	var events []ChannelUserEvent
+	for _, ev := range fc.events {
+		if selector(ev) {
+			events = append(events, *ev)
+		}
+	}
+
+	fc.eventsMu.Unlock()
+	return events
 }

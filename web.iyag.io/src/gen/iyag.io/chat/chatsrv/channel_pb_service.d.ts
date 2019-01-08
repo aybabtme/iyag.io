@@ -4,18 +4,78 @@
 import * as iyag_io_chat_chatsrv_channel_pb from "../../../iyag.io/chat/chatsrv/channel_pb";
 import {grpc} from "grpc-web-client";
 
-type ChannelEvent = {
+type ChannelEventCreate = {
   readonly methodName: string;
   readonly service: typeof Channel;
-  readonly requestStream: true;
+  readonly requestStream: false;
+  readonly responseStream: false;
+  readonly requestType: typeof iyag_io_chat_chatsrv_channel_pb.EventCreateReq;
+  readonly responseType: typeof iyag_io_chat_chatsrv_channel_pb.EventCreateRes;
+};
+
+type ChannelEventArchive = {
+  readonly methodName: string;
+  readonly service: typeof Channel;
+  readonly requestStream: false;
+  readonly responseStream: false;
+  readonly requestType: typeof iyag_io_chat_chatsrv_channel_pb.EventArchiveReq;
+  readonly responseType: typeof iyag_io_chat_chatsrv_channel_pb.EventArchiveRes;
+};
+
+type ChannelEventJoin = {
+  readonly methodName: string;
+  readonly service: typeof Channel;
+  readonly requestStream: false;
+  readonly responseStream: false;
+  readonly requestType: typeof iyag_io_chat_chatsrv_channel_pb.EventJoinReq;
+  readonly responseType: typeof iyag_io_chat_chatsrv_channel_pb.EventJoinRes;
+};
+
+type ChannelEventLeave = {
+  readonly methodName: string;
+  readonly service: typeof Channel;
+  readonly requestStream: false;
+  readonly responseStream: false;
+  readonly requestType: typeof iyag_io_chat_chatsrv_channel_pb.EventLeaveReq;
+  readonly responseType: typeof iyag_io_chat_chatsrv_channel_pb.EventLeaveRes;
+};
+
+type ChannelEventType = {
+  readonly methodName: string;
+  readonly service: typeof Channel;
+  readonly requestStream: false;
+  readonly responseStream: false;
+  readonly requestType: typeof iyag_io_chat_chatsrv_channel_pb.EventTypeReq;
+  readonly responseType: typeof iyag_io_chat_chatsrv_channel_pb.EventTypeRes;
+};
+
+type ChannelGetState = {
+  readonly methodName: string;
+  readonly service: typeof Channel;
+  readonly requestStream: false;
+  readonly responseStream: false;
+  readonly requestType: typeof iyag_io_chat_chatsrv_channel_pb.GetStateReq;
+  readonly responseType: typeof iyag_io_chat_chatsrv_channel_pb.GetStateRes;
+};
+
+type ChannelListenUserEvent = {
+  readonly methodName: string;
+  readonly service: typeof Channel;
+  readonly requestStream: false;
   readonly responseStream: true;
-  readonly requestType: typeof iyag_io_chat_chatsrv_channel_pb.EventReq;
-  readonly responseType: typeof iyag_io_chat_chatsrv_channel_pb.EventRes;
+  readonly requestType: typeof iyag_io_chat_chatsrv_channel_pb.ListenUserEventReq;
+  readonly responseType: typeof iyag_io_chat_chatsrv_channel_pb.ListenUserEventRes;
 };
 
 export class Channel {
   static readonly serviceName: string;
-  static readonly Event: ChannelEvent;
+  static readonly EventCreate: ChannelEventCreate;
+  static readonly EventArchive: ChannelEventArchive;
+  static readonly EventJoin: ChannelEventJoin;
+  static readonly EventLeave: ChannelEventLeave;
+  static readonly EventType: ChannelEventType;
+  static readonly GetState: ChannelGetState;
+  static readonly ListenUserEvent: ChannelListenUserEvent;
 }
 
 export type ServiceError = { message: string, code: number; metadata: grpc.Metadata }
@@ -50,6 +110,60 @@ export class ChannelClient {
   readonly serviceHost: string;
 
   constructor(serviceHost: string, options?: grpc.RpcOptions);
-  event(metadata?: grpc.Metadata): BidirectionalStream<iyag_io_chat_chatsrv_channel_pb.EventReq, iyag_io_chat_chatsrv_channel_pb.EventRes>;
+  eventCreate(
+    requestMessage: iyag_io_chat_chatsrv_channel_pb.EventCreateReq,
+    metadata: grpc.Metadata,
+    callback: (error: ServiceError|null, responseMessage: iyag_io_chat_chatsrv_channel_pb.EventCreateRes|null) => void
+  ): UnaryResponse;
+  eventCreate(
+    requestMessage: iyag_io_chat_chatsrv_channel_pb.EventCreateReq,
+    callback: (error: ServiceError|null, responseMessage: iyag_io_chat_chatsrv_channel_pb.EventCreateRes|null) => void
+  ): UnaryResponse;
+  eventArchive(
+    requestMessage: iyag_io_chat_chatsrv_channel_pb.EventArchiveReq,
+    metadata: grpc.Metadata,
+    callback: (error: ServiceError|null, responseMessage: iyag_io_chat_chatsrv_channel_pb.EventArchiveRes|null) => void
+  ): UnaryResponse;
+  eventArchive(
+    requestMessage: iyag_io_chat_chatsrv_channel_pb.EventArchiveReq,
+    callback: (error: ServiceError|null, responseMessage: iyag_io_chat_chatsrv_channel_pb.EventArchiveRes|null) => void
+  ): UnaryResponse;
+  eventJoin(
+    requestMessage: iyag_io_chat_chatsrv_channel_pb.EventJoinReq,
+    metadata: grpc.Metadata,
+    callback: (error: ServiceError|null, responseMessage: iyag_io_chat_chatsrv_channel_pb.EventJoinRes|null) => void
+  ): UnaryResponse;
+  eventJoin(
+    requestMessage: iyag_io_chat_chatsrv_channel_pb.EventJoinReq,
+    callback: (error: ServiceError|null, responseMessage: iyag_io_chat_chatsrv_channel_pb.EventJoinRes|null) => void
+  ): UnaryResponse;
+  eventLeave(
+    requestMessage: iyag_io_chat_chatsrv_channel_pb.EventLeaveReq,
+    metadata: grpc.Metadata,
+    callback: (error: ServiceError|null, responseMessage: iyag_io_chat_chatsrv_channel_pb.EventLeaveRes|null) => void
+  ): UnaryResponse;
+  eventLeave(
+    requestMessage: iyag_io_chat_chatsrv_channel_pb.EventLeaveReq,
+    callback: (error: ServiceError|null, responseMessage: iyag_io_chat_chatsrv_channel_pb.EventLeaveRes|null) => void
+  ): UnaryResponse;
+  eventType(
+    requestMessage: iyag_io_chat_chatsrv_channel_pb.EventTypeReq,
+    metadata: grpc.Metadata,
+    callback: (error: ServiceError|null, responseMessage: iyag_io_chat_chatsrv_channel_pb.EventTypeRes|null) => void
+  ): UnaryResponse;
+  eventType(
+    requestMessage: iyag_io_chat_chatsrv_channel_pb.EventTypeReq,
+    callback: (error: ServiceError|null, responseMessage: iyag_io_chat_chatsrv_channel_pb.EventTypeRes|null) => void
+  ): UnaryResponse;
+  getState(
+    requestMessage: iyag_io_chat_chatsrv_channel_pb.GetStateReq,
+    metadata: grpc.Metadata,
+    callback: (error: ServiceError|null, responseMessage: iyag_io_chat_chatsrv_channel_pb.GetStateRes|null) => void
+  ): UnaryResponse;
+  getState(
+    requestMessage: iyag_io_chat_chatsrv_channel_pb.GetStateReq,
+    callback: (error: ServiceError|null, responseMessage: iyag_io_chat_chatsrv_channel_pb.GetStateRes|null) => void
+  ): UnaryResponse;
+  listenUserEvent(requestMessage: iyag_io_chat_chatsrv_channel_pb.ListenUserEventReq, metadata?: grpc.Metadata): ResponseStream<iyag_io_chat_chatsrv_channel_pb.ListenUserEventRes>;
 }
 

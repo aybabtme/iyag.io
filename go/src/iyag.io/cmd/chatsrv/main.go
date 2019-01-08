@@ -37,12 +37,9 @@ func main() {
 		ListenIface: "127.0.0.1",
 		ListenPort:  "8080",
 		DB: chat.ChatterOpts{
-			Log: log.With(ll, "component", "db", "part", "chatter"),
-			ChannelOpts: &chat.ChannelOpts{
-				Log:                 log.With(ll, "component", "db", "part", "channeler"),
-				TimeNow:             ptypes.TimestampNow,
-				ListenerBacklogSize: 100,
-			},
+			Log:                 log.With(ll, "component", "db", "part", "chatter"),
+			TimeNow:             ptypes.TimestampNow,
+			ListenerBacklogSize: 100,
 		},
 	}
 	flagString("chatsrv", &cfg.ListenIface, "listen.iface", "interface on which to listen")
@@ -53,7 +50,7 @@ func main() {
 	defer cancel()
 
 	ll.Log("msg", "preparing database handler")
-	db, err := chat.NewInMemoryChat(ctx, &cfg.DB, chat.NewInMemoryChannel)
+	db, err := chat.NewInMemoryChat(ctx, &cfg.DB)
 	if err != nil {
 		ll.Log("err", err)
 		os.Exit(1)

@@ -3,52 +3,84 @@ syntax = "proto3";
 package iyag.io.chat.chatsrv;
 option go_package = "chatsrv";
 
-import "iyag.io/chat/entry.proto";
-import "google/protobuf/timestamp.proto";
+import "iyag.io/chat/event.proto";
+
 
 service Channel {
-    rpc Event(stream EventReq) returns (stream EventRes);
+    rpc EventCreate(EventCreateReq) returns (EventCreateRes);
+    rpc EventArchive(EventArchiveReq) returns (EventArchiveRes);
+    rpc EventJoin(EventJoinReq) returns (EventJoinRes);
+    rpc EventLeave(EventLeaveReq) returns (EventLeaveRes);
+    rpc EventType(EventTypeReq) returns (EventTypeRes);
+
+    rpc GetState(GetStateReq) returns (GetStateRes);
+    rpc ListenUserEvent(ListenUserEventReq) returns (stream ListenUserEventRes);
 }
 
-message EventReq {
-    message Join {}
-    message Leave {}
-    message Typing {}
-    message Send {
-        iyag.io.chat.Entry entry = 1;
-    }
-
-    string channel_id = 101;
-    string author_id = 102;
-    oneof event {
-        Join join = 201;
-        Leave leave = 202;
-        Typing typing = 203;
-        Send send = 204;
-    }
+message EventAuth {
+    // TODO: just stubbed out for now, do this properly
+    string author_id = 1;
+    string token = 2;
 }
 
-message EventRes {
-    message UserJoined {
-        string author_id = 1;
-    }
-    message UserLeft {
-        string author_id = 1;
-    }
-    message UserTyping {
-        string author_id = 1;
-    }
-    message UserSent {
-        string author_id = 1;
-        iyag.io.chat.Entry entry = 2;
-    }
+message EventCreateReq {
+    EventAuth auth = 1;    
+    string uuid = 2;
+    string channel_name = 3;
+}
+message EventCreateRes {
+    iyag.io.chat.EventMeta event_meta = 1;
+}
 
-    string channel_id = 101;
-    
-    oneof event {
-        UserJoined user_joined = 201;
-        UserLeft user_left = 202;
-        UserTyping user_typing = 203;
-        UserSent user_sent = 204;
-    }
+message EventArchiveReq {
+    EventAuth auth = 1;
+    string uuid = 2;
+    string channel_name = 3;
+}
+message EventArchiveRes {
+    iyag.io.chat.EventMeta event_meta = 1;
+}
+
+message EventJoinReq {
+    EventAuth auth = 1;
+    string uuid = 2;
+    string channel_name = 3;
+}
+message EventJoinRes {
+    iyag.io.chat.EventMeta event_meta = 1;
+}
+
+message EventLeaveReq {
+    EventAuth auth = 1;
+    string uuid = 2;
+    string channel_name = 3;
+}
+message EventLeaveRes {
+    iyag.io.chat.EventMeta event_meta = 1;
+}
+
+message EventTypeReq {
+    EventAuth auth = 1;
+    string uuid = 2;
+    string channel_name = 3;
+}
+message EventTypeRes {
+    iyag.io.chat.EventMeta event_meta = 1;
+}
+
+message GetStateReq {
+    string channel_name = 1;
+}
+
+message GetStateRes {
+    iyag.io.chat.ChannelState state = 1;
+}
+
+message ListenUserEventReq {
+    string channel_name = 1;
+    uint64 from_sequence = 2;
+}
+
+message ListenUserEventRes {
+    iyag.io.chat.ChannelUserEvent event = 1;
 }

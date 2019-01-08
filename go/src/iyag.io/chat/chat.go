@@ -8,27 +8,14 @@ import (
 )
 
 type Chatter interface {
-	Post(ctx context.Context, entry *Entry) (*Entry, error)
-	Listen(ctx context.Context, channelID string, from *timestamp.Timestamp, onPost func(Entry) error) error
-	Archive(ctx context.Context, channelID string) error
+	AddEvent(ctx context.Context, event *ChannelUserEvent) (*EventMeta, error)
+	GetState(ctx context.Context, channel string) (*ChannelState, error)
+	ListenEvents(ctx context.Context, channelID string, fromSeq uint64, onPost func(ChannelUserEvent) error) error
 }
 
-type NewChatterFunc func(context.Context, *ChatterOpts, NewChannelFunc) (Chatter, error)
+type NewChatterFunc func(context.Context, *ChatterOpts) (Chatter, error)
 
 type ChatterOpts struct {
-	Log         log.Logger
-	ChannelOpts *ChannelOpts
-}
-
-type Channel interface {
-	Post(ctx context.Context, entry *Entry) (*Entry, error)
-	Listen(ctx context.Context, from *timestamp.Timestamp, onPost func(Entry) error) error
-	Archive(ctx context.Context) error
-}
-
-type NewChannelFunc func(context.Context, *ChannelOpts) (Channel, error)
-
-type ChannelOpts struct {
 	Log                 log.Logger
 	TimeNow             func() *timestamp.Timestamp
 	ListenerBacklogSize int
