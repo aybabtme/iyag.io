@@ -92,12 +92,7 @@ func (fc *inMemoryChat) ListChannel(ctx context.Context) ([]*ChannelMeta, error)
 		out = append(out, channel.GetMeta())
 	}
 	sort.Slice(out, func(i, j int) bool {
-		iCreatedAt := out[i].GetCreatedAt()
-		jCreatedAt := out[j].GetCreatedAt()
-		if iCreatedAt.GetSeconds() < jCreatedAt.GetSeconds() {
-			return true
-		}
-		return iCreatedAt.GetNanos() < jCreatedAt.GetNanos()
+		return out[i].GetName() < out[j].GetName()
 	})
 	return out, nil
 }

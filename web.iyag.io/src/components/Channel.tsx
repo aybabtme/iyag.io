@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { ChannelClient, ServiceError, Status } from "../gen/iyag.io/chat/chatsrv/channel_pb_service"
+import { ChannelClient, ServiceError, Status, ResponseStream } from "../gen/iyag.io/chat/chatsrv/channel_pb_service"
 import { ListenUserEventReq, ListenUserEventRes, GetChannelReq, GetChannelRes, EventSendReq, EventSendRes, EventAuth } from "../gen/iyag.io/chat/chatsrv/channel_pb"
 import { Entry, EntryMeta, EntryContent } from "../gen/iyag.io/chat/entry_pb";
 import { Timestamp } from "google-protobuf/google/protobuf/timestamp_pb";
@@ -14,26 +14,27 @@ export interface ChannelProps {
     client: ChannelClient
 }
 
+interface ChannelState {
+    authors: string[],
+    entries: Entry[],
+    lastEvent: EventMeta | undefined,
+
+    createdAt: Timestamp | undefined,
+    createdBy: string | null,
+    archivedAt: Timestamp | undefined,
+    archivedBy: string | null,
+}
 // 'ChannelProps' describes the shape of props.
 // State is never set so we use the '{}' type.
-export class Channel extends React.Component<ChannelProps, {}> {
+export class Channel extends React.Component<ChannelProps, ChannelState> {
 
-    state: {
-        name: string,
-        authors: string[],
-        entries: Entry[],
-        lastEvent: EventMeta | undefined,
+    state: ChannelState
 
-        createdAt: Timestamp | undefined,
-        createdBy: string | null,
-        archivedAt: Timestamp | undefined,
-        archivedBy: string | null,
-    }
+    stream: ResponseStream<ListenUserEventRes> | null
 
     constructor(props: ChannelProps) {
         super(props)
         this.state = {
-            name: "",
             authors: [],
             entries: [],
             lastEvent: undefined,
@@ -42,17 +43,28 @@ export class Channel extends React.Component<ChannelProps, {}> {
             archivedAt: undefined,
             archivedBy: null,
         }
+        this.stream = null
     }
 
     // hooks
 
     componentDidMount = () => {
-        this.updateState(this.listenFrom);
+        this.getChannel(this.listenToChannel);
+    }
+
+    componentDidUpdate = (prevProps: ChannelProps) => {
+        if (this.props.channelName != prevProps.channelName) {
+            this.getChannel(this.listenToChannel);
+        }
     }
 
 
     render = () => {
+        if (this.props.channelName == "") {
+            return <div>No channel selected</div>
+        }
         return <div className="channel">
+            <div>You are in channel {this.props.channelName}</div>
             <EntryList entries={this.state.entries} />
             <EntryInput sendEntry={this.sendEntry} />
         </div>
@@ -60,7 +72,8 @@ export class Channel extends React.Component<ChannelProps, {}> {
 
     // RPC bindings
 
-    updateState = (onState: (event: EventMeta) => void) => {
+    getChannel = (onState: (event: EventMeta) => void) => {
+        console.log("loading state of channel '"+this.props.channelName+"'");
         const req = new GetChannelReq();
         req.setChannelName(this.props.channelName);
         this.props.client.getChannel(req, (err: ServiceError | null, res: GetChannelRes | null) => {
@@ -87,45 +100,52 @@ export class Channel extends React.Component<ChannelProps, {}> {
                 console.error("no content in response");
                 return
             }
-            this.state.name = meta.getName();
-            this.state.authors = meta.getAuthorIdsList();
-            this.state.lastEvent = meta.getLastEvent();
-
-            this.state.createdBy = meta.getCreatedBy();
-            this.state.createdAt = meta.getCreatedAt();
-            this.state.archivedBy = meta.getArchivedBy();
-            this.state.archivedAt = meta.getArchivedAt();
+            
+            this.setState({
+                authors: meta.getAuthorIdsList(),
+                lastEvent: meta.getLastEvent(),
+                createdBy: meta.getCreatedBy(),
+                createdAt: meta.getCreatedAt(),
+                archivedBy: meta.getArchivedBy(),
+                archivedAt: meta.getArchivedAt(),
+                entries: content.getEntriesList(),
+            })
 
             const lastEventMeta = meta.getLastEvent();
             if (lastEventMeta != undefined) {
                 onState(lastEventMeta);
             }
-
-            this.state.entries = content.getEntriesList();
         });
     }
 
-    listenFrom = (event: EventMeta) => {
+    listenToChannel = (event: EventMeta) => {
+        
+        console.log("watching for new events");
+
         const req = new ListenUserEventReq();
-        req.setChannelName(this.state.name);
+        req.setChannelName(this.props.channelName);
         req.setFromSequence(event.getSequence());
-        const stream = this.props.client.listenUserEvent(req);
-        stream.on("data", (res: ListenUserEventRes) => {
+
+        if (this.stream != null) {
+            this.stream.cancel();
+        }
+        this.stream = this.props.client.listenUserEvent(req);
+        this.stream.on("data", (res: ListenUserEventRes) => {
             const event = res.getEvent();
             if (event == undefined) {
                 return
             }
             this.applyEvent(event);
         })
-        stream.on("status", (status: Status) => {
+        this.stream.on("status", (status: Status) => {
             console.warn("can't do", status)
         })
-        stream.on("end", () => {
+        this.stream.on("end", () => {
             console.info("channel stream ended");
         })
     }
 
-    sendEntry = (uuid: string, message: string) => {
+    sendEntry = (uuid: string, message: string, onSuccess: () => void) => {
 
         const auth = new EventAuth();
         auth.setAuthorId(this.props.authorID);
@@ -135,7 +155,7 @@ export class Channel extends React.Component<ChannelProps, {}> {
         const now = new Timestamp();
         now.fromDate(new Date());
         meta.setAuthorId(this.props.authorID);
-        meta.setChannelName(this.state.name);
+        meta.setChannelName(this.props.channelName);
         meta.setUuid(uuid);
         meta.setTime(now);
         const content = new EntryContent();
@@ -146,18 +166,22 @@ export class Channel extends React.Component<ChannelProps, {}> {
         const req = new EventSendReq();
         req.setUuid(uuid);
         req.setAuth(auth);
-        req.setChannelName(this.state.name);
+        req.setChannelName(this.props.channelName);
         req.setEntry(entry);
 
+        console.log("sending message to channel '"+this.props.channelName+"'");
         this.props.client.eventSend(req, (err: ServiceError | null) => {
             if (err != null) {
                 console.error(err);
                 return
             }
+            console.log("message sent"); 
+            onSuccess();
         });
     }
 
     applyEvent = (event: ChannelUserEvent) => {
+        console.log("received an event");
         const meta = event.getMeta();
         if (meta == undefined) {
             return
@@ -167,23 +191,27 @@ export class Channel extends React.Component<ChannelProps, {}> {
             time = new Timestamp();
             time.fromDate(new Date());
         }
-        this.state.lastEvent = event.getMeta();
+        this.setState({lastEvent: event.getMeta()});
         switch (event.getEventCase()) {
         case ChannelUserEvent.EventCase.CREATED:
             if (this.wasCreated()) {
                 return
             }
-            this.state.name = event.getChannelName()
-            this.state.createdBy = event.getAuthorId()
-            this.state.createdAt = time;
-            return
+            // is ignored: event.getChannelName() 
+            this.setState({
+                createdBy: event.getAuthorId(),
+                createdAt: time,
+            });
+            break
         case ChannelUserEvent.EventCase.ARCHIVED:
             if (!this.isActive()) {
                 return
             }
-            this.state.archivedBy = event.getAuthorId()
-            this.state.archivedAt = time;
-            return
+            this.setState({
+                archivedBy: event.getAuthorId(),
+                archivedAt: time,
+            });
+            break
         case ChannelUserEvent.EventCase.JOINED:
             if (!this.isActive()) {
                 return
@@ -191,20 +219,24 @@ export class Channel extends React.Component<ChannelProps, {}> {
             if (this.state.authors.some((value: string) => { return value == event.getAuthorId()})) {
                 return
             }
-            return
+            break
         case ChannelUserEvent.EventCase.LEFT:
             if (!this.isActive()) {
-                return
+                return;
             }
-            this.state.authors = this.state.authors.filter((value: string) => {
-                return value != event.getAuthorId()
+            this.setState((prevState: Readonly<ChannelState>, props: Readonly<ChannelProps>): ChannelState =>  {
+                let authors = prevState.authors.filter((value: string) => {
+                    return value != event.getAuthorId()
+                })
+                return {authors: authors} as ChannelState
             })
-            return
+
+            break
         case ChannelUserEvent.EventCase.TYPED:
             if (!this.isActive()) {
                 return
             }
-            return
+            break
         case ChannelUserEvent.EventCase.SENT:
             if (!this.isActive()) {
                 return
@@ -233,9 +265,13 @@ export class Channel extends React.Component<ChannelProps, {}> {
                 return true
             })
             if (!dupe) {
-                this.state.entries.push(entry)
+                this.setState((prevState: Readonly<ChannelState>, props: Readonly<ChannelProps>): ChannelState =>  {
+                    let out: ChannelState = prevState
+                    out.entries.push(entry);
+                    return out
+                })
             }
-            return
+            break
         default:
             // do nothing
             return

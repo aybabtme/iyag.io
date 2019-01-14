@@ -2,7 +2,7 @@ import * as React from "react";
 import { v4 as uuid } from "uuid";
 
 export interface EntryInputProps {
-    sendEntry: (uuid: string, body: string) => void
+    sendEntry: (uuid: string, body: string, onSuccess: () => void) => void
 }
 
 // 'EntryInputProps' describes the shape of props.
@@ -38,10 +38,11 @@ export class EntryInput extends React.Component<EntryInputProps, {}> {
 
     handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        this.props.sendEntry(this.state.uuid, this.state.body)
-        this.setState({
-            uuid: uuid(),
-            body: "",
-        })
+        this.props.sendEntry(this.state.uuid, this.state.body, () => {
+            this.setState({
+                uuid: uuid(),
+                body: "",
+            })
+        })   
     }
 }
